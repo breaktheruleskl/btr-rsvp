@@ -229,7 +229,6 @@
       text-shadow: 0 0 10px var(--text-color); position: relative; z-index: 1;
     }
     
-    /* ★ 核心修复：加入 overflow: hidden 且宽度自适应，防止窄屏下印章溢出被裁切消失 ★ */
     .dossier-card { 
       width: 100%; 
       max-width: 320px; 
@@ -312,7 +311,6 @@
           <div class="date-options">
             <div class="date-card" data-value="25 Sep · 盲盒社交 1.0">
               <div class="date-main">25 Sep</div>
-              <!-- 副标题修改 -->
               <div class="date-sub">盲盒社交 1.0 · 10pm</div>
             </div>
             <div class="date-card disabled" data-value="The Mystery Social 2.0">
@@ -454,7 +452,7 @@
           </div>
 
           <div class="dossier-desc">
-            我们正在确认当晚的氛围配比。<br>如果妳的代号被选中，专属付款链接及派打暗号将在 24 小时内发送至妳的 WhatsApp。<br>Keep an eye on your phone.
+            我们正在确认当晚的氛围配比。<br>如果妳的代号被选中，专属付款链接及派对暗号将在 24 小时内发送至妳的 WhatsApp。<br>Keep an eye on your phone.
           </div>
           
           <div class="dossier-social">
@@ -478,6 +476,13 @@
       if (isPlaying) { bgMusic.pause(); musicBtn.textContent = 'SOUND: OFF'; musicBtn.classList.remove('playing'); } 
       else { bgMusic.play(); musicBtn.textContent = 'SOUND: ON'; musicBtn.classList.add('playing'); }
       isPlaying = !isPlaying; hasInteracted = true;
+      
+      // [新增追踪]：音乐按钮点击
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'music_toggle',
+        'music_status': isPlaying ? 'ON' : 'OFF'
+      });
     });
 
     document.body.addEventListener('click', () => {
@@ -509,14 +514,16 @@
 
     function gotoPage2() {
       let isValid = true;
-      if (!selectedDateInput.value) { document.getElementById('err-date').style.display = 'block'; isValid = false; }
-      if (!document.getElementById('name').value.trim()) { document.getElementById('name').classList.add('error-border'); document.getElementById('err-name').style.display = 'block'; isValid = false; }
-      if (!document.getElementById('birthday').value) { document.getElementById('birthday').classList.add('error-border'); document.getElementById('err-birthday').style.display = 'block'; isValid = false; }
-      if (!document.getElementById('mbti').value.trim()) { document.getElementById('mbti').classList.add('error-border'); document.getElementById('err-mbti').style.display = 'block'; isValid = false; }
-      if (!document.getElementById('whatsapp').value.trim()) { document.getElementById('whatsapp').classList.add('error-border'); document.getElementById('err-whatsapp').style.display = 'block'; isValid = false; }
+      let errorList = [];
+
+      if (!selectedDateInput.value) { document.getElementById('err-date').style.display = 'block'; isValid = false; errorList.push('date'); }
+      if (!document.getElementById('name').value.trim()) { document.getElementById('name').classList.add('error-border'); document.getElementById('err-name').style.display = 'block'; isValid = false; errorList.push('name'); }
+      if (!document.getElementById('birthday').value) { document.getElementById('birthday').classList.add('error-border'); document.getElementById('err-birthday').style.display = 'block'; isValid = false; errorList.push('birthday'); }
+      if (!document.getElementById('mbti').value.trim()) { document.getElementById('mbti').classList.add('error-border'); document.getElementById('err-mbti').style.display = 'block'; isValid = false; errorList.push('mbti'); }
+      if (!document.getElementById('whatsapp').value.trim()) { document.getElementById('whatsapp').classList.add('error-border'); document.getElementById('err-whatsapp').style.display = 'block'; isValid = false; errorList.push('whatsapp'); }
       
       if (isValid) {
-        // --- 新增代码：发送“开始填写”事件给 GTM ---
+        // [原有追踪]：开始填写
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
           'event': 'rsvp_start'
@@ -531,10 +538,23 @@
           btn.textContent = originalText;
           window.scrollTo(0, 0); 
         }, 500);
+      } else {
+        // [新增追踪]：表单报错拦截
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          'event': 'form_error',
+          'error_field': errorList.join(',')
+        });
       }
     }
     
     function prevToPage1() { 
+      // [新增追踪]：返回按钮点击
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'rsvp_back'
+      });
+
       document.getElementById('page2').classList.remove('active'); 
       document.getElementById('page1').classList.add('active'); 
     }
@@ -544,10 +564,12 @@
       submitBtn.disabled = true;
       submitBtn.textContent = '正在发送请求信号...';
       
-      // --- 新增代码：发送“成功提交”事件给 GTM ---
+      // [修改追踪]：成功提交并附加用户偏好参数
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
-        'event': 'rsvp_complete'
+        'event': 'rsvp_complete',
+        'event_date': selectedDateInput.value,
+        'mbti_type': document.getElementById('mbti').value
       });
       
       const payload = {
@@ -558,7 +580,6 @@
         mbti: document.getElementById('mbti').value, 
         referral: document.getElementById('referral').value,
         secrets: document.getElementById('secrets').value, 
-        
         drinkLevel: "", 
         luckyDrink: "", 
         trouble: ""
