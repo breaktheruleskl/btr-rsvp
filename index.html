@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-PSF9WGDJ');</script>
+  <!-- End Google Tag Manager -->
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>BREAK THE RULES · RSVP</title>
@@ -279,6 +287,10 @@
   </style>
 </head>
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PSF9WGDJ"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
   <div id="musicToggle" class="music-btn">SOUND: OFF</div>
   <audio id="bgMusic" loop preload="auto" playsinline webkit-playsinline>
@@ -442,7 +454,7 @@
           </div>
 
           <div class="dossier-desc">
-            我们正在确认当晚的氛围配比。<br>如果妳的代号被选中，专属付款链接及派对暗号将在 24 小时内发送至妳的 WhatsApp。<br>Keep an eye on your phone.
+            我们正在确认当晚的氛围配比。<br>如果妳的代号被选中，专属付款链接及派打暗号将在 24 小时内发送至妳的 WhatsApp。<br>Keep an eye on your phone.
           </div>
           
           <div class="dossier-social">
@@ -504,6 +516,12 @@
       if (!document.getElementById('whatsapp').value.trim()) { document.getElementById('whatsapp').classList.add('error-border'); document.getElementById('err-whatsapp').style.display = 'block'; isValid = false; }
       
       if (isValid) {
+        // --- 新增代码：发送“开始填写”事件给 GTM ---
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          'event': 'rsvp_start'
+        });
+        
         const btn = document.getElementById('btnNext1');
         const originalText = btn.textContent;
         btn.textContent = '潜入后台...'; 
@@ -525,6 +543,12 @@
       const submitBtn = document.getElementById('finalSubmitBtn');
       submitBtn.disabled = true;
       submitBtn.textContent = '正在发送请求信号...';
+      
+      // --- 新增代码：发送“成功提交”事件给 GTM ---
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'rsvp_complete'
+      });
       
       const payload = {
         date: selectedDateInput.value,
