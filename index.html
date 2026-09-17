@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>BREAK THE RULES · RSVP</title>
+  <style>
+    :root {
+      --bg-color: #022b07; 
+      --text-color: #df7f80; 
+      --cyan-color: #00f0ff; 
+      --error-color: #ff4d4d; 
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      font-weight: bold;
+    }
+    .container {
+      width: 100%;
+      max-width: 480px;
+      padding: 10px 24px 40px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .music-btn {
+      position: fixed; top: 20px; right: 20px; border: 1px solid var(--text-color); color: var(--text-color); background: var(--bg-color); padding: 6px 14px; border-radius: 20px; font-size: 11px; cursor: pointer; z-index: 100; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;
+    }
+    .music-btn.playing { background: var(--text-color); color: var(--bg-color); }
+
+    .header-logo-area { 
+      margin-bottom: 0px; 
+      display: flex; 
+      justify-content: center; 
+    }
+    .top-logo { 
+      width: 240px; 
+      max-width: 85%;
+      height: auto; 
+      margin-top: -20px; 
+      margin-bottom: -15px;
+      filter: drop-shadow(0 0 15px rgba(223, 127, 128, 0.4)); 
+    }
+
+    .form-page { display: none; }
+    .form-page.active { display: block; animation: fadeIn 0.4s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .form-group { margin-bottom: 20px; position: relative; }
+    label { display: block; font-size: 16px; margin-bottom: 8px; }
+    
+    .optional-mark { font-size: 10px; font-weight: normal; opacity: 0.7; vertical-align: super; margin-left: 2px; }
+    
+    .sub-label { font-size: 13px; opacity: 0.8; margin-bottom: 12px; font-weight: normal; line-height: 1.4; }
+
+    #page1 .sub-label {
+      font-weight: normal;
+      opacity: 0.85;
+      letter-spacing: 0.5px;
+    }
+
+    input[type="text"], input[type="tel"], input[type="date"], textarea {
+      width: 100%; 
+      box-sizing: border-box; 
+      padding: 14px; 
+      border: 2px solid var(--text-color); 
+      border-radius: 12px; 
+      background: transparent; 
+      color: var(--text-color); 
+      font-family: Arial, sans-serif; 
+      font-size: 12px; 
+      font-weight: normal; 
+      font-style: italic; 
+      outline: none; 
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+      margin: 0;
+    }
+    
+    input[type="date"] {
+      display: block;
+      min-width: 100%;
+      text-align: left;
+    }
+    
+    #page2 input[type="text"], #page2 textarea {
+      font-size: 10px;
+      font-weight: normal;
+    }
+
+    textarea { resize: none; line-height: 1.4; padding: 12px 14px; }
+    input::placeholder, textarea::placeholder { color: var(--text-color); opacity: 0.4; }
+    input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(60%) sepia(30%) saturate(300%) hue-rotate(320deg) brightness(90%) contrast(90%); }
+
+    @keyframes breathingGlow {
+      0% { box-shadow: 0 0 10px rgba(223, 127, 128, 0.15); }
+      50% { box-shadow: 0 0 30px rgba(223, 127, 128, 0.65); }
+      100% { box-shadow: 0 0 10px rgba(223, 127, 128, 0.15); }
+    }
+
+    @keyframes neonPulseVisible {
+      0% { 
+        -webkit-box-shadow: 0 0 12px rgba(223, 127, 128, 0.25), inset 0 0 6px rgba(223, 127, 128, 0.1); 
+        box-shadow: 0 0 12px rgba(223, 127, 128, 0.25), inset 0 0 6px rgba(223, 127, 128, 0.1); 
+        border-color: rgba(223, 127, 128, 0.65);
+      }
+      50% { 
+        -webkit-box-shadow: 0 0 24px rgba(223, 127, 128, 0.5), inset 0 0 12px rgba(223, 127, 128, 0.2); 
+        box-shadow: 0 0 24px rgba(223, 127, 128, 0.5), inset 0 0 12px rgba(223, 127, 128, 0.2); 
+        border-color: rgba(223, 127, 128, 0.95);
+      }
+      100% { 
+        -webkit-box-shadow: 0 0 12px rgba(223, 127, 128, 0.25), inset 0 0 6px rgba(223, 127, 128, 0.1); 
+        box-shadow: 0 0 12px rgba(223, 127, 128, 0.25), inset 0 0 6px rgba(223, 127, 128, 0.1); 
+        border-color: rgba(223, 127, 128, 0.65);
+      }
+    }
+
+    .date-options { display: flex; gap: 16px; }
+    .date-card { 
+      flex: 1; 
+      padding: 8px 6px; 
+      background: transparent; 
+      border: 2px solid var(--text-color); 
+      border-radius: 12px; 
+      text-align: center; 
+      cursor: pointer; 
+      position: relative; 
+      transition: all 0.2s ease; 
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 48px; 
+    }
+    .date-card.selected { background: rgba(223, 127, 128, 0.15); border-width: 3px; animation: breathingGlow 3s infinite ease-in-out; }
+    .date-card.disabled { opacity: 0.4; cursor: not-allowed; border-color: rgba(223, 127, 128, 0.4); }
+    
+    .date-main { font-size: 16px; font-weight: 900; line-height: 1.1; }
+    .date-sub { font-size: 11px; margin-top: 2px; opacity: 0.85; font-weight: normal; }
+
+    .btn-group { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 20px; padding-bottom: 40px; }
+    .btn-group-right { justify-content: flex-end; }
+    
+    button.next-btn { background: var(--text-color); color: var(--bg-color); border: none; padding: 14px 32px; border-radius: 30px; font-size: 16px; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: opacity 0.2s; animation: breathingGlow 3.5s infinite ease-in-out; }
+    button.next-btn:active { opacity: 0.8; }
+    .back-link { color: var(--text-color); text-decoration: none; opacity: 0.8; font-weight: normal; }
+    .error-msg { color: var(--error-color); font-size: 13px; margin-top: 8px; display: none; font-weight: normal; }
+    .error-border { border-color: var(--error-color) !important; }
+
+    .access-pass { 
+      border: 2px dashed rgba(223, 127, 128, 0.7); 
+      border-radius: 12px; 
+      padding: 16px 16px; 
+      margin-bottom: 24px; 
+      background: rgba(223, 127, 128, 0.06); 
+      position: relative; 
+      -webkit-animation: neonPulseVisible 3.5s infinite ease-in-out;
+      animation: neonPulseVisible 3.5s infinite ease-in-out;
+    }
+    .ap-header { 
+      font-size: 14px; 
+      font-weight: 900; 
+      letter-spacing: 2px; 
+      opacity: 0.95; 
+      margin-bottom: 12px; 
+      border-bottom: 1px dashed rgba(223,127,128,0.4); 
+      padding-bottom: 8px; 
+      text-align: left;
+      text-shadow: 0 0 6px rgba(223, 127, 128, 0.4);
+    }
+    .ap-body { display: flex; align-items: center; justify-content: center; gap: 16px; }
+    .ap-price-box { flex: 0 0 auto; text-align: center; }
+    .ap-old { font-size: 11px; opacity: 0.6; text-decoration: line-through; margin-bottom: 4px; }
+    .ap-tag { text-decoration: none; display: inline-block; background: var(--text-color); color: var(--bg-color); padding: 2px 4px; border-radius: 4px; font-size: 9px; margin-left: 4px; font-weight: 900; vertical-align: middle; }
+    .ap-new { font-size: 28px; font-weight: 900; color: var(--text-color); text-shadow: 0 0 10px rgba(223, 127, 128, 0.5); }
+    .ap-divider { width: 1px; height: 70px; border-left: 1px dashed rgba(223, 127, 128, 0.4); }
+    .ap-benefits { display: flex; flex-direction: column; gap: 8px; }
+    .benefit-item { line-height: 1.2; text-align: left; }
+    .b-main { font-size: 12px; font-weight: 900; opacity: 0.95; }
+    .b-sub { font-size: 10px; font-weight: normal; opacity: 0.6; margin-left: 14px; margin-top: 2px; }
+    
+    .ap-footer { font-size: 10px; text-align: center; opacity: 0.5; margin-top: 16px; padding-top: 12px; border-top: 1px dashed rgba(223, 127, 128, 0.4); line-height: 1.4; }
+    .ap-footer-sub { font-size: 8px; margin-top: 3px; opacity: 0.8; }
+
+    .flow-text { text-align: center; margin-bottom: 24px; padding: 0 10px; font-weight: normal; }
+    .flow-main { font-size: 11px; line-height: 1.6; opacity: 0.9; margin-bottom: 6px; }
+    .flow-sub { font-size: 10px; line-height: 1.4; opacity: 0.6; font-style: italic; }
+    
+    button.submit-btn-solid { 
+      background: var(--text-color); color: var(--bg-color); border: none; padding: 18px 32px; border-radius: 30px; width: 100%; font-size: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: opacity 0.2s; 
+      box-shadow: 0 0 20px rgba(223, 127, 128, 0.5); animation: breathingGlow 3s infinite ease-in-out;
+    }
+    button.submit-btn-solid:active { opacity: 0.8; }
+    button.submit-btn-solid:disabled { opacity: 0.5; animation: none; cursor: not-allowed; }
+
+    /* ================= 第 3 幕：机密档案 / 小票样式 ================= */
+    .dossier-wrapper { 
+      display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 75vh; 
+      animation: ticketPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; 
+    }
+    @keyframes ticketPop { 0% { transform: scale(0.9) translateY(30px); opacity: 0; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
+    
+    .dossier-logo { 
+      width: 140px; margin-bottom: -20px; 
+      filter: drop-shadow(0 0 15px rgba(223, 127, 128, 0.5)); 
+      position: relative; z-index: 2;
+    }
+    
+    .dossier-title { 
+      font-size: 26px; font-weight: 900; letter-spacing: 2px; margin-bottom: 32px; text-align: center; 
+      text-shadow: 0 0 10px var(--text-color); position: relative; z-index: 1;
+    }
+    
+    /* ★ 核心修复：加入 overflow: hidden 且宽度自适应，防止窄屏下印章溢出被裁切消失 ★ */
+    .dossier-card { 
+      width: 100%; 
+      max-width: 320px; 
+      box-sizing: border-box;
+      border: 2px dashed rgba(223, 127, 128, 0.6); 
+      padding: 24px 16px; 
+      position: relative; 
+      background: rgba(0, 0, 0, 0.25); 
+      box-shadow: 0 0 25px rgba(223, 127, 128, 0.15); 
+      font-family: 'Courier New', Courier, monospace; 
+      overflow: hidden; 
+    }
+    .dossier-header { 
+      font-size: 15px; font-weight: 900; text-align: center; margin-bottom: 20px; 
+      border-bottom: 1px solid rgba(223,127,128,0.4); padding-bottom: 12px; letter-spacing: 1px; 
+    }
+    .dossier-row { margin-bottom: 16px; font-size: 14px; line-height: 1.5; }
+    .dossier-label { opacity: 0.6; font-size: 11px; text-transform: uppercase; margin-bottom: 4px; display: block; }
+    
+    .dossier-value { 
+      font-weight: 900; 
+      font-size: 16px; 
+      color: #FFF; 
+      text-shadow: 0 0 8px var(--text-color); 
+      word-break: break-all; 
+    }
+    
+    .dossier-stamp { 
+      margin-top: 30px; text-align: center; font-size: 16px; font-weight: 900; color: var(--error-color); 
+      border: 3px solid var(--error-color); padding: 8px 4px; transform: rotate(-4deg); letter-spacing: 1px; 
+      text-shadow: 0 0 5px rgba(255,77,77,0.5); box-shadow: 0 0 15px rgba(255,77,77,0.2); 
+      box-sizing: border-box;
+    }
+    
+    .dossier-desc { font-size: 11px; line-height: 1.6; opacity: 0.65; text-align: center; margin-top: 32px; padding: 0 10px; font-weight: normal; }
+    
+    .dossier-social { 
+      font-size: 11px; 
+      font-weight: bold; 
+      text-align: center; 
+      margin-top: 20px; 
+      color: var(--text-color); 
+      opacity: 0.95; 
+      line-height: 1.6; 
+      text-shadow: 0 0 8px rgba(223, 127, 128, 0.4);
+    }
+    .dossier-social-en {
+      font-size: 10px;
+      font-weight: normal;
+      font-style: italic;
+      opacity: 0.8;
+      margin-top: 3px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="musicToggle" class="music-btn">SOUND: OFF</div>
+  <audio id="bgMusic" loop preload="auto" playsinline webkit-playsinline>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="container">
+    <div class="header-logo-area" id="mainHeader">
+      <img src="logo.png" alt="Logo" class="top-logo">
+    </div>
+    
+    <form id="rsvpForm">
+      <!-- ================= 第 1 页：基本信息 ================= -->
+      <div id="page1" class="form-page active">
+        
+        <div class="form-group">
+          <label>妳想参加哪一场？ *</label>
+          <div class="sub-label">Choose your chaos. Which event are you coming to?</div>
+          <div class="date-options">
+            <div class="date-card" data-value="25 Sep · 盲盒社交 1.0">
+              <div class="date-main">25 Sep</div>
+              <div class="date-sub">盲盒社交 1.0</div>
+            </div>
+            <div class="date-card disabled" data-value="The Mystery Social 2.0">
+              <div class="date-main" style="font-size: 13px; font-weight: normal;">The Mystery Social 2.0</div>
+              <div class="date-sub" style="font-style: italic; opacity: 0.7; font-size: 10px;">Something new is coming.</div>
+            </div>
+          </div>
+          <input type="hidden" id="selectedDate" name="selectedDate">
+          <div class="error-msg" id="err-date">↑ 嘿，别忘了选择要参加哪一场。</div>
+        </div>
+        
+        <div class="form-group">
+          <label for="name">名字 *</label>
+          <div class="sub-label">Name</div>
+          <input type="text" id="name" name="name" placeholder="Enter Your Secret Code">
+          <div class="error-msg" id="err-name">嘿，妳还没留下今晚的代号。</div>
+        </div>
+        
+        <div class="form-group">
+          <label for="birthday">生日 *</label>
+          <div class="sub-label">Date of Birth</div>
+          <input type="date" id="birthday" name="birthday">
+          <div class="error-msg" id="err-birthday">↑ 我们需要确认妳已满合法微醺年龄哦。</div>
+        </div>
+
+        <div class="form-group">
+          <label for="mbti">妳的MBTI & 想了解的MBTI *</label>
+          <div class="sub-label">Your MBTI & MBTI You’d Like to Meet</div>
+          <input type="text" id="mbti" name="mbti" placeholder="e.g. INFP & ENFP">
+          <div class="error-msg" id="err-mbti">嘿，留下妳的MBTI吧。</div>
+        </div>
+        
+        <div class="form-group">
+          <label for="whatsapp">WhatsApp或者WeChat *</label>
+          <input type="text" id="whatsapp" name="whatsapp" placeholder="WhatsApp or WeChat ID">
+          <div class="error-msg" id="err-whatsapp">留个联系方式，方便发送神秘坐标。</div>
+        </div>
+        
+        <div class="btn-group btn-group-right">
+          <button type="button" class="next-btn" id="btnNext1" onclick="gotoPage2()">NEXT →</button>
+        </div>
+      </div>
+      
+      <!-- ================= 第 2 页：附加信息与通行证 ================= -->
+      <div id="page2" class="form-page">
+        
+        <div class="form-group">
+          <label for="secrets">Any final secrets?<span class="optional-mark">Optional</span></label>
+          <div class="sub-label" style="font-weight: normal;">关于当晚，你还有什么是想让我们提前知道的？<br>（例如：酒精过敏不能饮酒、忌口、或者极度社恐）</div>
+          <textarea id="secrets" name="secrets" rows="2" placeholder="Anything we should know before the night? Allergies, dietary restrictions, can’t drink, super shy… anything goes."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="referral">你是怎么/从谁那里知道我们的？<span class="optional-mark">Optional</span></label>
+          <div class="sub-label" style="font-weight: normal;">How did you hear about us?</div>
+          <input type="text" id="referral" name="referral" placeholder="Social Media or Friend’s referral（e.g. Instagram, Threads, XHS）">
+        </div>
+
+        <div class="access-pass">
+          <div class="ap-header">REBEL PASS</div>
+          
+          <div class="ap-body">
+            <div class="ap-price-box">
+              <div class="ap-old">RM 249 <span class="ap-tag">叛逆价</span></div>
+              <div class="ap-new">RM 199</div>
+            </div>
+            
+            <div class="ap-divider"></div>
+            
+            <div class="ap-benefits">
+              <div class="benefit-item">
+                <div class="b-main">✦ 3杯专属特饮</div>
+                <div class="b-sub">3 Special Cocktails</div>
+              </div>
+              <div class="benefit-item">
+                <div class="b-main">✦ 沉浸式破冰体验</div>
+                <div class="b-sub">Immersive Icebreaking</div>
+              </div>
+              <div class="benefit-item">
+                <div class="b-main">✦ 卸下伪装的自由空间</div>
+                <div class="b-sub">A Space to Be Yourself</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="ap-footer">
+            <div>仅限当晚使用 / 席位有限，先到先得</div>
+            <div class="ap-footer-sub">For That Night Only / Limited Spots, First Come First Served</div>
+          </div>
+        </div>
+
+        <div class="flow-text">
+          <div class="flow-main">
+            准备好打破规则了吗？<br>
+            提交后，我们会通过 WhatsApp 或 WeChat 发送入场地点及付款详情。完成确认后，即可锁定席位。
+          </div>
+          <div class="flow-sub">
+            Ready to Break the Rules?<br>
+            After submitting, we’ll send the location and payment details via WhatsApp or WeChat. Your spot will be secured once confirmed.
+          </div>
+        </div>
+
+        <div class="btn-group" style="padding-bottom: 20px;">
+          <a href="#" class="back-link" onclick="prevToPage1()">← BACK</a>
+        </div>
+
+        <button type="button" id="finalSubmitBtn" class="submit-btn-solid" onclick="executeSubmit()">LOCK MY SPOT (锁定席位)</button>
+      </div>
+
+      <!-- ================= 第 3 幕：机密档案与天鹅绒围栏 ================= -->
+      <div id="page3" class="form-page">
+        <div class="dossier-wrapper">
+          <img src="logo.png" alt="Logo" class="dossier-logo">
+          
+          <div class="dossier-title">SIGNAL RECEIVED</div>
+          
+          <div class="dossier-card">
+            <div class="dossier-header">NEW RULE-BREAKER DETECTED</div>
+            
+            <div class="dossier-row">
+              <span class="dossier-label">代号 (CODE NAME)</span>
+              <span class="dossier-value" id="dossierName">NAME</span>
+            </div>
+            
+            <div class="dossier-row">
+              <span class="dossier-label">[ 状态诊断 ]</span>
+              <span class="dossier-value" id="dossierStatus">STATUS</span>
+            </div>
+            
+            <div class="dossier-row">
+              <span class="dossier-label">[ 破解指令 ]</span>
+              <span class="dossier-value">启动逃离模式</span>
+            </div>
+            
+            <div class="dossier-stamp">
+              AWAITING CLEARANCE<br>
+              <span style="font-size: 12px; font-weight: normal; letter-spacing: 2px;">权限审核中</span>
+            </div>
+          </div>
+
+          <div class="dossier-desc">
+            我们正在确认当晚的氛围配比。<br>如果妳的代号被选中，专属付款链接及派对暗号将在 24 小时内发送至妳的 WhatsApp。<br>Keep an eye on your phone.
+          </div>
+          
+          <div class="dossier-social">
+            📸 截图分享至 IG Story 并 @breaktheruleskl<br>或许能获得优先通过特权。
+            <div class="dossier-social-en">Screenshot, share it to your IG Story & tag @breaktheruleskl<br>You might just get priority access.</div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxsh7v6IRWhdY0oKdyJeozyPO3a3DJ43rFG4SMI2IW0soD12kF-_cZI4Webw9L-p7sK/exec";
+
+    const musicBtn = document.getElementById('musicToggle');
+    const bgMusic = document.getElementById('bgMusic');
+    let isPlaying = false, hasInteracted = false;
+
+    musicBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (isPlaying) { bgMusic.pause(); musicBtn.textContent = 'SOUND: OFF'; musicBtn.classList.remove('playing'); } 
+      else { bgMusic.play(); musicBtn.textContent = 'SOUND: ON'; musicBtn.classList.add('playing'); }
+      isPlaying = !isPlaying; hasInteracted = true;
+    });
+
+    document.body.addEventListener('click', () => {
+      if (!hasInteracted && !isPlaying) {
+        bgMusic.play().then(() => { musicBtn.textContent = 'SOUND: ON'; musicBtn.classList.add('playing'); isPlaying = true; }).catch(() => {});
+        hasInteracted = true;
+      }
+    });
+
+    const dateCards = document.querySelectorAll('.date-card');
+    const selectedDateInput = document.getElementById('selectedDate');
+    dateCards.forEach(card => {
+      card.addEventListener('click', () => {
+        if (card.classList.contains('disabled')) return;
+        dateCards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        selectedDateInput.value = card.dataset.value;
+        document.getElementById('err-date').style.display = 'none';
+      });
+    });
+
+    ['name', 'birthday', 'whatsapp', 'mbti'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.addEventListener('input', () => {
+        el.classList.remove('error-border');
+        document.getElementById('err-' + id).style.display = 'none';
+      });
+    });
+
+    function gotoPage2() {
+      let isValid = true;
+      if (!selectedDateInput.value) { document.getElementById('err-date').style.display = 'block'; isValid = false; }
+      if (!document.getElementById('name').value.trim()) { document.getElementById('name').classList.add('error-border'); document.getElementById('err-name').style.display = 'block'; isValid = false; }
+      if (!document.getElementById('birthday').value) { document.getElementById('birthday').classList.add('error-border'); document.getElementById('err-birthday').style.display = 'block'; isValid = false; }
+      if (!document.getElementById('mbti').value.trim()) { document.getElementById('mbti').classList.add('error-border'); document.getElementById('err-mbti').style.display = 'block'; isValid = false; }
+      if (!document.getElementById('whatsapp').value.trim()) { document.getElementById('whatsapp').classList.add('error-border'); document.getElementById('err-whatsapp').style.display = 'block'; isValid = false; }
+      
+      if (isValid) {
+        const btn = document.getElementById('btnNext1');
+        const originalText = btn.textContent;
+        btn.textContent = '潜入后台...'; 
+        setTimeout(() => {
+          document.getElementById('page1').classList.remove('active');
+          document.getElementById('page2').classList.add('active');
+          btn.textContent = originalText;
+          window.scrollTo(0, 0); 
+        }, 500);
+      }
+    }
+    
+    function prevToPage1() { 
+      document.getElementById('page2').classList.remove('active'); 
+      document.getElementById('page1').classList.add('active'); 
+    }
+
+    async function executeSubmit() {
+      const submitBtn = document.getElementById('finalSubmitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = '正在发送请求信号...';
+      
+      const payload = {
+        date: selectedDateInput.value,
+        name: document.getElementById('name').value,
+        birthday: document.getElementById('birthday').value,
+        whatsapp: document.getElementById('whatsapp').value,
+        mbti: document.getElementById('mbti').value, 
+        referral: document.getElementById('referral').value,
+        secrets: document.getElementById('secrets').value, 
+        
+        drinkLevel: "", 
+        luckyDrink: "", 
+        trouble: ""
+      };
+
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors', 
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(err => {
+        console.log('Background sync error:', err);
+      });
+
+      generateDossier();
+    }
+
+    function generateDossier() {
+      document.getElementById('mainHeader').style.display = 'none';
+      document.getElementById('page2').classList.remove('active');
+      
+      const musicToggle = document.getElementById('musicToggle');
+      if(musicToggle) musicToggle.style.display = 'none';
+      
+      const statuses = ["社交电量 10%，急需逃离", "极度缺酒", "规则过敏", "严重无聊症", "周末失控预警"];
+      const randomIndex = (Date.now() + Math.floor(Math.random() * 100)) % statuses.length;
+      const randomStatus = statuses[randomIndex];
+      
+      document.getElementById('dossierName').textContent = document.getElementById('name').value;
+      document.getElementById('dossierStatus').textContent = randomStatus;
+      
+      document.getElementById('page3').classList.add('active'); 
+      window.scrollTo(0, 0);
+    }
+  </script>
+</body>
+</html>
