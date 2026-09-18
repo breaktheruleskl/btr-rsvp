@@ -39,7 +39,9 @@
       flex-direction: column;
     }
     
+    /* 在这里隐藏了音乐按钮 */
     .music-btn {
+      display: none; 
       position: fixed; top: 20px; right: 20px; border: 1px solid var(--text-color); color: var(--text-color); background: var(--bg-color); padding: 6px 14px; border-radius: 20px; font-size: 11px; cursor: pointer; z-index: 100; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;
     }
     .music-btn.playing { background: var(--text-color); color: var(--bg-color); }
@@ -99,6 +101,7 @@
       min-width: 100%;
       text-align: left;
     }
+    input[type="date"]::-webkit-date-and-time-value { text-align: left; color: var(--text-color); }
     
     #page2 input[type="text"], #page2 textarea {
       font-size: 10px;
@@ -282,7 +285,6 @@
       opacity: 0.8;
       margin-top: 3px;
     }
-
   </style>
 </head>
 <body>
