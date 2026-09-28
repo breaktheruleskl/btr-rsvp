@@ -313,7 +313,6 @@
               <div class="date-main">3 Oct</div>
               <div class="date-sub">盲盒社交 2.0 · KL · 8pm</div>
             </div>
-            <!-- 解除了禁用，修改了data-value以便后台识别 -->
             <div class="date-card" data-value="4 Oct · 剧本杀 1.0">
               <div class="date-main" style="font-size: 13px; font-weight: normal;">4 Oct</div>
               <div class="date-sub" style="font-style: italic; opacity: 0.7; font-size: 10px;">剧本杀 1.0 · Puchong </div>
@@ -427,23 +426,16 @@
         </div>
 
         <div class="form-group">
-          <label for="secrets-jbs">Any final secrets?<span class="optional-mark">Optional</span></label>
-          <div class="sub-label" style="font-weight: normal;">关于当晚，你还有什么是想让我们提前知道的？<br>（例如：不想抽到凶手本、忌口等）</div>
-          <textarea id="secrets-jbs" name="secrets-jbs" rows="2" placeholder="Tell us your preferences so we can match you with the perfect role."></textarea>
-        </div>
-
-        <div class="form-group">
           <label for="referral-jbs">你是怎么/从谁那里知道我们的？<span class="optional-mark">Optional</span></label>
           <div class="sub-label" style="font-weight: normal;">How did you hear about us?</div>
           <input type="text" id="referral-jbs" name="referral-jbs" placeholder="Social Media or Friend’s referral">
         </div>
 
         <div class="access-pass">
-          <div class="ap-header">MYSTERY PASS</div>
           <div class="ap-body">
             <div class="ap-price-box">
-              <div class="ap-old">RM 249 <span class="ap-tag">体验价</span></div>
-              <div class="ap-new">RM 199</div>
+              <div style="margin-bottom: 4px;"><span class="ap-tag" style="margin-left: 0;">剧本票</span></div>
+              <div class="ap-new">RM 16.90</div>
             </div>
             <div class="ap-divider"></div>
             <div class="ap-benefits">
@@ -452,18 +444,14 @@
                 <div class="b-sub">Immersive Roleplay</div>
               </div>
               <div class="benefit-item">
-                <div class="b-main">✦ 专属特调饮品</div>
-                <div class="b-sub">Special Drinks</div>
-              </div>
-              <div class="benefit-item">
                 <div class="b-main">✦ 沉浸式推理空间</div>
                 <div class="b-sub">Mystery Solving Space</div>
               </div>
             </div>
           </div>
           <div class="ap-footer">
-            <div>仅限当晚使用 / 席位有限，先到先得</div>
-            <div class="ap-footer-sub">For That Night Only / Limited Spots</div>
+            <div>仅限当天使用 / 席位有限，先到先得</div>
+            <div class="ap-footer-sub">For That Day Only / Limited Spots</div>
           </div>
         </div>
 
@@ -621,7 +609,6 @@
         setTimeout(() => {
           document.getElementById('page1').classList.remove('active');
           
-          // 判断用户选择的日期，进行页面分流
           if (selectedDateInput.value.includes('4 Oct')) {
             document.getElementById('page2-jbs').classList.add('active');
           } else {
@@ -637,7 +624,6 @@
       }
     }
     
-    // 动态返回按钮
     function prevToPage1(currentPageId) { 
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ 'event': 'rsvp_back' });
@@ -647,7 +633,6 @@
     }
 
     async function executeSubmit() {
-      // 判断当前走的是哪个流程
       const isJbsFlow = selectedDateInput.value.includes('4 Oct');
       const submitBtn = isJbsFlow ? document.getElementById('finalSubmitBtnJbs') : document.getElementById('finalSubmitBtn');
 
@@ -661,7 +646,6 @@
         'mbti_type': document.getElementById('mbti').value
       });
       
-      // 根据不同流程抓取对应的数据
       const payload = {
         date: selectedDateInput.value,
         name: document.getElementById('name').value,
@@ -669,8 +653,8 @@
         whatsapp: document.getElementById('whatsapp').value,
         mbti: document.getElementById('mbti').value, 
         referral: isJbsFlow ? document.getElementById('referral-jbs').value : document.getElementById('referral').value,
-        secrets: isJbsFlow ? document.getElementById('secrets-jbs').value : document.getElementById('secrets').value, 
-        trouble: isJbsFlow ? document.getElementById('jbs_exp').value : "", // 剧本杀经验值代替了原本的trouble字段提交
+        secrets: isJbsFlow ? "" : document.getElementById('secrets').value, 
+        trouble: isJbsFlow ? document.getElementById('jbs_exp').value : "",
         drinkLevel: "", 
         luckyDrink: ""
       };
@@ -693,7 +677,6 @@
       const musicToggle = document.getElementById('musicToggle');
       if(musicToggle) musicToggle.style.display = 'none';
       
-      // 根据流程显示对应的第三页
       if (isJbsFlow) {
         document.getElementById('page2-jbs').classList.remove('active');
         document.getElementById('dossierName-jbs').textContent = document.getElementById('name').value;
