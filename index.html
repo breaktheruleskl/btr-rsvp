@@ -308,7 +308,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="sub-label">Choose your chaos. Which event are you coming to?</div>
 <div class="date-options">
 
-<!-- ★ 神级优化：直接把 3 Oct 设为默认选中状态，客人进来连点都不用点！ ★ -->
 <div class="date-card selected" data-value="3 Oct · 盲盒社交 2.0">
 <div class="date-main">3 Oct</div>
 <div class="date-sub">盲盒社交 2.0 · KL · 8pm</div>
@@ -320,7 +319,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 
-<!-- ★ 配合上面的优化，给底层数据也加上默认值 ★ -->
 <input type="hidden" id="selectedDate" name="selectedDate" value="3 Oct · 盲盒社交 2.0">
 <div class="error-msg" id="err-date">↑ 嘿，别忘了选择要参加哪一场。</div>
 </div>
@@ -461,6 +459,7 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxsh7v6IRWhdY0oKdyJe
 
 const dateCards = document.querySelectorAll('.date-card');
 const selectedDateInput = document.getElementById('selectedDate');
+
 dateCards.forEach(card => {
 card.addEventListener('click', () => {
 if (card.classList.contains('disabled')) return;
@@ -567,136 +566,6 @@ document.getElementById('page3').classList.add('active');
 setTimeout(() => {
 window.location.href = "https://buy.stripe.com/aFa28r6cX2UFfNAgUn5Rm00";
 }, 2500);
-
-window.scrollTo(0, 0);
-}
-</script>
-</body>
-</html>
-dateCards.forEach(card => {
-card.addEventListener('click', () => {
-if (card.classList.contains('disabled')) return;
-dateCards.forEach(c => c.classList.remove('selected'));
-card.classList.add('selected');
-selectedDateInput.value = card.dataset.value;
-document.getElementById('err-date').style.display = 'none';
-});
-});
-
-['name', 'birthday', 'whatsapp', 'mbti'].forEach(id => {
-const el = document.getElementById(id);
-if(el) el.addEventListener('input', () => {
-el.classList.remove('error-border');
-document.getElementById('err-' + id).style.display = 'none';
-});
-});
-
-function gotoPage2() {
-let isValid = true;
-let errorList = [];
-
-if (!selectedDateInput.value) { document.getElementById('err-date').style.display = 'block'; isValid = false; errorList.push('date'); }
-if (!document.getElementById('name').value.trim()) { document.getElementById('name').classList.add('error-border'); document.getElementById('err-name').style.display = 'block'; isValid = false; errorList.push('name'); }
-if (!document.getElementById('birthday').value) { document.getElementById('birthday').classList.add('error-border'); document.getElementById('err-birthday').style.display = 'block'; isValid = false; errorList.push('birthday'); }
-if (!document.getElementById('mbti').value.trim()) { document.getElementById('mbti').classList.add('error-border'); document.getElementById('err-mbti').style.display = 'block'; isValid = false; errorList.push('mbti'); }
-if (!document.getElementById('whatsapp').value.trim()) { document.getElementById('whatsapp').classList.add('error-border'); document.getElementById('err-whatsapp').style.display = 'block'; isValid = false; errorList.push('whatsapp'); }
-
-if (isValid) {
-window.dataLayer = window.dataLayer || [];
-window.dataLayer.push({ 'event': 'rsvp_start' });
-
-const btn = document.getElementById('btnNext1');
-const originalText = btn.textContent;
-btn.textContent = '潜入后台...';
-
-setTimeout(() => {
-document.getElementById('page1').classList.remove('active');
-
-if (selectedDateInput.value.includes('4 Oct')) {
-document.getElementById('page2-jbs').classList.add('active');
-} else {
-document.getElementById('page2').classList.add('active');
-}
-
-btn.textContent = originalText;
-window.scrollTo(0, 0);
-}, 500);
-} else {
-window.dataLayer = window.dataLayer || [];
-window.dataLayer.push({ 'event': 'form_error', 'error_field': errorList.join(',') });
-}
-}
-
-function prevToPage1(currentPageId) {
-window.dataLayer = window.dataLayer || [];
-window.dataLayer.push({ 'event': 'rsvp_back' });
-
-document.getElementById(currentPageId).classList.remove('active');
-document.getElementById('page1').classList.add('active');
-}
-
-async function executeSubmit() {
-const isJbsFlow = selectedDateInput.value.includes('4 Oct');
-const submitBtn = isJbsFlow ? document.getElementById('finalSubmitBtnJbs') : document.getElementById('finalSubmitBtn');
-
-submitBtn.disabled = true;
-submitBtn.textContent = '正在发送请求信号...';
-
-window.dataLayer = window.dataLayer || [];
-window.dataLayer.push({
-event': 'rsvp_complete',
-event_date': selectedDateInput.value,
-mbti_type': document.getElementById('mbti').value
-});
-
-const payload = {
-date: selectedDateInput.value,
-name: document.getElementById('name').value,
-birthday: document.getElementById('birthday').value,
-whatsapp: document.getElementById('whatsapp').value,
-mbti: document.getElementById('mbti').value,
-referral: isJbsFlow ? document.getElementById('referral-jbs').value : document.getElementById('referral').value,
-secrets: isJbsFlow ? "" : document.getElementById('secrets').value,
-trouble: isJbsFlow ? document.getElementById('jbs_exp').value : "",
-drinkLevel: "",
-luckyDrink: ""
-};
-
-fetch(SCRIPT_URL, {
-method: 'POST',
-mode: 'no-cors',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify(payload)
-}).catch(err => {
-console.log('Background sync error:', err);
-});
-
-generateDossier(isJbsFlow);
-}
-
-function generateDossier(isJbsFlow) {
-document.getElementById('mainHeader').style.display = 'none';
-
-const musicToggle = document.getElementById('musicToggle');
-if(musicToggle) musicToggle.style.display = 'none';
-
-if (isJbsFlow) {
-document.getElementById('page2-jbs').classList.remove('active');
-document.getElementById('dossierName-jbs').textContent = document.getElementById('name').value;
-document.getElementById('page3-jbs').classList.add('active');
-} else {
-document.getElementById('page2').classList.remove('active');
-const statuses = ["社交电量 10%，急需逃离", "极度缺酒", "规则过敏", "严重无聊症", "周末失控预警"];
-const randomIndex = (Date.now() + Math.floor(Math.random() * 100)) % statuses.length;
-document.getElementById('dossierName').textContent = document.getElementById('name').value;
-document.getElementById('dossierStatus').textContent = statuses[randomIndex];
-document.getElementById('page3').classList.add('active');
-
-// ★ 核心功能：2.5 秒后跳转至 Stripe 支付链接，确保表格有时间收到数据 ★
-setTimeout(() => {
-window.location.href = "https://buy.stripe.com/aFa28r6cX2UFfNAgUn5Rm00";
-}, 2500);
-}
 
 window.scrollTo(0, 0);
 }
