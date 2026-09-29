@@ -103,7 +103,7 @@ text-align: left;
 }
 input[type="date"]::-webkit-date-and-time-value { text-align: left; color: var(--text-color); }
 
-.form-page input[type="text"], .form-page textarea {
+#page2 input[type="text"], #page2 textarea {
 font-size: 10px;
 font-weight: normal;
 }
@@ -311,14 +311,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <label>妳想参加哪一场？ *</label>
 <div class="sub-label">Choose your chaos. Which event are you coming to?</div>
 <div class="date-options">
-<div class="date-card" data-value="3 Oct · 盲盒社交 2.0">
-<div class="date-main">3 Oct</div>
-<div class="date-sub">盲盒社交 2.0 · KL · 8pm</div>
+<div class="date-card" data-value="25 Sep · 盲盒社交 1.0">
+<div class="date-main">25 Sep</div>
+<div class="date-sub">盲盒社交 1.0 · Cheras · 10pm</div>
 </div>
-<!-- ★ 已把 disabled 重新加回来，无法点击 ★ -->
-<div class="date-card disabled" data-value="4 Oct · 剧本杀 1.0">
-<div class="date-main" style="font-size: 13px; font-weight: normal;">The Mystery Social 3.0</div>
-<div class="date-sub" style="font-style: italic; opacity: 0.7; font-size: 10px;">Something new is coming</div>
+<div class="date-card disabled" data-value="The Mystery Social 2.0">
+<div class="date-main" style="font-size: 13px; font-weight: normal;">The Mystery Social 2.0</div>
+<div class="date-sub" style="font-style: italic; opacity: 0.7; font-size: 10px;">Something new is coming.</div>
 </div>
 </div>
 <input type="hidden" id="selectedDate" name="selectedDate">
@@ -357,7 +356,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 
-<!-- ================= 3 Oct 的第二页：附加信息与通行证 ================= -->
+<!-- ================= 第 2 页：附加信息与通行证 ================= -->
 <div id="page2" class="form-page">
 
 <div class="form-group">
@@ -374,16 +373,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="access-pass">
 <div class="ap-header">REBEL PASS</div>
+
 <div class="ap-body">
 <div class="ap-price-box">
 <div class="ap-old">RM 249 <span class="ap-tag">叛逆价</span></div>
 <div class="ap-new">RM 199</div>
 </div>
+
 <div class="ap-divider"></div>
+
 <div class="ap-benefits">
 <div class="benefit-item">
 <div class="b-main">✦ 3杯专属特饮</div>
-<div class="b-sub">3 Special Cocktails / Mocktail</div>
+<div class="b-sub">3 Special Cocktails</div>
 </div>
 <div class="benefit-item">
 <div class="b-main">✦ 沉浸式破冰体验</div>
@@ -395,6 +397,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 </div>
+
 <div class="ap-footer">
 <div>仅限当晚使用 / 席位有限，先到先得</div>
 <div class="ap-footer-sub">For That Night Only / Limited Spots, First Come First Served</div>
@@ -413,137 +416,53 @@ After submitting, we’ll send the location and payment details via WhatsApp or 
 </div>
 
 <div class="btn-group" style="padding-bottom: 20px;">
-<a href="#" class="back-link" onclick="prevToPage1('page2')">← BACK</a>
+<a href="#" class="back-link" onclick="prevToPage1()">← BACK</a>
 </div>
 
 <button type="button" id="finalSubmitBtn" class="submit-btn-solid" onclick="executeSubmit()">LOCK MY SPOT (锁定席位)</button>
 </div>
 
-<!-- ================= 4 Oct 专属第二页：剧本杀 ================= -->
-<div id="page2-jbs" class="form-page">
-
-<div class="form-group">
-<label for="jbs_exp">妳的剧本杀经验值？<span class="optional-mark">Optional</span></label>
-<div class="sub-label" style="font-weight: normal;">Your Jubensha Experience</div>
-<input type="text" id="jbs_exp" name="jbs_exp" placeholder="小白、老玩家、还是第一次尝试？">
-</div>
-
-<div class="form-group">
-<label for="referral-jbs">你是怎么/从谁那里知道我们的？<span class="optional-mark">Optional</span></label>
-<div class="sub-label" style="font-weight: normal;">How did you hear about us?</div>
-<input type="text" id="referral-jbs" name="referral-jbs" placeholder="Social Media or Friend’s referral">
-</div>
-
-<div class="access-pass">
-<div class="ap-body">
-<div class="ap-price-box">
-<div style="margin-bottom: 4px;"><span class="ap-tag" style="margin-left: 0;">剧本票</span></div>
-<div class="ap-new">RM 16.90</div>
-</div>
-<div class="ap-divider"></div>
-<div class="ap-benefits">
-<div class="benefit-item">
-<div class="b-main">✦ 剧本杀角色体验</div>
-<div class="b-sub">Immersive Roleplay</div>
-</div>
-<div class="benefit-item">
-<div class="b-main">✦ 沉浸式推理空间</div>
-<div class="b-sub">Mystery Solving Space</div>
-</div>
-</div>
-</div>
-<div class="ap-footer">
-<div>仅限当天使用 / 席位有限，先到先得</div>
-<div class="ap-footer-sub">For That Day Only / Limited Spots</div>
-</div>
-</div>
-
-<div class="flow-text">
-<div class="flow-main">
-准备好进入角色了吗？<br>
-提交后，我们会发送剧本杀地点及付款详情。完成确认后将为您锁定专属角色。
-</div>
-<div class="flow-sub">
-Ready to dive into the mystery?<br>
-After submitting, we’ll send payment details. Your role will be secured once confirmed.
-</div>
-</div>
-
-<div class="btn-group" style="padding-bottom: 20px;">
-<a href="#" class="back-link" onclick="prevToPage1('page2-jbs')">← BACK</a>
-</div>
-
-<button type="button" id="finalSubmitBtnJbs" class="submit-btn-solid" onclick="executeSubmit()">LOCK MY ROLE (锁定角色)</button>
-</div>
-
-<!-- ================= 3 Oct 的第三页：机密档案 ================= -->
+<!-- ================= 第 3 幕：机密档案与天鹅绒围栏 ================= -->
 <div id="page3" class="form-page">
 <div class="dossier-wrapper">
 <img src="logo.png" alt="Logo" class="dossier-logo">
+
 <div class="dossier-title">SIGNAL RECEIVED</div>
+
 <div class="dossier-card">
 <div class="dossier-header">NEW RULE-BREAKER DETECTED</div>
+
 <div class="dossier-row">
 <span class="dossier-label">代号 (CODE NAME)</span>
 <span class="dossier-value" id="dossierName">NAME</span>
 </div>
+
 <div class="dossier-row">
 <span class="dossier-label">[ 状态诊断 ]</span>
 <span class="dossier-value" id="dossierStatus">STATUS</span>
 </div>
+
 <div class="dossier-row">
 <span class="dossier-label">[ 破解指令 ]</span>
 <span class="dossier-value">启动逃离模式</span>
 </div>
+
 <div class="dossier-stamp">
 AWAITING CLEARANCE<br>
 <span style="font-size: 12px; font-weight: normal; letter-spacing: 2px;">权限审核中</span>
 </div>
 </div>
+
 <div class="dossier-desc">
 我们正在确认当晚的氛围配比。<br>如果妳的代号被选中，专属付款链接及派对暗号将在 24 小时内发送至妳的 WhatsApp。<br>Keep an eye on your phone.
 </div>
+
 <div class="dossier-social">
 📸 截图分享至 IG Story 并 @breaktheruleskl<br>或许能获得优先通过特权。
 <div class="dossier-social-en">Screenshot, share it to your IG Story & tag @breaktheruleskl<br>You might just get priority access.</div>
 </div>
 </div>
 </div>
-
-<!-- ================= 4 Oct 专属第三页：机密档案 (剧本杀) ================= -->
-<div id="page3-jbs" class="form-page">
-<div class="dossier-wrapper">
-<img src="logo.png" alt="Logo" class="dossier-logo">
-<div class="dossier-title">ROLE PENDING</div>
-<div class="dossier-card">
-<div class="dossier-header">NEW PLAYER REGISTERED</div>
-<div class="dossier-row">
-<span class="dossier-label">玩家代号 (PLAYER ID)</span>
-<span class="dossier-value" id="dossierName-jbs">NAME</span>
-</div>
-<div class="dossier-row">
-<span class="dossier-label">[ 剧情进度 ]</span>
-<span class="dossier-value" id="dossierStatus-jbs">等待角色抽取</span>
-</div>
-<div class="dossier-row">
-<span class="dossier-label">[ 系统指令 ]</span>
-<span class="dossier-value">启动推理协议</span>
-</div>
-<div class="dossier-stamp">
-AWAITING ROLE<br>
-<span style="font-size: 12px; font-weight: normal; letter-spacing: 2px;">剧本分配中</span>
-</div>
-</div>
-<div class="dossier-desc">
-我们已收到您的入局请求。<br>专属付款链接发送至 WhatsApp，完成确认后将为您下发神秘角色档案。<br>Keep an eye on your phone.
-</div>
-<div class="dossier-social">
-📸 截图分享至 IG Story 并 @breaktheruleskl<br>或许能提前获取线索。
-<div class="dossier-social-en">Screenshot, share it to your IG Story & tag @breaktheruleskl<br>You might get early clues.</div>
-</div>
-</div>
-</div>
-
 </form>
 </div>
 
@@ -560,8 +479,12 @@ if (isPlaying) { bgMusic.pause(); musicBtn.textContent = 'SOUND: OFF'; musicBtn.
 else { bgMusic.play(); musicBtn.textContent = 'SOUND: ON'; musicBtn.classList.add('playing'); }
 isPlaying = !isPlaying; hasInteracted = true;
 
+// [新增追踪]：音乐按钮点击
 window.dataLayer = window.dataLayer || [];
-window.dataLayer.push({ 'event': 'music_toggle', 'music_status': isPlaying ? 'ON' : 'OFF' });
+window.dataLayer.push({
+event': 'music_toggle',
+music_status': isPlaying ? 'ON' : 'OFF'
+});
 });
 
 document.body.addEventListener('click', () => {
@@ -602,25 +525,102 @@ if (!document.getElementById('mbti').value.trim()) { document.getElementById('mb
 if (!document.getElementById('whatsapp').value.trim()) { document.getElementById('whatsapp').classList.add('error-border'); document.getElementById('err-whatsapp').style.display = 'block'; isValid = false; errorList.push('whatsapp'); }
 
 if (isValid) {
+// [原有追踪]：开始填写
 window.dataLayer = window.dataLayer || [];
-window.dataLayer.push({ 'event': 'rsvp_start' });
+window.dataLayer.push({
+event': 'rsvp_start'
+});
 
 const btn = document.getElementById('btnNext1');
 const originalText = btn.textContent;
 btn.textContent = '潜入后台...';
-
 setTimeout(() => {
 document.getElementById('page1').classList.remove('active');
-
-if (selectedDateInput.value.includes('4 Oct')) {
-document.getElementById('page2-jbs').classList.add('active');
-} else {
 document.getElementById('page2').classList.add('active');
-}
-
 btn.textContent = originalText;
 window.scrollTo(0, 0);
 }, 500);
+} else {
+// [新增追踪]：表单报错拦截
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+event': 'form_error',
+error_field': errorList.join(',')
+});
+}
+}
+
+function prevToPage1() {
+// [新增追踪]：返回按钮点击
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+event': 'rsvp_back'
+});
+
+document.getElementById('page2').classList.remove('active');
+document.getElementById('page1').classList.add('active');
+}
+
+async function executeSubmit() {
+const submitBtn = document.getElementById('finalSubmitBtn');
+submitBtn.disabled = true;
+submitBtn.textContent = '正在发送请求信号...';
+
+// [修改追踪]：成功提交并附加用户偏好参数
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+event': 'rsvp_complete',
+event_date': selectedDateInput.value,
+mbti_type': document.getElementById('mbti').value
+});
+
+const payload = {
+date: selectedDateInput.value,
+name: document.getElementById('name').value,
+birthday: document.getElementById('birthday').value,
+whatsapp: document.getElementById('whatsapp').value,
+mbti: document.getElementById('mbti').value,
+referral: document.getElementById('referral').value,
+secrets: document.getElementById('secrets').value,
+drinkLevel: "",
+luckyDrink: "",
+trouble: ""
+};
+
+fetch(SCRIPT_URL, {
+method: 'POST',
+mode: 'no-cors',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify(payload)
+}).catch(err => {
+console.log('Background sync error:', err);
+});
+
+generateDossier();
+}
+
+function generateDossier() {
+document.getElementById('mainHeader').style.display = 'none';
+document.getElementById('page2').classList.remove('active');
+
+const musicToggle = document.getElementById('musicToggle');
+if(musicToggle) musicToggle.style.display = 'none';
+
+const statuses = ["社交电量 10%，急需逃离", "极度缺酒", "规则过敏", "严重无聊症", "周末失控预警"];
+const randomIndex = (Date.now() + Math.floor(Math.random() * 100)) % statuses.length;
+const randomStatus = statuses[randomIndex];
+
+document.getElementById('dossierName').textContent = document.getElementById('name').value;
+document.getElementById('dossierStatus').textContent = randomStatus;
+
+document.getElementById('page3').classList.add('active');
+window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
+
+这个是我现在的代码，我帮我加进去给我一个完整的
 } else {
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({ 'event': 'form_error', 'error_field': errorList.join(',') });
