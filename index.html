@@ -151,6 +151,8 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 min-height: 48px;
+z-index: 10;
+-webkit-tap-highlight-color: transparent;
 }
 .date-card.selected { background: rgba(223, 127, 128, 0.15); border-width: 3px; animation: breathingGlow 3s infinite ease-in-out; }
 .date-card.disabled { opacity: 0.4; cursor: not-allowed; border-color: rgba(223, 127, 128, 0.4); }
@@ -305,17 +307,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <label>妳想参加哪一场？ *</label>
 <div class="sub-label">Choose your chaos. Which event are you coming to?</div>
 <div class="date-options">
-<div class="date-card" data-value="3 Oct · 盲盒社交 2.0">
+
+<!-- ★ 神级优化：直接把 3 Oct 设为默认选中状态，客人进来连点都不用点！ ★ -->
+<div class="date-card selected" data-value="3 Oct · 盲盒社交 2.0">
 <div class="date-main">3 Oct</div>
 <div class="date-sub">盲盒社交 2.0 · KL · 8pm</div>
 </div>
-<!-- ★ 4 Oct 依然处于 disabled 不可点击状态 ★ -->
+
 <div class="date-card disabled" data-value="4 Oct · 剧本杀 1.0">
 <div class="date-main" style="font-size: 13px; font-weight: normal;">4 Oct</div>
 <div class="date-sub" style="font-style: italic; opacity: 0.7; font-size: 10px;">剧本杀 1.0 · Puchong </div>
 </div>
 </div>
-<input type="hidden" id="selectedDate" name="selectedDate">
+
+<!-- ★ 配合上面的优化，给底层数据也加上默认值 ★ -->
+<input type="hidden" id="selectedDate" name="selectedDate" value="3 Oct · 盲盒社交 2.0">
 <div class="error-msg" id="err-date">↑ 嘿，别忘了选择要参加哪一场。</div>
 </div>
 
@@ -558,7 +564,6 @@ document.getElementById('dossierName').textContent = document.getElementById('na
 document.getElementById('dossierStatus').textContent = statuses[randomIndex];
 document.getElementById('page3').classList.add('active');
 
-// ★ 核心功能：2.5 秒后跳转至 Stripe 支付链接，确保表格有时间收到数据 ★
 setTimeout(() => {
 window.location.href = "https://buy.stripe.com/aFa28r6cX2UFfNAgUn5Rm00";
 }, 2500);
@@ -568,11 +573,6 @@ window.scrollTo(0, 0);
 </script>
 </body>
 </html>
-}
-});
-
-const dateCards = document.querySelectorAll('.date-card');
-const selectedDateInput = document.getElementById('selectedDate');
 dateCards.forEach(card => {
 card.addEventListener('click', () => {
 if (card.classList.contains('disabled')) return;
@@ -702,4 +702,4 @@ window.scrollTo(0, 0);
 }
 </script>
 </body>
-</html>																						
+</html>
