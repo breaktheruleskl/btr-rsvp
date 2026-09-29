@@ -39,6 +39,7 @@ display: flex;
 flex-direction: column;
 }
 
+/* 在这里隐藏了音乐按钮 */
 .music-btn {
 display: none;
 position: fixed; top: 20px; right: 20px; border: 1px solid var(--text-color); color: var(--text-color); background: var(--bg-color); padding: 6px 14px; border-radius: 20px; font-size: 11px; cursor: pointer; z-index: 100; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;
@@ -151,8 +152,6 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 min-height: 48px;
-z-index: 10;
--webkit-tap-highlight-color: transparent;
 }
 .date-card.selected { background: rgba(223, 127, 128, 0.15); border-width: 3px; animation: breathingGlow 3s infinite ease-in-out; }
 .date-card.disabled { opacity: 0.4; cursor: not-allowed; border-color: rgba(223, 127, 128, 0.4); }
@@ -294,6 +293,11 @@ margin-top: 3px;
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
+<div id="musicToggle" class="music-btn">SOUND: OFF</div>
+<audio id="bgMusic" loop preload="auto" playsinline webkit-playsinline>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
 <div class="container">
 <div class="header-logo-area" id="mainHeader">
 <img src="logo.png" alt="Logo" class="top-logo">
@@ -307,19 +311,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <label>妳想参加哪一场？ *</label>
 <div class="sub-label">Choose your chaos. Which event are you coming to?</div>
 <div class="date-options">
-
-<div class="date-card selected" data-value="3 Oct · 盲盒社交 2.0">
+<div class="date-card" data-value="3 Oct · 盲盒社交 2.0">
 <div class="date-main">3 Oct</div>
 <div class="date-sub">盲盒社交 2.0 · KL · 8pm</div>
 </div>
-
+<!-- ★ 已把 disabled 重新加回来，无法点击 ★ -->
 <div class="date-card disabled" data-value="4 Oct · 剧本杀 1.0">
-<div class="date-main" style="font-size: 13px; font-weight: normal;">4 Oct</div>
-<div class="date-sub" style="font-style: italic; opacity: 0.7; font-size: 10px;">剧本杀 1.0 · Puchong </div>
+<div class="date-main" style="font-size: 13px; font-weight: normal;">The Mystery Social 3.0</div>
+<div class="date-sub" style="font-style: italic; opacity: 0.7; font-size: 10px;">Something new is coming</div>
 </div>
 </div>
-
-<input type="hidden" id="selectedDate" name="selectedDate" value="3 Oct · 盲盒社交 2.0">
+<input type="hidden" id="selectedDate" name="selectedDate">
 <div class="error-msg" id="err-date">↑ 嘿，别忘了选择要参加哪一场。</div>
 </div>
 
@@ -351,7 +353,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <div class="btn-group btn-group-right">
-<button type="button" class="next-btn" id="btnNext1" onclick="window.gotoPage2()">NEXT →</button>
+<button type="button" class="next-btn" id="btnNext1" onclick="gotoPage2()">NEXT →</button>
 </div>
 </div>
 
@@ -402,19 +404,76 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="flow-text">
 <div class="flow-main">
 准备好打破规则了吗？<br>
-提交后，系统将自动跳转至支付页面。完成确认后，即可锁定席位。
+提交后，我们会通过 WhatsApp 或 WeChat 发送入场地点及付款详情。完成确认后，即可锁定席位。
 </div>
 <div class="flow-sub">
 Ready to Break the Rules?<br>
-After submitting, you'll be redirected to secure your spot via payment.
+After submitting, we’ll send the location and payment details via WhatsApp or WeChat. Your spot will be secured once confirmed.
 </div>
 </div>
 
 <div class="btn-group" style="padding-bottom: 20px;">
-<a href="#" class="back-link" onclick="window.prevToPage1('page2')">← BACK</a>
+<a href="#" class="back-link" onclick="prevToPage1('page2')">← BACK</a>
 </div>
 
-<button type="button" id="finalSubmitBtn" class="submit-btn-solid" onclick="window.executeSubmit()">LOCK MY SPOT (锁定席位)</button>
+<button type="button" id="finalSubmitBtn" class="submit-btn-solid" onclick="executeSubmit()">LOCK MY SPOT (锁定席位)</button>
+</div>
+
+<!-- ================= 4 Oct 专属第二页：剧本杀 ================= -->
+<div id="page2-jbs" class="form-page">
+
+<div class="form-group">
+<label for="jbs_exp">妳的剧本杀经验值？<span class="optional-mark">Optional</span></label>
+<div class="sub-label" style="font-weight: normal;">Your Jubensha Experience</div>
+<input type="text" id="jbs_exp" name="jbs_exp" placeholder="小白、老玩家、还是第一次尝试？">
+</div>
+
+<div class="form-group">
+<label for="referral-jbs">你是怎么/从谁那里知道我们的？<span class="optional-mark">Optional</span></label>
+<div class="sub-label" style="font-weight: normal;">How did you hear about us?</div>
+<input type="text" id="referral-jbs" name="referral-jbs" placeholder="Social Media or Friend’s referral">
+</div>
+
+<div class="access-pass">
+<div class="ap-body">
+<div class="ap-price-box">
+<div style="margin-bottom: 4px;"><span class="ap-tag" style="margin-left: 0;">剧本票</span></div>
+<div class="ap-new">RM 16.90</div>
+</div>
+<div class="ap-divider"></div>
+<div class="ap-benefits">
+<div class="benefit-item">
+<div class="b-main">✦ 剧本杀角色体验</div>
+<div class="b-sub">Immersive Roleplay</div>
+</div>
+<div class="benefit-item">
+<div class="b-main">✦ 沉浸式推理空间</div>
+<div class="b-sub">Mystery Solving Space</div>
+</div>
+</div>
+</div>
+<div class="ap-footer">
+<div>仅限当天使用 / 席位有限，先到先得</div>
+<div class="ap-footer-sub">For That Day Only / Limited Spots</div>
+</div>
+</div>
+
+<div class="flow-text">
+<div class="flow-main">
+准备好进入角色了吗？<br>
+提交后，我们会发送剧本杀地点及付款详情。完成确认后将为您锁定专属角色。
+</div>
+<div class="flow-sub">
+Ready to dive into the mystery?<br>
+After submitting, we’ll send payment details. Your role will be secured once confirmed.
+</div>
+</div>
+
+<div class="btn-group" style="padding-bottom: 20px;">
+<a href="#" class="back-link" onclick="prevToPage1('page2-jbs')">← BACK</a>
+</div>
+
+<button type="button" id="finalSubmitBtnJbs" class="submit-btn-solid" onclick="executeSubmit()">LOCK MY ROLE (锁定角色)</button>
 </div>
 
 <!-- ================= 3 Oct 的第三页：机密档案 ================= -->
@@ -442,11 +501,45 @@ AWAITING CLEARANCE<br>
 </div>
 </div>
 <div class="dossier-desc">
-身份确认完毕。<br>正在为您接入加密支付通道，请勿关闭页面...<br>Redirecting to secure payment...
+我们正在确认当晚的氛围配比。<br>如果妳的代号被选中，专属付款链接及派对暗号将在 24 小时内发送至妳的 WhatsApp。<br>Keep an eye on your phone.
 </div>
 <div class="dossier-social">
 📸 截图分享至 IG Story 并 @breaktheruleskl<br>或许能获得优先通过特权。
 <div class="dossier-social-en">Screenshot, share it to your IG Story & tag @breaktheruleskl<br>You might just get priority access.</div>
+</div>
+</div>
+</div>
+
+<!-- ================= 4 Oct 专属第三页：机密档案 (剧本杀) ================= -->
+<div id="page3-jbs" class="form-page">
+<div class="dossier-wrapper">
+<img src="logo.png" alt="Logo" class="dossier-logo">
+<div class="dossier-title">ROLE PENDING</div>
+<div class="dossier-card">
+<div class="dossier-header">NEW PLAYER REGISTERED</div>
+<div class="dossier-row">
+<span class="dossier-label">玩家代号 (PLAYER ID)</span>
+<span class="dossier-value" id="dossierName-jbs">NAME</span>
+</div>
+<div class="dossier-row">
+<span class="dossier-label">[ 剧情进度 ]</span>
+<span class="dossier-value" id="dossierStatus-jbs">等待角色抽取</span>
+</div>
+<div class="dossier-row">
+<span class="dossier-label">[ 系统指令 ]</span>
+<span class="dossier-value">启动推理协议</span>
+</div>
+<div class="dossier-stamp">
+AWAITING ROLE<br>
+<span style="font-size: 12px; font-weight: normal; letter-spacing: 2px;">剧本分配中</span>
+</div>
+</div>
+<div class="dossier-desc">
+我们已收到您的入局请求。<br>专属付款链接发送至 WhatsApp，完成确认后将为您下发神秘角色档案。<br>Keep an eye on your phone.
+</div>
+<div class="dossier-social">
+📸 截图分享至 IG Story 并 @breaktheruleskl<br>或许能提前获取线索。
+<div class="dossier-social-en">Screenshot, share it to your IG Story & tag @breaktheruleskl<br>You might get early clues.</div>
 </div>
 </div>
 </div>
@@ -457,9 +550,29 @@ AWAITING CLEARANCE<br>
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxsh7v6IRWhdY0oKdyJeozyPO3a3DJ43rFG4SMI2IW0soD12kF-_cZI4Webw9L-p7sK/exec";
 
+const musicBtn = document.getElementById('musicToggle');
+const bgMusic = document.getElementById('bgMusic');
+let isPlaying = false, hasInteracted = false;
+
+musicBtn.addEventListener('click', (e) => {
+e.stopPropagation();
+if (isPlaying) { bgMusic.pause(); musicBtn.textContent = 'SOUND: OFF'; musicBtn.classList.remove('playing'); }
+else { bgMusic.play(); musicBtn.textContent = 'SOUND: ON'; musicBtn.classList.add('playing'); }
+isPlaying = !isPlaying; hasInteracted = true;
+
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({ 'event': 'music_toggle', 'music_status': isPlaying ? 'ON' : 'OFF' });
+});
+
+document.body.addEventListener('click', () => {
+if (!hasInteracted && !isPlaying) {
+bgMusic.play().then(() => { musicBtn.textContent = 'SOUND: ON'; musicBtn.classList.add('playing'); isPlaying = true; }).catch(() => {});
+hasInteracted = true;
+}
+});
+
 const dateCards = document.querySelectorAll('.date-card');
 const selectedDateInput = document.getElementById('selectedDate');
-
 dateCards.forEach(card => {
 card.addEventListener('click', () => {
 if (card.classList.contains('disabled')) return;
@@ -470,33 +583,23 @@ document.getElementById('err-date').style.display = 'none';
 });
 });
 
-const formInputs = ['name', 'birthday', 'whatsapp', 'mbti'];
-formInputs.forEach(id => {
+['name', 'birthday', 'whatsapp', 'mbti'].forEach(id => {
 const el = document.getElementById(id);
-if(el) {
-el.addEventListener('input', () => {
+if(el) el.addEventListener('input', () => {
 el.classList.remove('error-border');
 document.getElementById('err-' + id).style.display = 'none';
 });
-}
 });
 
-window.gotoPage2 = function() {
-try {
+function gotoPage2() {
 let isValid = true;
 let errorList = [];
 
-const selDate = document.getElementById('selectedDate');
-const nameEl = document.getElementById('name');
-const bdayEl = document.getElementById('birthday');
-const mbtiEl = document.getElementById('mbti');
-const waEl = document.getElementById('whatsapp');
-
-if (!selDate || !selDate.value) { document.getElementById('err-date').style.display = 'block'; isValid = false; errorList.push('date'); }
-if (!nameEl || !nameEl.value.trim()) { nameEl.classList.add('error-border'); document.getElementById('err-name').style.display = 'block'; isValid = false; errorList.push('name'); }
-if (!bdayEl || !bdayEl.value) { bdayEl.classList.add('error-border'); document.getElementById('err-birthday').style.display = 'block'; isValid = false; errorList.push('birthday'); }
-if (!mbtiEl || !mbtiEl.value.trim()) { mbtiEl.classList.add('error-border'); document.getElementById('err-mbti').style.display = 'block'; isValid = false; errorList.push('mbti'); }
-if (!waEl || !waEl.value.trim()) { waEl.classList.add('error-border'); document.getElementById('err-whatsapp').style.display = 'block'; isValid = false; errorList.push('whatsapp'); }
+if (!selectedDateInput.value) { document.getElementById('err-date').style.display = 'block'; isValid = false; errorList.push('date'); }
+if (!document.getElementById('name').value.trim()) { document.getElementById('name').classList.add('error-border'); document.getElementById('err-name').style.display = 'block'; isValid = false; errorList.push('name'); }
+if (!document.getElementById('birthday').value) { document.getElementById('birthday').classList.add('error-border'); document.getElementById('err-birthday').style.display = 'block'; isValid = false; errorList.push('birthday'); }
+if (!document.getElementById('mbti').value.trim()) { document.getElementById('mbti').classList.add('error-border'); document.getElementById('err-mbti').style.display = 'block'; isValid = false; errorList.push('mbti'); }
+if (!document.getElementById('whatsapp').value.trim()) { document.getElementById('whatsapp').classList.add('error-border'); document.getElementById('err-whatsapp').style.display = 'block'; isValid = false; errorList.push('whatsapp'); }
 
 if (isValid) {
 window.dataLayer = window.dataLayer || [];
@@ -508,7 +611,13 @@ btn.textContent = '潜入后台...';
 
 setTimeout(() => {
 document.getElementById('page1').classList.remove('active');
+
+if (selectedDateInput.value.includes('4 Oct')) {
+document.getElementById('page2-jbs').classList.add('active');
+} else {
 document.getElementById('page2').classList.add('active');
+}
+
 btn.textContent = originalText;
 window.scrollTo(0, 0);
 }, 500);
@@ -516,41 +625,39 @@ window.scrollTo(0, 0);
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({ 'event': 'form_error', 'error_field': errorList.join(',') });
 }
-} catch (error) {
-console.error("跳转失败", error);
 }
-};
 
-window.prevToPage1 = function(currentPageId) {
+function prevToPage1(currentPageId) {
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({ 'event': 'rsvp_back' });
 
 document.getElementById(currentPageId).classList.remove('active');
 document.getElementById('page1').classList.add('active');
-};
+}
 
-window.executeSubmit = async function() {
-try {
-const submitBtn = document.getElementById('finalSubmitBtn');
+async function executeSubmit() {
+const isJbsFlow = selectedDateInput.value.includes('4 Oct');
+const submitBtn = isJbsFlow ? document.getElementById('finalSubmitBtnJbs') : document.getElementById('finalSubmitBtn');
+
 submitBtn.disabled = true;
 submitBtn.textContent = '正在发送请求信号...';
 
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
 event': 'rsvp_complete',
-event_date': document.getElementById('selectedDate').value,
+event_date': selectedDateInput.value,
 mbti_type': document.getElementById('mbti').value
 });
 
 const payload = {
-date: document.getElementById('selectedDate').value,
+date: selectedDateInput.value,
 name: document.getElementById('name').value,
 birthday: document.getElementById('birthday').value,
 whatsapp: document.getElementById('whatsapp').value,
 mbti: document.getElementById('mbti').value,
-referral: document.getElementById('referral').value,
-secrets: document.getElementById('secrets').value,
-trouble: "",
+referral: isJbsFlow ? document.getElementById('referral-jbs').value : document.getElementById('referral').value,
+secrets: isJbsFlow ? "" : document.getElementById('secrets').value,
+trouble: isJbsFlow ? document.getElementById('jbs_exp').value : "",
 drinkLevel: "",
 luckyDrink: ""
 };
@@ -564,24 +671,30 @@ body: JSON.stringify(payload)
 console.log('Background sync error:', err);
 });
 
-document.getElementById('mainHeader').style.display = 'none';
-document.getElementById('page2').classList.remove('active');
+generateDossier(isJbsFlow);
+}
 
+function generateDossier(isJbsFlow) {
+document.getElementById('mainHeader').style.display = 'none';
+
+const musicToggle = document.getElementById('musicToggle');
+if(musicToggle) musicToggle.style.display = 'none';
+
+if (isJbsFlow) {
+document.getElementById('page2-jbs').classList.remove('active');
+document.getElementById('dossierName-jbs').textContent = document.getElementById('name').value;
+document.getElementById('page3-jbs').classList.add('active');
+} else {
+document.getElementById('page2').classList.remove('active');
 const statuses = ["社交电量 10%，急需逃离", "极度缺酒", "规则过敏", "严重无聊症", "周末失控预警"];
 const randomIndex = (Date.now() + Math.floor(Math.random() * 100)) % statuses.length;
 document.getElementById('dossierName').textContent = document.getElementById('name').value;
 document.getElementById('dossierStatus').textContent = statuses[randomIndex];
 document.getElementById('page3').classList.add('active');
-
-setTimeout(() => {
-window.location.href = "https://buy.stripe.com/aFa28r6cX2UFfNAgUn5Rm00";
-}, 2500);
+}
 
 window.scrollTo(0, 0);
-} catch (error) {
-console.error("提交失败", error);
 }
-};
 </script>
 </body>
 </html>
