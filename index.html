@@ -351,7 +351,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <div class="btn-group btn-group-right">
-<button type="button" class="next-btn" id="btnNext1" onclick="gotoPage2()">NEXT →</button>
+<button type="button" class="next-btn" id="btnNext1" onclick="window.gotoPage2()">NEXT →</button>
 </div>
 </div>
 
@@ -411,13 +411,13 @@ After submitting, you'll be redirected to secure your spot via payment.
 </div>
 
 <div class="btn-group" style="padding-bottom: 20px;">
-<a href="#" class="back-link" onclick="prevToPage1('page2')">← BACK</a>
+<a href="#" class="back-link" onclick="window.prevToPage1('page2')">← BACK</a>
 </div>
 
-<button type="button" id="finalSubmitBtn" class="submit-btn-solid" onclick="executeSubmit()">LOCK MY SPOT (锁定席位)</button>
+<button type="button" id="finalSubmitBtn" class="submit-btn-solid" onclick="window.executeSubmit()">LOCK MY SPOT (锁定席位)</button>
 </div>
 
-<!-- ================= 3 Oct 的第三页：机密档案 (加入支付跳转提示) ================= -->
+<!-- ================= 3 Oct 的第三页：机密档案 ================= -->
 <div id="page3" class="form-page">
 <div class="dossier-wrapper">
 <img src="logo.png" alt="Logo" class="dossier-logo">
@@ -470,23 +470,33 @@ document.getElementById('err-date').style.display = 'none';
 });
 });
 
-['name', 'birthday', 'whatsapp', 'mbti'].forEach(id => {
+const formInputs = ['name', 'birthday', 'whatsapp', 'mbti'];
+formInputs.forEach(id => {
 const el = document.getElementById(id);
-if(el) el.addEventListener('input', () => {
+if(el) {
+el.addEventListener('input', () => {
 el.classList.remove('error-border');
 document.getElementById('err-' + id).style.display = 'none';
 });
+}
 });
 
-function gotoPage2() {
+window.gotoPage2 = function() {
+try {
 let isValid = true;
 let errorList = [];
 
-if (!selectedDateInput.value) { document.getElementById('err-date').style.display = 'block'; isValid = false; errorList.push('date'); }
-if (!document.getElementById('name').value.trim()) { document.getElementById('name').classList.add('error-border'); document.getElementById('err-name').style.display = 'block'; isValid = false; errorList.push('name'); }
-if (!document.getElementById('birthday').value) { document.getElementById('birthday').classList.add('error-border'); document.getElementById('err-birthday').style.display = 'block'; isValid = false; errorList.push('birthday'); }
-if (!document.getElementById('mbti').value.trim()) { document.getElementById('mbti').classList.add('error-border'); document.getElementById('err-mbti').style.display = 'block'; isValid = false; errorList.push('mbti'); }
-if (!document.getElementById('whatsapp').value.trim()) { document.getElementById('whatsapp').classList.add('error-border'); document.getElementById('err-whatsapp').style.display = 'block'; isValid = false; errorList.push('whatsapp'); }
+const selDate = document.getElementById('selectedDate');
+const nameEl = document.getElementById('name');
+const bdayEl = document.getElementById('birthday');
+const mbtiEl = document.getElementById('mbti');
+const waEl = document.getElementById('whatsapp');
+
+if (!selDate || !selDate.value) { document.getElementById('err-date').style.display = 'block'; isValid = false; errorList.push('date'); }
+if (!nameEl || !nameEl.value.trim()) { nameEl.classList.add('error-border'); document.getElementById('err-name').style.display = 'block'; isValid = false; errorList.push('name'); }
+if (!bdayEl || !bdayEl.value) { bdayEl.classList.add('error-border'); document.getElementById('err-birthday').style.display = 'block'; isValid = false; errorList.push('birthday'); }
+if (!mbtiEl || !mbtiEl.value.trim()) { mbtiEl.classList.add('error-border'); document.getElementById('err-mbti').style.display = 'block'; isValid = false; errorList.push('mbti'); }
+if (!waEl || !waEl.value.trim()) { waEl.classList.add('error-border'); document.getElementById('err-whatsapp').style.display = 'block'; isValid = false; errorList.push('whatsapp'); }
 
 if (isValid) {
 window.dataLayer = window.dataLayer || [];
@@ -506,17 +516,21 @@ window.scrollTo(0, 0);
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({ 'event': 'form_error', 'error_field': errorList.join(',') });
 }
+} catch (error) {
+console.error("跳转失败", error);
 }
+};
 
-function prevToPage1(currentPageId) {
+window.prevToPage1 = function(currentPageId) {
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({ 'event': 'rsvp_back' });
 
 document.getElementById(currentPageId).classList.remove('active');
 document.getElementById('page1').classList.add('active');
-}
+};
 
-async function executeSubmit() {
+window.executeSubmit = async function() {
+try {
 const submitBtn = document.getElementById('finalSubmitBtn');
 submitBtn.disabled = true;
 submitBtn.textContent = '正在发送请求信号...';
@@ -524,12 +538,12 @@ submitBtn.textContent = '正在发送请求信号...';
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
 event': 'rsvp_complete',
-event_date': selectedDateInput.value,
+event_date': document.getElementById('selectedDate').value,
 mbti_type': document.getElementById('mbti').value
 });
 
 const payload = {
-date: selectedDateInput.value,
+date: document.getElementById('selectedDate').value,
 name: document.getElementById('name').value,
 birthday: document.getElementById('birthday').value,
 whatsapp: document.getElementById('whatsapp').value,
@@ -550,10 +564,6 @@ body: JSON.stringify(payload)
 console.log('Background sync error:', err);
 });
 
-generateDossier();
-}
-
-function generateDossier() {
 document.getElementById('mainHeader').style.display = 'none';
 document.getElementById('page2').classList.remove('active');
 
@@ -568,7 +578,10 @@ window.location.href = "https://buy.stripe.com/aFa28r6cX2UFfNAgUn5Rm00";
 }, 2500);
 
 window.scrollTo(0, 0);
+} catch (error) {
+console.error("提交失败", error);
 }
+};
 </script>
 </body>
 </html>
