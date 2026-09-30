@@ -205,11 +205,11 @@
     .flow-main { font-size: 11px; line-height: 1.6; opacity: 0.9; margin-bottom: 6px; }
     .flow-sub { font-size: 10px; line-height: 1.4; opacity: 0.6; font-style: italic; }
     
-    button.submit-btn-solid { 
+    button.submit-btn-solid, a.submit-btn-solid { 
       background: var(--text-color); color: var(--bg-color); border: none; padding: 18px 32px; border-radius: 30px; width: 100%; font-size: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: opacity 0.2s; 
-      box-shadow: 0 0 20px rgba(223, 127, 128, 0.5); animation: breathingGlow 3s infinite ease-in-out;
+      box-shadow: 0 0 20px rgba(223, 127, 128, 0.5); animation: breathingGlow 3s infinite ease-in-out; display: inline-block; box-sizing: border-box; text-align: center; text-decoration: none;
     }
-    button.submit-btn-solid:active { opacity: 0.8; }
+    button.submit-btn-solid:active, a.submit-btn-solid:active { opacity: 0.8; }
     button.submit-btn-solid:disabled { opacity: 0.5; animation: none; cursor: not-allowed; }
 
     /* ================= 第 3 幕：机密档案 / 小票样式 ================= */
@@ -270,7 +270,7 @@
       font-size: 11px; 
       font-weight: bold; 
       text-align: center; 
-      margin-top: 20px; 
+      margin-top: 30px; 
       color: var(--text-color); 
       opacity: 0.95; 
       line-height: 1.6; 
@@ -402,11 +402,11 @@
         <div class="flow-text">
           <div class="flow-main">
             准备好打破规则了吗？<br>
-            提交后，我们会通过 WhatsApp 或 WeChat 发送入场地点及付款详情。完成确认后，即可锁定席位。
+            提交后系统将生成档案，即可点击付款链接完成支付。派对坐标及暗号将于付款后通过 WhatsApp 发送给妳。
           </div>
           <div class="flow-sub">
             Ready to Break the Rules?<br>
-            After submitting, we’ll send the location and payment details via WhatsApp or WeChat. Your spot will be secured once confirmed.
+            After submitting, proceed to payment to secure your spot. The location and access code will be sent via WhatsApp.
           </div>
         </div>
 
@@ -470,11 +470,11 @@
         <div class="flow-text">
           <div class="flow-main">
             准备好进入角色了吗？<br>
-            提交后，我们会发送剧本杀地点及付款详情。完成确认后将为您锁定专属角色。
+            提交后系统将生成档案，即可点击付款链接完成支付。派对坐标及暗号将于付款后通过 WhatsApp 发送给妳。
           </div>
           <div class="flow-sub">
             Ready to dive into the mystery?<br>
-            After submitting, we’ll send payment details. Your role will be secured once confirmed.
+            After submitting, proceed to payment. Your role and location will be secured and sent via WhatsApp.
           </div>
         </div>
 
@@ -505,13 +505,20 @@
               <span class="dossier-value">启动逃离模式</span>
             </div>
             <div class="dossier-stamp">
-              AWAITING CLEARANCE<br>
-              <span style="font-size: 12px; font-weight: normal; letter-spacing: 2px;">权限审核中</span>
+              AWAITING PAYMENT<br>
+              <span style="font-size: 12px; font-weight: normal; letter-spacing: 2px;">等待付款确认</span>
             </div>
           </div>
+          
           <div class="dossier-desc">
-            我们正在确认当晚的氛围配比。<br>如果妳的代号被选中，专属付款链接及派对暗号将在 24 小时内发送至妳的 WhatsApp。<br>Keep an eye on your phone.
+            档案已生成。请点击下方按钮完成支付，锁定席位。<br>付款成功后，专属暗号及坐标将在 24 小时内发送至妳的 WhatsApp。
           </div>
+          
+          <!-- 新增的 Stripe 支付按钮 -->
+          <a href="https://buy.stripe.com/aFa28r6cX2UFfNAgUn5Rm00" class="submit-btn-solid" style="margin-top: 24px; font-size: 16px;">
+            PAY NOW (前往付款)
+          </a>
+
           <div class="dossier-social">
             📸 截图分享至 IG Story 并 @breaktheruleskl<br>或许能获得优先通过特权。
             <div class="dossier-social-en">Screenshot, share it to your IG Story & tag @breaktheruleskl<br>You might just get priority access.</div>
@@ -539,13 +546,20 @@
               <span class="dossier-value">启动推理协议</span>
             </div>
             <div class="dossier-stamp">
-              AWAITING ROLE<br>
-              <span style="font-size: 12px; font-weight: normal; letter-spacing: 2px;">剧本分配中</span>
+              AWAITING PAYMENT<br>
+              <span style="font-size: 12px; font-weight: normal; letter-spacing: 2px;">等待付款确认</span>
             </div>
           </div>
+
           <div class="dossier-desc">
-            我们已收到您的入局请求。<br>专属付款链接发送至 WhatsApp，完成确认后将为您下发神秘角色档案。<br>Keep an eye on your phone.
+            档案已生成。请点击下方按钮完成支付，以分配专属剧本角色。<br>付款成功后，神秘剧本档案将发送至妳的 WhatsApp。
           </div>
+          
+          <!-- 新增的 Stripe 支付按钮 -->
+          <a href="https://buy.stripe.com/aFa28r6cX2UFfNAgUn5Rm00" class="submit-btn-solid" style="margin-top: 24px; font-size: 16px;">
+            PAY NOW (前往付款)
+          </a>
+
           <div class="dossier-social">
             📸 截图分享至 IG Story 并 @breaktheruleskl<br>或许能提前获取线索。
             <div class="dossier-social-en">Screenshot, share it to your IG Story & tag @breaktheruleskl<br>You might get early clues.</div>
