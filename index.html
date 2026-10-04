@@ -264,7 +264,7 @@
       display: flex; justify-content: center; align-items: center;
     }
 
-    /* 修复：这里加入了 payment-card.selected 让支付方式的圈圈也能点亮 */
+    /* 让支付方式的圈圈也能点亮 */
     .ticket-card.selected .ticket-radio::after,
     .payment-card.selected .ticket-radio::after {
       content: ''; width: 10px; height: 10px; border-radius: 50%;
@@ -530,7 +530,7 @@
             <div class="payment-card selected" data-method="stripe">
               <div class="ticket-radio"></div>
               <div>
-                <div class="payment-title">Credit Card</div>
+                <div class="payment-title">Credit Card / Apple Pay</div>
                 <div class="payment-sub">安全便捷，自动验证</div>
               </div>
             </div>
@@ -583,9 +583,9 @@
       </div>
 
 
-      <!-- ================= 4 Oct 专属第二页：剧本杀 (保留原逻辑) ================= -->
+      <!-- ================= 4 Oct 专属第二页：剧本杀 ================= -->
       <div id="page2-jbs" class="form-page">
-        
+        <!-- 保持原有的剧本杀页面逻辑不变 -->
         <div class="form-group">
           <label for="jbs_exp">妳的剧本杀经验值？<span class="optional-mark">Optional</span></label>
           <div class="sub-label" style="font-weight: normal;">Your Jubensha Experience</div>
@@ -1005,9 +1005,13 @@
       }).then(() => {
         // 数据发送成功后，判断去哪里
         if (isMs3Flow && payMethod === 'tngo') {
-          // 选了转账，直接展示机密档案的等待核提示
+          // 选了转账，直接展示机密档案的等待核对界面
           document.getElementById('page2-ms3').classList.remove('active');
           
+          // 【修复】隐藏顶部的公共Logo
+          document.getElementById('mainHeader').style.display = 'none';
+          if(musicBtn) musicBtn.style.display = 'none';
+
           document.getElementById('dossierName').textContent = userName;
           const statuses = ["社交电量 10%，急需逃离", "极度缺酒", "规则过敏", "严重无聊症", "周末失控预警"];
           const randomIndex = (Date.now() + Math.floor(Math.random() * 100)) % statuses.length;
