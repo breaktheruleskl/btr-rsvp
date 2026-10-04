@@ -231,41 +231,6 @@
       box-shadow: inset 0 0 0 2.5px var(--bg-color); 
     }
 
-    /* ================= 通行证样式 ================= */
-    .access-pass { 
-      border: 2px dashed rgba(223, 127, 128, 0.7); 
-      border-radius: 12px; 
-      padding: 16px 16px; 
-      margin-bottom: 24px; 
-      background: rgba(223, 127, 128, 0.06); 
-      position: relative; 
-      -webkit-animation: neonPulseVisible 3.5s infinite ease-in-out;
-      animation: neonPulseVisible 3.5s infinite ease-in-out;
-    }
-    .ap-header { 
-      font-size: 14px; 
-      font-weight: 900; 
-      letter-spacing: 2px; 
-      opacity: 0.95; 
-      margin-bottom: 12px; 
-      border-bottom: 1px dashed rgba(223,127,128,0.4); 
-      padding-bottom: 8px; 
-      text-align: left;
-      text-shadow: 0 0 6px rgba(223, 127, 128, 0.4);
-    }
-    .ap-body { display: flex; align-items: center; justify-content: center; gap: 16px; }
-    .ap-price-box { flex: 0 0 auto; text-align: center; }
-    .ap-old { font-size: 11px; opacity: 0.6; text-decoration: line-through; margin-bottom: 4px; }
-    .ap-tag { text-decoration: none; display: inline-block; background: var(--text-color); color: var(--bg-color); padding: 2px 4px; border-radius: 4px; font-size: 9px; margin-left: 4px; font-weight: 900; vertical-align: middle; }
-    .ap-new { font-size: 28px; font-weight: 900; color: var(--text-color); text-shadow: 0 0 10px rgba(223, 127, 128, 0.5); }
-    .ap-divider { width: 1px; height: 70px; border-left: 1px dashed rgba(223, 127, 128, 0.4); }
-    .ap-benefits { display: flex; flex-direction: column; gap: 8px; }
-    .benefit-item { line-height: 1.2; text-align: left; }
-    .b-main { font-size: 12px; font-weight: 900; opacity: 0.95; }
-    .b-sub { font-size: 10px; font-weight: normal; opacity: 0.6; margin-left: 14px; margin-top: 2px; }
-    .ap-footer { font-size: 10px; text-align: center; opacity: 0.5; margin-top: 16px; padding-top: 12px; border-top: 1px dashed rgba(223, 127, 128, 0.4); line-height: 1.4; }
-    .ap-footer-sub { font-size: 8px; margin-top: 3px; opacity: 0.8; }
-
     /* ================= 票种选择样式 ================= */
     .ticket-options { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
     .ticket-card {
@@ -301,6 +266,42 @@
     .ticket-card.selected .ticket-radio::after {
       content: ''; width: 10px; height: 10px; border-radius: 50%;
       background: var(--text-color); box-shadow: 0 0 5px var(--text-color);
+    }
+
+    /* ================= 支付方式与 TNG 区域样式 ================= */
+    .payment-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .payment-card {
+      border: 1.5px dashed rgba(223, 127, 128, 0.4);
+      border-radius: 12px;
+      padding: 14px 16px;
+      background: rgba(223, 127, 128, 0.05);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+    }
+    .payment-card.selected {
+      border: 1.5px solid var(--text-color);
+      background: rgba(223, 127, 128, 0.15);
+      box-shadow: 0 0 10px rgba(223, 127, 128, 0.2);
+    }
+    .payment-card .ticket-radio { position: static; margin-right: 14px; }
+    .payment-title { font-size: 13px; font-weight: 900; letter-spacing: 0.5px; }
+    .payment-sub { font-size: 10px; font-weight: normal; opacity: 0.7; margin-top: 3px; }
+
+    #tngo-area {
+      display: none; margin-bottom: 24px; text-align: center; 
+      border: 2px dashed rgba(223, 127, 128, 0.4); border-radius: 12px; 
+      padding: 24px 16px; background: rgba(0, 0, 0, 0.2);
+      animation: fadeIn 0.4s ease;
+    }
+    #tngo-area img {
+      width: 180px; height: 180px; object-fit: contain; 
+      border-radius: 8px; margin-bottom: 16px; 
+      border: 2px solid var(--text-color);
+      background: #fff; /* 防止透明二维码在黑底看不清 */
+      box-shadow: 0 0 15px rgba(223, 127, 128, 0.2);
     }
 
     .flow-text { text-align: center; margin-bottom: 24px; padding: 0 10px; font-weight: normal; }
@@ -469,7 +470,7 @@
       </div>
 
 
-      <!-- ================= 31 Oct 的第二页：多票种流程 ================= -->
+      <!-- ================= 31 Oct 的第二页：多票种 & 扫码支付流程 ================= -->
       <div id="page2-ms3" class="form-page">
         
         <div class="form-group">
@@ -522,14 +523,55 @@
           <input type="hidden" id="selectedTicketLink" value="https://buy.stripe.com/8x2aEX58TeDn6d0cE75Rm02">
         </div>
 
+        <!-- 新增：支付方式选择 -->
+        <div class="form-group">
+          <label>支付方式 / Payment Method *</label>
+          <div class="payment-options">
+            <div class="payment-card selected" data-method="stripe">
+              <div class="ticket-radio"></div>
+              <div>
+                <div class="payment-title">Credit Card / Apple Pay</div>
+                <div class="payment-sub">安全便捷，自动验证</div>
+              </div>
+            </div>
+            <div class="payment-card" data-method="tngo">
+              <div class="ticket-radio"></div>
+              <div>
+                <div class="payment-title">TNG / DuitNow / Alipay</div>
+                <div class="payment-sub">手动扫码转账 (QR Code)</div>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" id="selectedPaymentMethod" value="stripe">
+        </div>
+
+        <!-- 新增：TNG QR Code 区域 (默认隐藏) -->
+        <div id="tngo-area">
+          <div style="font-size: 14px; font-weight: 900; margin-bottom: 16px; color: var(--text-color); letter-spacing: 2px;">SCAN TO PAY</div>
+          
+          <!-- 【注意】请将下面的 qr-code.png 替换为你的真实收款码图片路径 -->
+          <img src="qr-code.png" alt="QR Code">
+          
+          <div style="font-size: 11px; font-weight: normal; opacity: 0.8; margin-bottom: 20px; line-height: 1.5;">
+            请使用 TNG eWallet / 任意银行 App / Alipay 扫描上方二维码。<br>
+            <span style="color: var(--cyan-color); font-weight: bold; font-style: italic;">转账金额请务必对照您上方选择的票种价格。</span>
+          </div>
+          
+          <div style="text-align: left;">
+            <label for="tngo-ref" style="font-size: 13px; margin-bottom: 8px;">Reference ID *</label>
+            <input type="text" id="tngo-ref" placeholder="转账后请在此填写收据上的 Reference ID">
+            <div class="error-msg" id="err-tngo-ref">嘿，请填写转账的 Reference ID 以便我们核对。</div>
+          </div>
+        </div>
+
         <div class="flow-text">
           <div class="flow-main">
             准备好打破规则了吗？<br>
-            提交后将跳转至支付页面，完成付款即可锁定席位。派对坐标及暗号将通过 WhatsApp 发送给妳。
+            提交后系统将锁定您的请求。专属派对坐标及暗号将通过 WhatsApp 发送给妳。
           </div>
           <div class="flow-sub">
             Ready to Break the Rules?<br>
-            Click submit to proceed to payment and secure your spot. The location and access code will be sent via WhatsApp.
+            Submit your request to secure your spot. The location and access code will be sent via WhatsApp.
           </div>
         </div>
 
@@ -543,7 +585,7 @@
 
       <!-- ================= 4 Oct 专属第二页：剧本杀 ================= -->
       <div id="page2-jbs" class="form-page">
-        
+        <!-- 保持原有的剧本杀页面逻辑不变 -->
         <div class="form-group">
           <label for="jbs_exp">妳的剧本杀经验值？<span class="optional-mark">Optional</span></label>
           <div class="sub-label" style="font-weight: normal;">Your Jubensha Experience</div>
@@ -609,7 +651,7 @@
         <button type="button" id="finalSubmitBtnJbs" class="submit-btn-solid" onclick="executeSubmit()">LOCK MY ROLE (锁定角色并付款)</button>
       </div>
 
-      <!-- ================= 31 Oct 的第三页：机密档案 (支付成功展示用) ================= -->
+      <!-- ================= 31 Oct 的第三页：机密档案 (支付成功或提交凭证展示用) ================= -->
       <div id="page3" class="form-page">
         <div class="dossier-wrapper">
           <img src="logo.png" alt="Logo" class="dossier-logo">
@@ -793,6 +835,38 @@
       });
     });
 
+    // 支付方式选择与动态 UI
+    const paymentCards = document.querySelectorAll('.payment-card');
+    const selectedPaymentMethod = document.getElementById('selectedPaymentMethod');
+    const tngoArea = document.getElementById('tngo-area');
+    const submitBtnMs3 = document.getElementById('finalSubmitBtnMs3');
+
+    paymentCards.forEach(card => {
+      card.addEventListener('click', () => {
+        paymentCards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        const method = card.dataset.method;
+        selectedPaymentMethod.value = method;
+        
+        if (method === 'tngo') {
+          tngoArea.style.display = 'block';
+          submitBtnMs3.textContent = 'LOCK MY SPOT (确认并提交)';
+        } else {
+          tngoArea.style.display = 'none';
+          submitBtnMs3.textContent = 'LOCK MY SPOT (锁定席位并付款)';
+        }
+      });
+    });
+
+    // TNG Reference ID 消除报错边框
+    const tngoRefEl = document.getElementById('tngo-ref');
+    if (tngoRefEl) {
+      tngoRefEl.addEventListener('input', () => {
+        tngoRefEl.classList.remove('error-border');
+        document.getElementById('err-tngo-ref').style.display = 'none';
+      });
+    }
+
     ['name', 'birthday', 'whatsapp', 'mbti'].forEach(id => {
       const el = document.getElementById(id);
       if(el) el.addEventListener('input', () => {
@@ -852,18 +926,27 @@
       if (isJbsFlow) submitBtn = document.getElementById('finalSubmitBtnJbs');
       if (isMs3Flow) submitBtn = document.getElementById('finalSubmitBtnMs3');
       
-      // 检查推荐人是否已选择 (针对31 Oct页面，它是必填的)
+      // 检查推荐人和支付 Reference ID (针对31 Oct页面，它们是必填的)
       if (isMs3Flow) {
         if (!document.getElementById('referral-ms3').value) {
           document.getElementById('err-referral-ms3').style.display = 'block';
-          return; // 如果没选，直接终止提交流程
+          return; // 没选推荐人，终止
+        }
+        
+        if (selectedPaymentMethod.value === 'tngo') {
+          const tngoRefVal = document.getElementById('tngo-ref').value.trim();
+          if (!tngoRefVal) {
+            document.getElementById('tngo-ref').classList.add('error-border');
+            document.getElementById('err-tngo-ref').style.display = 'block';
+            return; // 选了扫码但没填ID，终止
+          }
         }
       }
 
       submitBtn.disabled = true;
-      submitBtn.textContent = '锁定中，即将跳转支付...';
+      submitBtn.textContent = '锁定中，正在处理...';
       
-      // 在浏览器记住用户的名字和流程，以便付款回来后能认出他们
+      // 在浏览器记住用户的名字和流程，以便后续认出他们
       const userName = document.getElementById('name').value;
       localStorage.setItem('rsvp_name', userName);
       
@@ -876,12 +959,19 @@
       let finalSecrets = document.getElementById('secrets') ? document.getElementById('secrets').value : "";
       let finalReferral = document.getElementById('referral') ? document.getElementById('referral').value : "";
       
+      let payMethod = 'stripe';
+      let refId = '';
+
       if (isJbsFlow) {
         finalSecrets = document.getElementById('secrets-jbs').value;
         finalReferral = document.getElementById('referral-jbs').value;
       } else if (isMs3Flow) {
         finalSecrets = document.getElementById('secrets-ms3').value;
-        finalReferral = document.getElementById('referral-ms3').value; // 这里拿到的是用户点击选择的值
+        finalReferral = document.getElementById('referral-ms3').value; // 推荐人选择结果
+        payMethod = document.getElementById('selectedPaymentMethod').value;
+        if (payMethod === 'tngo') {
+          refId = document.getElementById('tngo-ref').value.trim();
+        }
       }
 
       // 获取对应的支付链接
@@ -901,20 +991,54 @@
         secrets: finalSecrets, 
         trouble: isJbsFlow ? document.getElementById('jbs_exp').value : "", 
         drinkLevel: "", 
-        luckyDrink: ""
+        luckyDrink: "",
+        paymentMethod: payMethod,
+        referenceId: refId
       };
 
-      // 发送数据到 Google Sheet，不论成功与否，立刻跳转到对应的 Stripe 链接
+      // 发送数据到 Google Sheet
       fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       }).then(() => {
-        window.location.href = checkoutUrl;
+        // 数据发送成功后，判断去哪里
+        if (isMs3Flow && payMethod === 'tngo') {
+          // 选了转账，直接展示机密档案的等待核对界面
+          document.getElementById('page2-ms3').classList.remove('active');
+          document.getElementById('mainHeader').style.display = 'none';
+          if(musicBtn) musicBtn.style.display = 'none';
+
+          document.getElementById('dossierName').textContent = userName;
+          const statuses = ["社交电量 10%，急需逃离", "极度缺酒", "规则过敏", "严重无聊症", "周末失控预警"];
+          const randomIndex = (Date.now() + Math.floor(Math.random() * 100)) % statuses.length;
+          document.getElementById('dossierStatus').textContent = statuses[randomIndex];
+
+          const stamp = document.querySelector('#page3 .dossier-stamp');
+          stamp.innerHTML = 'PAYMENT VERIFYING<br><span style="font-size: 12px; font-weight: normal; letter-spacing: 2px;">等待人工核对转账</span>';
+          stamp.style.color = '#ffcc00'; // 黄色提示等待中
+          stamp.style.borderColor = '#ffcc00';
+          stamp.style.boxShadow = '0 0 15px rgba(255, 204, 0, 0.3)';
+          stamp.style.textShadow = '0 0 5px rgba(255, 204, 0, 0.5)';
+          
+          document.querySelector('#page3 .dossier-desc').innerHTML = '转账凭证已提交。<br>我们正在核对 Reference ID，确认后专属派对暗号及坐标将在 24 小时内发送至妳的 WhatsApp。';
+
+          document.getElementById('page3').classList.add('active'); 
+          window.scrollTo(0, 0);
+        } else {
+          // 选择 Stripe 支付，跳转过去
+          window.location.href = checkoutUrl;
+        }
       }).catch(err => {
         console.log('Sync error:', err);
-        window.location.href = checkoutUrl;
+        // 如果出错，依旧执行原有逻辑
+        if (isMs3Flow && payMethod === 'tngo') {
+           // (这里可以补一个简单提示或直接通过，为了体验流畅建议当做成功)
+           window.location.reload(); 
+        } else {
+           window.location.href = checkoutUrl;
+        }
       });
     }
   </script>
