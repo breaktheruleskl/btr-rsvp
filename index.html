@@ -154,7 +154,7 @@
     }
     .date-card.selected { background: rgba(223, 127, 128, 0.15); border-width: 3px; animation: breathingGlow 3s infinite ease-in-out; }
     
-    /* --- 新增：禁用/锁定卡片的样式 --- */
+    /* --- 禁用/锁定卡片的样式 --- */
     .date-card.disabled { 
       opacity: 0.4; 
       cursor: not-allowed; 
@@ -163,20 +163,6 @@
     }
     .date-card.disabled:active {
       transform: none;
-    }
-    .date-card.disabled::after {
-      content: "TBA";
-      position: absolute;
-      top: -8px;
-      right: -5px;
-      background: var(--text-color);
-      color: var(--bg-color);
-      padding: 2px 6px;
-      border-radius: 8px;
-      font-size: 8px;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-      transform: rotate(10deg);
     }
     
     .date-main { font-size: 16px; font-weight: 900; line-height: 1.1; }
@@ -190,6 +176,42 @@
     .back-link { color: var(--text-color); text-decoration: none; opacity: 0.8; font-weight: normal; }
     .error-msg { color: var(--error-color); font-size: 13px; margin-top: 8px; display: none; font-weight: normal; }
     .error-border { border-color: var(--error-color) !important; }
+
+    /* ================= 推荐人单选样式 ================= */
+    .referral-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px; }
+    .referral-card {
+      padding: 14px 16px;
+      border: 2px solid rgba(223, 127, 128, 0.4);
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: normal;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: transparent;
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+    }
+    .referral-card:hover { border-color: rgba(223, 127, 128, 0.8); }
+    .referral-card.selected {
+      border-color: var(--text-color);
+      background: rgba(223, 127, 128, 0.15);
+      font-weight: bold;
+    }
+    /* 单选圆圈效果 */
+    .referral-card::before {
+      content: '';
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid var(--text-color);
+      border-radius: 50%;
+      margin-right: 12px;
+      transition: all 0.2s ease;
+    }
+    .referral-card.selected::before {
+      background: var(--text-color);
+      box-shadow: inset 0 0 0 3px var(--bg-color); 
+    }
 
     /* ================= 通行证样式 ================= */
     .access-pass { 
@@ -226,7 +248,7 @@
     .ap-footer { font-size: 10px; text-align: center; opacity: 0.5; margin-top: 16px; padding-top: 12px; border-top: 1px dashed rgba(223, 127, 128, 0.4); line-height: 1.4; }
     .ap-footer-sub { font-size: 8px; margin-top: 3px; opacity: 0.8; }
 
-    /* ================= 新增：多票种选择样式 ================= */
+    /* ================= 票种选择样式 ================= */
     .ticket-options { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
     .ticket-card {
       border: 2px dashed rgba(223, 127, 128, 0.4);
@@ -379,9 +401,9 @@
               <div class="date-sub">Special Halloween Event</div>
             </div>
             
-            <!-- The Mystery Social 3.0 (预告/锁定状态) -->
+            <!-- The Mystery Social 3.0 (预告/锁定状态 - 去除删除线和TBA) -->
             <div class="date-card disabled" data-value="The Mystery Social 3.0">
-              <div class="date-main" style="font-size: 13px; font-weight: normal; text-decoration: line-through;">The Mystery Social 3.0</div>
+              <div class="date-main" style="font-size: 13px; font-weight: normal;">The Mystery Social 3.0</div>
               <div class="date-sub" style="font-style: italic; opacity: 0.7; font-size: 10px;">Something New is Coming.</div>
             </div>
             
@@ -437,10 +459,18 @@
           <textarea id="secrets-ms3" name="secrets-ms3" rows="2" placeholder="Anything we should know before the night? Allergies, dietary restrictions, can’t drink, super shy… anything goes."></textarea>
         </div>
 
+        <!-- 推荐人必选区域 (替代原本的文本框) -->
         <div class="form-group">
-          <label for="referral-ms3">你是怎么/从谁那里知道我们的？<span class="optional-mark">Optional</span></label>
-          <div class="sub-label" style="font-weight: normal;">How did you hear about us?</div>
-          <input type="text" id="referral-ms3" name="referral-ms3" placeholder="Social Media or Friend’s referral（e.g. Instagram, Threads, XHS）">
+          <label>是谁推荐你来参加的？ *</label>
+          <div class="sub-label" style="font-weight: normal;">Who recommended you to join?</div>
+          <div class="referral-options">
+            <div class="referral-card" data-value="BTR（Break The Rules）">BTR（Break The Rules）</div>
+            <div class="referral-card" data-value="Rei">Rei</div>
+            <div class="referral-card" data-value="小红书-片叶不沾身">小红书-片叶不沾身</div>
+          </div>
+          <!-- 隐藏输入框，用于向后台发送数据 -->
+          <input type="hidden" id="referral-ms3" name="referral-ms3">
+          <div class="error-msg" id="err-referral-ms3">嘿，请选择是谁推荐你来的。</div>
         </div>
 
         <!-- 票种选择区域 -->
@@ -508,8 +538,8 @@
         </div>
 
         <div class="form-group">
-          <label for="referral-jbs">你是怎么/从谁那里知道我们的？<span class="optional-mark">Optional</span></label>
-          <div class="sub-label" style="font-weight: normal;">How did you hear about us?</div>
+          <label for="referral-jbs">是谁推荐你来参加的？<span class="optional-mark">Optional</span></label>
+          <div class="sub-label" style="font-weight: normal;">Who recommended you to join?</div>
           <input type="text" id="referral-jbs" name="referral-jbs" placeholder="Social Media or Friend’s referral">
         </div>
 
@@ -721,6 +751,18 @@
       });
     });
 
+    // 推荐人卡片选择 (单选必填)
+    const referralCards = document.querySelectorAll('.referral-card');
+    const selectedReferralInput = document.getElementById('referral-ms3');
+    referralCards.forEach(card => {
+      card.addEventListener('click', () => {
+        referralCards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        selectedReferralInput.value = card.dataset.value;
+        document.getElementById('err-referral-ms3').style.display = 'none';
+      });
+    });
+
     // 票种卡片选择 (31 Oct 的双票种页面)
     const ticketCards = document.querySelectorAll('.ticket-card');
     const selectedTicketLink = document.getElementById('selectedTicketLink');
@@ -790,6 +832,14 @@
       let submitBtn = document.getElementById('finalSubmitBtn'); 
       if (isJbsFlow) submitBtn = document.getElementById('finalSubmitBtnJbs');
       if (isMs3Flow) submitBtn = document.getElementById('finalSubmitBtnMs3');
+      
+      // 检查推荐人是否已选择 (针对31 Oct页面，它是必填的)
+      if (isMs3Flow) {
+        if (!document.getElementById('referral-ms3').value) {
+          document.getElementById('err-referral-ms3').style.display = 'block';
+          return; // 如果没选，直接终止提交流程
+        }
+      }
 
       submitBtn.disabled = true;
       submitBtn.textContent = '锁定中，即将跳转支付...';
@@ -812,7 +862,7 @@
         finalReferral = document.getElementById('referral-jbs').value;
       } else if (isMs3Flow) {
         finalSecrets = document.getElementById('secrets-ms3').value;
-        finalReferral = document.getElementById('referral-ms3').value;
+        finalReferral = document.getElementById('referral-ms3').value; // 这里拿到的是用户点击选择的值
       }
 
       // 获取对应的支付链接
