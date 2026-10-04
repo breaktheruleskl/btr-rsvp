@@ -48,15 +48,33 @@
     .header-logo-area { 
       margin-bottom: 0px; 
       display: flex; 
-      justify-content: center; 
+      flex-direction: column;
+      align-items: center; 
     }
     .top-logo { 
       width: 240px; 
       max-width: 85%;
       height: auto; 
       margin-top: -20px; 
-      margin-bottom: -15px;
+      margin-bottom: -10px;
       filter: drop-shadow(0 0 15px rgba(223, 127, 128, 0.4)); 
+    }
+    
+    /* Private Event 徽章/横幅 */
+    .private-badge {
+      width: 100%;
+      text-align: center;
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: var(--text-color);
+      opacity: 0.8;
+      margin-top: 5px;
+      margin-bottom: 25px;
+      border-top: 1px solid rgba(223, 127, 128, 0.3);
+      border-bottom: 1px solid rgba(223, 127, 128, 0.3);
+      padding: 8px 0;
+      text-transform: uppercase;
+      font-weight: normal;
     }
 
     .form-page { display: none; }
@@ -177,13 +195,13 @@
     .error-msg { color: var(--error-color); font-size: 13px; margin-top: 8px; display: none; font-weight: normal; }
     .error-border { border-color: var(--error-color) !important; }
 
-    /* ================= 推荐人单选样式 ================= */
-    .referral-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px; }
+    /* ================= 缩小版：推荐人单选样式 ================= */
+    .referral-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
     .referral-card {
-      padding: 14px 16px;
-      border: 2px solid rgba(223, 127, 128, 0.4);
-      border-radius: 12px;
-      font-size: 13px;
+      padding: 10px 14px;
+      border: 1.5px solid rgba(223, 127, 128, 0.4);
+      border-radius: 10px;
+      font-size: 11px;
       font-weight: normal;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -198,19 +216,19 @@
       background: rgba(223, 127, 128, 0.15);
       font-weight: bold;
     }
-    /* 单选圆圈效果 */
+    /* 单选圆圈效果缩小 */
     .referral-card::before {
       content: '';
       display: inline-block;
-      width: 14px; height: 14px;
-      border: 2px solid var(--text-color);
+      width: 12px; height: 12px;
+      border: 1.5px solid var(--text-color);
       border-radius: 50%;
-      margin-right: 12px;
+      margin-right: 10px;
       transition: all 0.2s ease;
     }
     .referral-card.selected::before {
       background: var(--text-color);
-      box-shadow: inset 0 0 0 3px var(--bg-color); 
+      box-shadow: inset 0 0 0 2.5px var(--bg-color); 
     }
 
     /* ================= 通行证样式 ================= */
@@ -384,6 +402,7 @@
   <div class="container">
     <div class="header-logo-area" id="mainHeader">
       <img src="logo.png" alt="Logo" class="top-logo">
+      <div class="private-badge">Private Event · By Invitation Only</div>
     </div>
     
     <form id="rsvpForm">
@@ -392,7 +411,7 @@
         
         <div class="form-group">
           <label>妳想参加哪一场？ *</label>
-          <div class="sub-label">Choose your chaos. Which event are you coming to?</div>
+          <div class="sub-label">Select your private session.</div>
           <div class="date-options">
             
             <!-- 31 Oct (双票种流程) -->
@@ -459,10 +478,10 @@
           <textarea id="secrets-ms3" name="secrets-ms3" rows="2" placeholder="Anything we should know before the night? Allergies, dietary restrictions, can’t drink, super shy… anything goes."></textarea>
         </div>
 
-        <!-- 推荐人必选区域 (替代原本的文本框) -->
+        <!-- 推荐人必选区域 (精致版，无输入框，Invite-Only 氛围) -->
         <div class="form-group">
-          <label>是谁推荐你来参加的？ *</label>
-          <div class="sub-label" style="font-weight: normal;">Who recommended you to join?</div>
+          <label>你的邀请人是谁？ / Who invited you? *</label>
+          <div class="sub-label" style="font-weight: normal; opacity: 0.7; font-style: italic;">This is a private event. You must select your inviter to proceed.</div>
           <div class="referral-options">
             <div class="referral-card" data-value="BTR（Break The Rules）">BTR（Break The Rules）</div>
             <div class="referral-card" data-value="Rei">Rei</div>
@@ -470,7 +489,7 @@
           </div>
           <!-- 隐藏输入框，用于向后台发送数据 -->
           <input type="hidden" id="referral-ms3" name="referral-ms3">
-          <div class="error-msg" id="err-referral-ms3">嘿，请选择是谁推荐你来的。</div>
+          <div class="error-msg" id="err-referral-ms3">嘿，请选择是谁邀请你来的。</div>
         </div>
 
         <!-- 票种选择区域 -->
@@ -751,7 +770,7 @@
       });
     });
 
-    // 推荐人卡片选择 (单选必填)
+    // 推荐人卡片选择 (单选必填) - 针对 31 Oct
     const referralCards = document.querySelectorAll('.referral-card');
     const selectedReferralInput = document.getElementById('referral-ms3');
     referralCards.forEach(card => {
