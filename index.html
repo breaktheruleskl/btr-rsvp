@@ -347,16 +347,19 @@
           <label>妳想参加哪一场？ *</label>
           <div class="sub-label">Choose your chaos. Which event are you coming to?</div>
           <div class="date-options">
-            <div class="date-card" data-value="3 Oct · 盲盒社交 2.0">
-              <div class="date-main">3 Oct</div>
-              <div class="date-sub">盲盒社交 2.0 · KL · 8pm</div>
+            
+            <!-- 31 Oct 替代了原本 3 Oct 的位置 (使用标准RM229流程) -->
+            <div class="date-card" data-value="31 Oct · Special Halloween Event">
+              <div class="date-main">31 Oct</div>
+              <div class="date-sub">Special Halloween Event</div>
             </div>
             
-            <!-- 这里去掉了 disabled 限制 -->
+            <!-- 第二格换回 The Mystery Social 3.0 (使用双票种流程) -->
             <div class="date-card" data-value="The Mystery Social 3.0">
-              <div class="date-main" style="font-size: 13px; font-weight: normal;">31 Oct</div>
-              <div class="date-sub" style="font-style: italic; opacity: 0.7; font-size: 10px;">Special Halloween Event</div>
+              <div class="date-main" style="font-size: 13px; font-weight: normal;">The Mystery Social 3.0</div>
+              <div class="date-sub" style="font-style: italic; opacity: 0.7; font-size: 10px;">Something New is Coming.</div>
             </div>
+            
           </div>
           <input type="hidden" id="selectedDate" name="selectedDate">
           <div class="error-msg" id="err-date">↑ 嘿，别忘了选择要参加哪一场。</div>
@@ -394,7 +397,7 @@
         </div>
       </div>
       
-      <!-- ================= 3 Oct 的第二页：附加信息与通行证 ================= -->
+      <!-- ================= 31 Oct 的第二页：标准单票流程 ================= -->
       <div id="page2" class="form-page">
         
         <div class="form-group">
@@ -441,7 +444,7 @@
         <div class="flow-text">
           <div class="flow-main">
             准备好打破规则了吗？<br>
-            提交后将跳转至支付页面，完成付款即可锁定席位。派极坐标及暗号将通过 WhatsApp 发送给妳。
+            提交后将跳转至支付页面，完成付款即可锁定席位。派对坐标及暗号将通过 WhatsApp 发送给妳。
           </div>
           <div class="flow-sub">
             Ready to Break the Rules?<br>
@@ -453,11 +456,11 @@
           <a href="#" class="back-link" onclick="prevToPage1('page2')">← BACK</a>
         </div>
 
-        <button type="button" id="finalSubmitBtn" class="submit-btn-solid" onclick="executeSubmit()">LOCK MY SPOT (锁定席位)</button>
+        <button type="button" id="finalSubmitBtn" class="submit-btn-solid" onclick="executeSubmit()">LOCK MY SPOT (锁定席位并付款)</button>
       </div>
 
 
-      <!-- ================= 新增：Mystery Social 3.0 的第二页 ================= -->
+      <!-- ================= Mystery Social 3.0 的第二页：多票种流程 ================= -->
       <div id="page2-ms3" class="form-page">
         
         <div class="form-group">
@@ -589,7 +592,7 @@
         <button type="button" id="finalSubmitBtnJbs" class="submit-btn-solid" onclick="executeSubmit()">LOCK MY ROLE (锁定角色并付款)</button>
       </div>
 
-      <!-- ================= 3 Oct & MS 3.0 的第三页：机密档案 (支付成功展示用) ================= -->
+      <!-- ================= 31 Oct & MS 3.0 的第三页：机密档案 (支付成功展示用) ================= -->
       <div id="page3" class="form-page">
         <div class="dossier-wrapper">
           <img src="logo.png" alt="Logo" class="dossier-logo">
@@ -666,7 +669,7 @@
 
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxsh7v6IRWhdY0oKdyJeozyPO3a3DJ43rFG4SMI2IW0soD12kF-_cZI4Webw9L-p7sK/exec";
-    const STRIPE_LINK = "https://buy.stripe.com/aFa28r6cX2UFfNAgUn5Rm00"; // 3 Oct 的支付链接
+    const STRIPE_LINK = "https://buy.stripe.com/aFa28r6cX2UFfNAgUn5Rm00"; // 31 Oct / 标准单票的支付链接
 
     const musicBtn = document.getElementById('musicToggle');
     const bgMusic = document.getElementById('bgMusic');
@@ -717,7 +720,7 @@
 
           document.getElementById('page3-jbs').classList.add('active'); 
         } else {
-          // 3 Oct 和 Mystery Social 3.0 都使用相同的 Page 3 (档案样式一致)
+          // 31 Oct 和 Mystery Social 3.0 都使用相同的 Page 3 (档案样式一致)
           document.getElementById('dossierName').textContent = savedName;
           const statuses = ["社交电量 10%，急需逃离", "极度缺酒", "规则过敏", "严重无聊症", "周末失控预警"];
           const randomIndex = (Date.now() + Math.floor(Math.random() * 100)) % statuses.length;
@@ -796,6 +799,7 @@
           } else if (selectedDateInput.value.includes('4 Oct') || selectedDateInput.value.includes('剧本杀')) {
             document.getElementById('page2-jbs').classList.add('active');
           } else {
+            // 这里自动匹配了 31 Oct 的选项，并展示 page2
             document.getElementById('page2').classList.add('active');
           }
           
@@ -815,7 +819,7 @@
       const isMs3Flow = selectedDateInput.value.includes('Mystery Social');
 
       // 获取对应的提交按钮
-      let submitBtn = document.getElementById('finalSubmitBtn'); // default 3 Oct
+      let submitBtn = document.getElementById('finalSubmitBtn'); // default 31 Oct
       if (isJbsFlow) submitBtn = document.getElementById('finalSubmitBtnJbs');
       if (isMs3Flow) submitBtn = document.getElementById('finalSubmitBtnMs3');
 
@@ -844,7 +848,7 @@
       }
 
       // 获取对应的支付链接
-      let checkoutUrl = STRIPE_LINK; // 默认 3 Oct 的付款链接
+      let checkoutUrl = STRIPE_LINK; // 默认 31 Oct 的标准付款链接
       if (isMs3Flow) {
         // 如果是 MS 3.0，使用用户选中的票种对应的链接
         checkoutUrl = document.getElementById('selectedTicketLink').value;
@@ -879,4 +883,3 @@
   </script>
 </body>
 </html>
-
