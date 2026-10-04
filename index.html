@@ -303,7 +303,7 @@
       width: 260px; height: 260px; object-fit: contain; 
       border-radius: 8px; margin-bottom: 16px; 
       border: 2px solid var(--text-color);
-      background: #fff; /* 防止透明二维码在黑底看不清 */
+      background: #fff; 
       box-shadow: 0 0 15px rgba(223, 127, 128, 0.2);
     }
 
@@ -406,7 +406,6 @@
   <div class="container">
     <div class="header-logo-area" id="mainHeader">
       <img src="logo.png" alt="Logo" class="top-logo">
-      <!-- 移除了原本在这里的 private-badge -->
     </div>
     
     <form id="rsvpForm">
@@ -467,6 +466,7 @@
         </div>
       </div>
 
+
       <!-- ================= 31 Oct 的第二页：多票种 & 扫码支付流程 ================= -->
       <div id="page2-ms3" class="form-page">
         
@@ -499,7 +499,8 @@
           <div class="ticket-options">
             
             <!-- 早鸟票 -->
-            <div class="ticket-card selected" data-link="https://buy.stripe.com/8x2aEX58TeDn6d0cE75Rm02">
+            <!-- 【修复】增加了 data-name 属性打包票名 -->
+            <div class="ticket-card selected" data-link="https://buy.stripe.com/8x2aEX58TeDn6d0cE75Rm02" data-name="EARLY BIRD (RM 299)">
               <div class="ticket-radio"></div>
               <div class="ticket-header">
                 <div class="ticket-title">EARLY BIRD<span class="ticket-title-sub">早鸟票 (单人)</span></div>
@@ -509,7 +510,8 @@
             </div>
             
             <!-- 团购票 -->
-            <div class="ticket-card" data-link="https://buy.stripe.com/8x2dR91WHcvf1WKgUn5Rm03">
+            <!-- 【修复】增加了 data-name 属性打包票名 -->
+            <div class="ticket-card" data-link="https://buy.stripe.com/8x2dR91WHcvf1WKgUn5Rm03" data-name="SQUAD OF 4 (RM 999)">
               <div class="ticket-radio"></div>
               <div class="ticket-header">
                 <div class="ticket-title">SQUAD OF 4<span class="ticket-title-sub">四人同行优惠套票</span></div>
@@ -519,8 +521,9 @@
             </div>
 
           </div>
-          <!-- 默认选中第一个链接 -->
+          <!-- 默认选中第一个链接和默认名字 -->
           <input type="hidden" id="selectedTicketLink" value="https://buy.stripe.com/8x2aEX58TeDn6d0cE75Rm02">
+          <input type="hidden" id="selectedTicketType" value="EARLY BIRD (RM 299)">
         </div>
 
         <!-- 支付方式选择 -->
@@ -549,7 +552,6 @@
         <div id="tngo-area">
           <div style="font-size: 14px; font-weight: 900; margin-bottom: 16px; color: var(--text-color); letter-spacing: 2px;">SCAN TO PAY</div>
           
-          <!-- 【注意】请将下面的 qr-code.png 替换为你的真实收款码图片路径 -->
           <img src="qr-code.png" alt="QR Code">
           
           <div style="font-size: 11px; font-weight: normal; opacity: 0.8; margin-bottom: 20px; line-height: 1.5;">
@@ -583,9 +585,9 @@
       </div>
 
 
-      <!-- ================= 4 Oct 专属第二页：剧本杀 ================= -->
+      <!-- ================= 4 Oct 专属第二页：剧本杀 (保留原逻辑) ================= -->
       <div id="page2-jbs" class="form-page">
-        <!-- 保持原有的剧本杀页面逻辑不变 -->
+        
         <div class="form-group">
           <label for="jbs_exp">妳的剧本杀经验值？<span class="optional-mark">Optional</span></label>
           <div class="sub-label" style="font-weight: normal;">Your Jubensha Experience</div>
@@ -728,7 +730,7 @@
 
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxsh7v6IRWhdY0oKdyJeozyPO3a3DJ43rFG4SMI2IW0soD12kF-_cZI4Webw9L-p7sK/exec";
-    const STRIPE_LINK = "https://buy.stripe.com/aFa28r6cX2UFfNAgUn5Rm00"; // 默认备用支付链接
+    const STRIPE_LINK = "https://buy.stripe.com/aFa28r6cX2UFfNAgUn5Rm00"; 
 
     const musicBtn = document.getElementById('musicToggle');
     const bgMusic = document.getElementById('bgMusic');
@@ -751,20 +753,16 @@
       }
     });
 
-    // 页面加载时检查是否是从 Stripe 付款成功返回的
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
-      // 如果网址里包含 ?status=paid，说明是付款成功跳回来的
       if (urlParams.get('status') === 'paid') {
         const savedName = localStorage.getItem('rsvp_name') || 'SECRET AGENT';
-        const flowType = localStorage.getItem('rsvp_flow'); // 'jbs', 'ms3', 或 'normal'
+        const flowType = localStorage.getItem('rsvp_flow'); 
         
-        // 隐藏第一页和头部
         document.getElementById('page1').classList.remove('active');
         document.getElementById('mainHeader').style.display = 'none';
         if(musicBtn) musicBtn.style.display = 'none';
 
-        // 显示第三页并修改印章为已付款状态
         if (flowType === 'jbs') {
           document.getElementById('dossierName-jbs').textContent = savedName;
           
@@ -779,7 +777,6 @@
 
           document.getElementById('page3-jbs').classList.add('active'); 
         } else {
-          // 31 Oct 的 Page 3 (档案样式一致)
           document.getElementById('dossierName').textContent = savedName;
           const statuses = ["社交电量 10%，急需逃离", "极度缺酒", "规则过敏", "严重无聊症", "周末失控预警"];
           const randomIndex = (Date.now() + Math.floor(Math.random() * 100)) % statuses.length;
@@ -799,7 +796,6 @@
       }
     });
 
-    // 日期卡片选择
     const dateCards = document.querySelectorAll('.date-card');
     const selectedDateInput = document.getElementById('selectedDate');
     dateCards.forEach(card => {
@@ -812,7 +808,6 @@
       });
     });
 
-    // 推荐人卡片选择 (单选必填) - 针对 31 Oct
     const referralCards = document.querySelectorAll('.referral-card');
     const selectedReferralInput = document.getElementById('referral-ms3');
     referralCards.forEach(card => {
@@ -824,18 +819,19 @@
       });
     });
 
-    // 票种卡片选择 (31 Oct 的双票种页面)
     const ticketCards = document.querySelectorAll('.ticket-card');
     const selectedTicketLink = document.getElementById('selectedTicketLink');
+    const selectedTicketType = document.getElementById('selectedTicketType');
     ticketCards.forEach(card => {
       card.addEventListener('click', () => {
         ticketCards.forEach(c => c.classList.remove('selected'));
         card.classList.add('selected');
         selectedTicketLink.value = card.dataset.link;
+        // 【修复】每次点击都会把票的名字存起来，发给后台
+        if(selectedTicketType) selectedTicketType.value = card.dataset.name;
       });
     });
 
-    // 支付方式选择与动态 UI
     const paymentCards = document.querySelectorAll('.payment-card');
     const selectedPaymentMethod = document.getElementById('selectedPaymentMethod');
     const tngoArea = document.getElementById('tngo-area');
@@ -858,7 +854,6 @@
       });
     });
 
-    // TNG Reference ID 消除报错边框
     const tngoRefEl = document.getElementById('tngo-ref');
     if (tngoRefEl) {
       tngoRefEl.addEventListener('input', () => {
@@ -896,13 +891,11 @@
         setTimeout(() => {
           document.getElementById('page1').classList.remove('active');
           
-          // 根据选择的日期分配相应的第二页
-          if (selectedDateInput.value.includes('31 Oct')) { // 31 Oct 使用双票种的 page2-ms3
+          if (selectedDateInput.value.includes('31 Oct')) { 
             document.getElementById('page2-ms3').classList.add('active');
           } else if (selectedDateInput.value.includes('4 Oct') || selectedDateInput.value.includes('剧本杀')) {
             document.getElementById('page2-jbs').classList.add('active');
           } else {
-            // 保留 fallback 逻辑
             document.getElementById('page2').classList.add('active');
           }
           
@@ -919,18 +912,16 @@
 
     async function executeSubmit() {
       const isJbsFlow = selectedDateInput.value.includes('4 Oct') || selectedDateInput.value.includes('剧本杀');
-      const isMs3Flow = selectedDateInput.value.includes('31 Oct'); // 检测 31 Oct
+      const isMs3Flow = selectedDateInput.value.includes('31 Oct'); 
 
-      // 获取对应的提交按钮
       let submitBtn = document.getElementById('finalSubmitBtn'); 
       if (isJbsFlow) submitBtn = document.getElementById('finalSubmitBtnJbs');
       if (isMs3Flow) submitBtn = document.getElementById('finalSubmitBtnMs3');
       
-      // 检查推荐人和支付 Reference ID (针对31 Oct页面，它们是必填的)
       if (isMs3Flow) {
         if (!document.getElementById('referral-ms3').value) {
           document.getElementById('err-referral-ms3').style.display = 'block';
-          return; // 没选推荐人，终止
+          return; 
         }
         
         if (selectedPaymentMethod.value === 'tngo') {
@@ -938,7 +929,7 @@
           if (!tngoRefVal) {
             document.getElementById('tngo-ref').classList.add('error-border');
             document.getElementById('err-tngo-ref').style.display = 'block';
-            return; // 选了扫码但没填ID，终止
+            return; 
           }
         }
       }
@@ -946,7 +937,6 @@
       submitBtn.disabled = true;
       submitBtn.textContent = '锁定中，正在处理...';
       
-      // 在浏览器记住用户的名字和流程，以便后续认出他们
       const userName = document.getElementById('name').value;
       localStorage.setItem('rsvp_name', userName);
       
@@ -955,29 +945,30 @@
       if (isMs3Flow) flowType = 'ms3';
       localStorage.setItem('rsvp_flow', flowType);
 
-      // 获取对应的表单数据
       let finalSecrets = document.getElementById('secrets') ? document.getElementById('secrets').value : "";
       let finalReferral = document.getElementById('referral') ? document.getElementById('referral').value : "";
       
       let payMethod = 'stripe';
       let refId = '';
+      let ticketInfo = '';
 
       if (isJbsFlow) {
         finalSecrets = document.getElementById('secrets-jbs').value;
         finalReferral = document.getElementById('referral-jbs').value;
+        ticketInfo = '剧本杀体验价 (RM 199)';
       } else if (isMs3Flow) {
         finalSecrets = document.getElementById('secrets-ms3').value;
-        finalReferral = document.getElementById('referral-ms3').value; // 推荐人选择结果
+        finalReferral = document.getElementById('referral-ms3').value; 
         payMethod = document.getElementById('selectedPaymentMethod').value;
+        // 【修复】把票种信息抓取过来，准备发给后台
+        ticketInfo = document.getElementById('selectedTicketType').value;
         if (payMethod === 'tngo') {
           refId = document.getElementById('tngo-ref').value.trim();
         }
       }
 
-      // 获取对应的支付链接
       let checkoutUrl = STRIPE_LINK;
       if (isMs3Flow) {
-        // 如果是 31 Oct，使用用户选中的票种对应的链接
         checkoutUrl = document.getElementById('selectedTicketLink').value;
       }
 
@@ -993,22 +984,18 @@
         drinkLevel: "", 
         luckyDrink: "",
         paymentMethod: payMethod,
-        referenceId: refId
+        referenceId: refId,
+        ticket: ticketInfo // 【修复】这里就是把票价装进包裹发给表格的代码
       };
 
-      // 发送数据到 Google Sheet
       fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       }).then(() => {
-        // 数据发送成功后，判断去哪里
         if (isMs3Flow && payMethod === 'tngo') {
-          // 选了转账，直接展示机密档案的等待核对界面
           document.getElementById('page2-ms3').classList.remove('active');
-          
-          // 【修复】隐藏顶部的公共Logo
           document.getElementById('mainHeader').style.display = 'none';
           if(musicBtn) musicBtn.style.display = 'none';
 
@@ -1019,7 +1006,7 @@
 
           const stamp = document.querySelector('#page3 .dossier-stamp');
           stamp.innerHTML = 'PAYMENT VERIFYING<br><span style="font-size: 12px; font-weight: normal; letter-spacing: 2px;">等待人工核对转账</span>';
-          stamp.style.color = '#ffcc00'; // 黄色提示等待中
+          stamp.style.color = '#ffcc00'; 
           stamp.style.borderColor = '#ffcc00';
           stamp.style.boxShadow = '0 0 15px rgba(255, 204, 0, 0.3)';
           stamp.style.textShadow = '0 0 5px rgba(255, 204, 0, 0.5)';
@@ -1029,12 +1016,10 @@
           document.getElementById('page3').classList.add('active'); 
           window.scrollTo(0, 0);
         } else {
-          // 选择 Stripe 支付，跳转过去
           window.location.href = checkoutUrl;
         }
       }).catch(err => {
         console.log('Sync error:', err);
-        // 如果出错，依旧执行原有逻辑
         if (isMs3Flow && payMethod === 'tngo') {
            window.location.reload(); 
         } else {
