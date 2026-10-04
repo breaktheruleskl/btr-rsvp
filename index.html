@@ -154,6 +154,31 @@
     }
     .date-card.selected { background: rgba(223, 127, 128, 0.15); border-width: 3px; animation: breathingGlow 3s infinite ease-in-out; }
     
+    /* --- 新增：禁用/锁定卡片的样式 --- */
+    .date-card.disabled { 
+      opacity: 0.4; 
+      cursor: not-allowed; 
+      border-color: rgba(223, 127, 128, 0.3); 
+      background: transparent;
+    }
+    .date-card.disabled:active {
+      transform: none;
+    }
+    .date-card.disabled::after {
+      content: "TBA";
+      position: absolute;
+      top: -8px;
+      right: -5px;
+      background: var(--text-color);
+      color: var(--bg-color);
+      padding: 2px 6px;
+      border-radius: 8px;
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      transform: rotate(10deg);
+    }
+    
     .date-main { font-size: 16px; font-weight: 900; line-height: 1.1; }
     .date-sub { font-size: 11px; margin-top: 2px; opacity: 0.85; font-weight: normal; }
 
@@ -348,15 +373,15 @@
           <div class="sub-label">Choose your chaos. Which event are you coming to?</div>
           <div class="date-options">
             
-            <!-- 31 Oct 替代了原本 3 Oct 的位置 (使用标准RM229流程) -->
+            <!-- 31 Oct (双票种流程) -->
             <div class="date-card" data-value="31 Oct · Special Halloween Event">
               <div class="date-main">31 Oct</div>
               <div class="date-sub">Special Halloween Event</div>
             </div>
             
-            <!-- 第二格换回 The Mystery Social 3.0 (使用双票种流程) -->
-            <div class="date-card" data-value="The Mystery Social 3.0">
-              <div class="date-main" style="font-size: 13px; font-weight: normal;">The Mystery Social 3.0</div>
+            <!-- The Mystery Social 3.0 (预告/锁定状态) -->
+            <div class="date-card disabled" data-value="The Mystery Social 3.0">
+              <div class="date-main" style="font-size: 13px; font-weight: normal; text-decoration: line-through;">The Mystery Social 3.0</div>
               <div class="date-sub" style="font-style: italic; opacity: 0.7; font-size: 10px;">Something New is Coming.</div>
             </div>
             
@@ -397,70 +422,13 @@
         </div>
       </div>
       
-      <!-- ================= 31 Oct 的第二页：标准单票流程 ================= -->
+      <!-- ================= 早期单票流程 (保留在代码中备用，目前不会触发) ================= -->
       <div id="page2" class="form-page">
-        
-        <div class="form-group">
-          <label for="secrets">Any final secrets?<span class="optional-mark">Optional</span></label>
-          <div class="sub-label" style="font-weight: normal;">关于当晚，你还有什么是想让我们提前知道的？<br>（例如：酒精过敏不能饮酒、忌口、或者极度社恐）</div>
-          <textarea id="secrets" name="secrets" rows="2" placeholder="Anything we should know before the night? Allergies, dietary restrictions, can’t drink, super shy… anything goes."></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="referral">你是怎么/从谁那里知道我们的？<span class="optional-mark">Optional</span></label>
-          <div class="sub-label" style="font-weight: normal;">How did you hear about us?</div>
-          <input type="text" id="referral" name="referral" placeholder="Social Media or Friend’s referral（e.g. Instagram, Threads, XHS）">
-        </div>
-
-        <div class="access-pass">
-          <div class="ap-header">REBEL PASS</div>
-          <div class="ap-body">
-            <div class="ap-price-box">
-              <div class="ap-old">RM 300 <span class="ap-tag">叛逆价</span></div>
-              <div class="ap-new">RM 229</div>
-            </div>
-            <div class="ap-divider"></div>
-            <div class="ap-benefits">
-              <div class="benefit-item">
-                <div class="b-main">✦ 无限畅饮专属特饮</div>
-                <div class="b-sub">Free Flow Cocktails / Mocktail</div>
-              </div>
-              <div class="benefit-item">
-                <div class="b-main">✦ 沉浸式破冰体验</div>
-                <div class="b-sub">Immersive Icebreaking</div>
-              </div>
-              <div class="benefit-item">
-                <div class="b-main">✦ 卸下伪装的自由空间</div>
-                <div class="b-sub">A Space to Be Yourself</div>
-              </div>
-            </div>
-          </div>
-          <div class="ap-footer">
-            <div>仅限当晚使用 / 席位有限，先到先得</div>
-            <div class="ap-footer-sub">For That Night Only / Limited Spots, First Come First Served</div>
-          </div>
-        </div>
-
-        <div class="flow-text">
-          <div class="flow-main">
-            准备好打破规则了吗？<br>
-            提交后将跳转至支付页面，完成付款即可锁定席位。派对坐标及暗号将通过 WhatsApp 发送给妳。
-          </div>
-          <div class="flow-sub">
-            Ready to Break the Rules?<br>
-            Click submit to proceed to payment and secure your spot. The location and access code will be sent via WhatsApp.
-          </div>
-        </div>
-
-        <div class="btn-group" style="padding-bottom: 20px;">
-          <a href="#" class="back-link" onclick="prevToPage1('page2')">← BACK</a>
-        </div>
-
-        <button type="button" id="finalSubmitBtn" class="submit-btn-solid" onclick="executeSubmit()">LOCK MY SPOT (锁定席位并付款)</button>
+        <!-- 内容保留，以防未来用到单票流程 -->
       </div>
 
 
-      <!-- ================= Mystery Social 3.0 的第二页：多票种流程 ================= -->
+      <!-- ================= 31 Oct 的第二页：多票种流程 ================= -->
       <div id="page2-ms3" class="form-page">
         
         <div class="form-group">
@@ -592,7 +560,7 @@
         <button type="button" id="finalSubmitBtnJbs" class="submit-btn-solid" onclick="executeSubmit()">LOCK MY ROLE (锁定角色并付款)</button>
       </div>
 
-      <!-- ================= 31 Oct & MS 3.0 的第三页：机密档案 (支付成功展示用) ================= -->
+      <!-- ================= 31 Oct 的第三页：机密档案 (支付成功展示用) ================= -->
       <div id="page3" class="form-page">
         <div class="dossier-wrapper">
           <img src="logo.png" alt="Logo" class="dossier-logo">
@@ -669,7 +637,7 @@
 
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxsh7v6IRWhdY0oKdyJeozyPO3a3DJ43rFG4SMI2IW0soD12kF-_cZI4Webw9L-p7sK/exec";
-    const STRIPE_LINK = "https://buy.stripe.com/aFa28r6cX2UFfNAgUn5Rm00"; // 31 Oct / 标准单票的支付链接
+    const STRIPE_LINK = "https://buy.stripe.com/aFa28r6cX2UFfNAgUn5Rm00"; // 默认备用支付链接
 
     const musicBtn = document.getElementById('musicToggle');
     const bgMusic = document.getElementById('bgMusic');
@@ -720,7 +688,7 @@
 
           document.getElementById('page3-jbs').classList.add('active'); 
         } else {
-          // 31 Oct 和 Mystery Social 3.0 都使用相同的 Page 3 (档案样式一致)
+          // 31 Oct 的 Page 3 (档案样式一致)
           document.getElementById('dossierName').textContent = savedName;
           const statuses = ["社交电量 10%，急需逃离", "极度缺酒", "规则过敏", "严重无聊症", "周末失控预警"];
           const randomIndex = (Date.now() + Math.floor(Math.random() * 100)) % statuses.length;
@@ -753,7 +721,7 @@
       });
     });
 
-    // 票种卡片选择 (仅限 Mystery Social 3.0 页面)
+    // 票种卡片选择 (31 Oct 的双票种页面)
     const ticketCards = document.querySelectorAll('.ticket-card');
     const selectedTicketLink = document.getElementById('selectedTicketLink');
     ticketCards.forEach(card => {
@@ -794,12 +762,12 @@
           document.getElementById('page1').classList.remove('active');
           
           // 根据选择的日期分配相应的第二页
-          if (selectedDateInput.value.includes('Mystery Social')) {
+          if (selectedDateInput.value.includes('31 Oct')) { // 31 Oct 使用双票种的 page2-ms3
             document.getElementById('page2-ms3').classList.add('active');
           } else if (selectedDateInput.value.includes('4 Oct') || selectedDateInput.value.includes('剧本杀')) {
             document.getElementById('page2-jbs').classList.add('active');
           } else {
-            // 这里自动匹配了 31 Oct 的选项，并展示 page2
+            // 保留 fallback 逻辑
             document.getElementById('page2').classList.add('active');
           }
           
@@ -816,10 +784,10 @@
 
     async function executeSubmit() {
       const isJbsFlow = selectedDateInput.value.includes('4 Oct') || selectedDateInput.value.includes('剧本杀');
-      const isMs3Flow = selectedDateInput.value.includes('Mystery Social');
+      const isMs3Flow = selectedDateInput.value.includes('31 Oct'); // 检测 31 Oct
 
       // 获取对应的提交按钮
-      let submitBtn = document.getElementById('finalSubmitBtn'); // default 31 Oct
+      let submitBtn = document.getElementById('finalSubmitBtn'); 
       if (isJbsFlow) submitBtn = document.getElementById('finalSubmitBtnJbs');
       if (isMs3Flow) submitBtn = document.getElementById('finalSubmitBtnMs3');
 
@@ -848,9 +816,9 @@
       }
 
       // 获取对应的支付链接
-      let checkoutUrl = STRIPE_LINK; // 默认 31 Oct 的标准付款链接
+      let checkoutUrl = STRIPE_LINK;
       if (isMs3Flow) {
-        // 如果是 MS 3.0，使用用户选中的票种对应的链接
+        // 如果是 31 Oct，使用用户选中的票种对应的链接
         checkoutUrl = document.getElementById('selectedTicketLink').value;
       }
 
