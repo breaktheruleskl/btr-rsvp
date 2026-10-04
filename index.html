@@ -263,7 +263,10 @@
       border: 2px solid var(--text-color);
       display: flex; justify-content: center; align-items: center;
     }
-    .ticket-card.selected .ticket-radio::after {
+
+    /* 修复：这里加入了 payment-card.selected 让支付方式的圈圈也能点亮 */
+    .ticket-card.selected .ticket-radio::after,
+    .payment-card.selected .ticket-radio::after {
       content: ''; width: 10px; height: 10px; border-radius: 50%;
       background: var(--text-color); box-shadow: 0 0 5px var(--text-color);
     }
@@ -297,7 +300,6 @@
       animation: fadeIn 0.4s ease;
     }
     #tngo-area img {
-      /* 修改这里放大了二维码 */
       width: 260px; height: 260px; object-fit: contain; 
       border-radius: 8px; margin-bottom: 16px; 
       border: 2px solid var(--text-color);
@@ -528,7 +530,7 @@
             <div class="payment-card selected" data-method="stripe">
               <div class="ticket-radio"></div>
               <div>
-                <div class="payment-title">Credit Card / Apple Pay</div>
+                <div class="payment-title">Credit Card</div>
                 <div class="payment-sub">安全便捷，自动验证</div>
               </div>
             </div>
@@ -1003,11 +1005,9 @@
       }).then(() => {
         // 数据发送成功后，判断去哪里
         if (isMs3Flow && payMethod === 'tngo') {
-          // 选了转账，直接展示机密档案的等待核对界面
+          // 选了转账，直接展示机密档案的等待核提示
           document.getElementById('page2-ms3').classList.remove('active');
-          document.getElementById('mainHeader').style.display = 'none';
-          if(musicBtn) musicBtn.style.display = 'none';
-
+          
           document.getElementById('dossierName').textContent = userName;
           const statuses = ["社交电量 10%，急需逃离", "极度缺酒", "规则过敏", "严重无聊症", "周末失控预警"];
           const randomIndex = (Date.now() + Math.floor(Math.random() * 100)) % statuses.length;
@@ -1032,7 +1032,6 @@
         console.log('Sync error:', err);
         // 如果出错，依旧执行原有逻辑
         if (isMs3Flow && payMethod === 'tngo') {
-           // (这里可以补一个简单提示或直接通过，为了体验流畅建议当做成功)
            window.location.reload(); 
         } else {
            window.location.href = checkoutUrl;
