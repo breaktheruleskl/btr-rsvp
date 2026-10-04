@@ -403,7 +403,7 @@
   <div class="container">
     <div class="header-logo-area" id="mainHeader">
       <img src="logo.png" alt="Logo" class="top-logo">
-      <div class="private-badge">Private Event · By Invitation Only</div>
+      <!-- 移除了原本在这里的 private-badge -->
     </div>
     
     <form id="rsvpForm">
@@ -463,16 +463,13 @@
           <button type="button" class="next-btn" id="btnNext1" onclick="gotoPage2()">NEXT →</button>
         </div>
       </div>
-      
-      <!-- ================= 早期单票流程 (保留在代码中备用，目前不会触发) ================= -->
-      <div id="page2" class="form-page">
-        <!-- 内容保留，以防未来用到单票流程 -->
-      </div>
-
 
       <!-- ================= 31 Oct 的第二页：多票种 & 扫码支付流程 ================= -->
       <div id="page2-ms3" class="form-page">
         
+        <!-- Private Event 徽章移到了这里 -->
+        <div class="private-badge">Private Event · By Invitation Only</div>
+
         <div class="form-group">
           <label for="secrets-ms3">Any final secrets?<span class="optional-mark">Optional</span></label>
           <div class="sub-label" style="font-weight: normal;">关于当晚，你还有什么是想让我们提前知道的？<br>（例如：酒精过敏不能饮酒、忌口、或者极度社恐）</div>
@@ -523,7 +520,7 @@
           <input type="hidden" id="selectedTicketLink" value="https://buy.stripe.com/8x2aEX58TeDn6d0cE75Rm02">
         </div>
 
-        <!-- 新增：支付方式选择 -->
+        <!-- 支付方式选择 -->
         <div class="form-group">
           <label>支付方式 / Payment Method *</label>
           <div class="payment-options">
@@ -545,7 +542,7 @@
           <input type="hidden" id="selectedPaymentMethod" value="stripe">
         </div>
 
-        <!-- 新增：TNG QR Code 区域 (默认隐藏) -->
+        <!-- TNG QR Code 区域 (默认隐藏) -->
         <div id="tngo-area">
           <div style="font-size: 14px; font-weight: 900; margin-bottom: 16px; color: var(--text-color); letter-spacing: 2px;">SCAN TO PAY</div>
           
@@ -557,10 +554,11 @@
             <span style="color: var(--cyan-color); font-weight: bold; font-style: italic;">转账金额请务必对照您上方选择的票种价格。</span>
           </div>
           
+          <!-- 修改了这部分的 label, placeholder 和 错误提示 -->
           <div style="text-align: left;">
-            <label for="tngo-ref" style="font-size: 13px; margin-bottom: 8px;">Reference ID *</label>
-            <input type="text" id="tngo-ref" placeholder="转账后请在此填写收据上的 Reference ID">
-            <div class="error-msg" id="err-tngo-ref">嘿，请填写转账的 Reference ID 以便我们核对。</div>
+            <label for="tngo-ref" style="font-size: 13px; margin-bottom: 8px;">Reference ID / 订单号 *</label>
+            <input type="text" id="tngo-ref" placeholder="转账后请在此填写收据上的Reference ID 和付款人名字">
+            <div class="error-msg" id="err-tngo-ref">嘿，请填写转账的 Reference ID 和付款人名字以便我们核对。</div>
           </div>
         </div>
 
@@ -583,9 +581,9 @@
       </div>
 
 
-      <!-- ================= 4 Oct 专属第二页：剧本杀 ================= -->
+      <!-- ================= 4 Oct 专属第二页：剧本杀 (保留原逻辑) ================= -->
       <div id="page2-jbs" class="form-page">
-        <!-- 保持原有的剧本杀页面逻辑不变 -->
+        
         <div class="form-group">
           <label for="jbs_exp">妳的剧本杀经验值？<span class="optional-mark">Optional</span></label>
           <div class="sub-label" style="font-weight: normal;">Your Jubensha Experience</div>
