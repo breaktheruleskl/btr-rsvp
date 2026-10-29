@@ -84,7 +84,7 @@
     .form-group { margin-bottom: 20px; position: relative; }
     label { display: block; font-size: 16px; margin-bottom: 8px; }
     
-    .optional-mark { font-size: 10px; font-weight: normal; opacity: 0.7; vertical-align: super; margin-left: 2px; }
+    .optional-mark { font-size: 10px; font-weight: normal; opacity: 0.7; vertical-align: super; margin-left: 4px; }
     
     .sub-label { font-size: 13px; opacity: 0.8; margin-bottom: 12px; font-weight: normal; line-height: 1.4; }
 
@@ -303,7 +303,7 @@
       width: 260px; height: 260px; object-fit: contain; 
       border-radius: 8px; margin-bottom: 16px; 
       border: 2px solid var(--text-color);
-      background: #fff; 
+      background: #fff; /* 防止透明二维码在黑底看不清 */
       box-shadow: 0 0 15px rgba(223, 127, 128, 0.2);
     }
 
@@ -466,7 +466,6 @@
         </div>
       </div>
 
-
       <!-- ================= 31 Oct 的第二页：多票种 & 扫码支付流程 ================= -->
       <div id="page2-ms3" class="form-page">
         
@@ -479,7 +478,7 @@
           <textarea id="secrets-ms3" name="secrets-ms3" rows="2" placeholder="Anything we should know before the night? Allergies, dietary restrictions, can’t drink, super shy… anything goes."></textarea>
         </div>
 
-        <!-- 推荐人必选区域 (精致版，无输入框，Invite-Only 氛围) -->
+        <!-- 推荐人必选区域 -->
         <div class="form-group">
           <label>你的邀请人是谁？ / Who invited you? *</label>
           <div class="sub-label" style="font-weight: normal; opacity: 0.7; font-style: italic;">This is a private event. You must select your inviter to proceed.</div>
@@ -487,6 +486,8 @@
             <div class="referral-card" data-value="BTR（Break The Rules）">BTR（Break The Rules）</div>
             <div class="referral-card" data-value="Rei">Rei</div>
             <div class="referral-card" data-value="小红书-片叶不沾身">小红书-片叶不沾身</div>
+            <!-- 【新增】第四个选项 -->
+            <div class="referral-card" data-value="Threads - why_so_said">Threads - why_so_said</div>
           </div>
           <!-- 隐藏输入框，用于向后台发送数据 -->
           <input type="hidden" id="referral-ms3" name="referral-ms3">
@@ -499,7 +500,6 @@
           <div class="ticket-options">
             
             <!-- 早鸟票 -->
-            <!-- 【修复】增加了 data-name 属性打包票名 -->
             <div class="ticket-card selected" data-link="https://buy.stripe.com/8x2aEX58TeDn6d0cE75Rm02" data-name="EARLY BIRD (RM 299)">
               <div class="ticket-radio"></div>
               <div class="ticket-header">
@@ -510,7 +510,6 @@
             </div>
             
             <!-- 团购票 -->
-            <!-- 【修复】增加了 data-name 属性打包票名 -->
             <div class="ticket-card" data-link="https://buy.stripe.com/8x2dR91WHcvf1WKgUn5Rm03" data-name="SQUAD OF 4 (RM 999)">
               <div class="ticket-radio"></div>
               <div class="ticket-header">
@@ -521,7 +520,6 @@
             </div>
 
           </div>
-          <!-- 默认选中第一个链接和默认名字 -->
           <input type="hidden" id="selectedTicketLink" value="https://buy.stripe.com/8x2aEX58TeDn6d0cE75Rm02">
           <input type="hidden" id="selectedTicketType" value="EARLY BIRD (RM 299)">
         </div>
@@ -558,6 +556,12 @@
             请使用 TNG eWallet / 任意银行 App / Alipay 扫描上方二维码。<br>
             <span style="color: var(--cyan-color); font-weight: bold; font-style: italic;">转账金额请务必对照您上方选择的票种价格。</span>
           </div>
+
+          <!-- 【新增】Promo Code 优惠码输入框 -->
+          <div style="text-align: left; margin-bottom: 16px;">
+            <label for="promo-code" style="font-size: 13px; margin-bottom: 8px;">Promo Code / 优惠码 <span class="optional-mark">Optional</span></label>
+            <input type="text" id="promo-code" placeholder="如有优惠码请在此输入">
+          </div>
           
           <div style="text-align: left;">
             <label for="tngo-ref" style="font-size: 13px; margin-bottom: 8px;">Reference ID / 订单号 *</label>
@@ -587,7 +591,7 @@
 
       <!-- ================= 4 Oct 专属第二页：剧本杀 (保留原逻辑) ================= -->
       <div id="page2-jbs" class="form-page">
-        
+        <!-- 保持原逻辑不变 -->
         <div class="form-group">
           <label for="jbs_exp">妳的剧本杀经验值？<span class="optional-mark">Optional</span></label>
           <div class="sub-label" style="font-weight: normal;">Your Jubensha Experience</div>
@@ -653,7 +657,7 @@
         <button type="button" id="finalSubmitBtnJbs" class="submit-btn-solid" onclick="executeSubmit()">LOCK MY ROLE (锁定角色并付款)</button>
       </div>
 
-      <!-- ================= 31 Oct 的第三页：机密档案 (支付成功或提交凭证展示用) ================= -->
+      <!-- ================= 第三页：机密档案 ================= -->
       <div id="page3" class="form-page">
         <div class="dossier-wrapper">
           <img src="logo.png" alt="Logo" class="dossier-logo">
@@ -689,7 +693,7 @@
         </div>
       </div>
 
-      <!-- ================= 4 Oct 专属第三页：机密档案 (剧本杀，支付成功展示用) ================= -->
+      <!-- ================= 4 Oct 专属第三页：机密档案 ================= -->
       <div id="page3-jbs" class="form-page">
         <div class="dossier-wrapper">
           <img src="logo.png" alt="Logo" class="dossier-logo">
@@ -827,7 +831,6 @@
         ticketCards.forEach(c => c.classList.remove('selected'));
         card.classList.add('selected');
         selectedTicketLink.value = card.dataset.link;
-        // 【修复】每次点击都会把票的名字存起来，发给后台
         if(selectedTicketType) selectedTicketType.value = card.dataset.name;
       });
     });
@@ -951,6 +954,7 @@
       let payMethod = 'stripe';
       let refId = '';
       let ticketInfo = '';
+      let promoCodeVal = ''; // 新增变量接收优惠码
 
       if (isJbsFlow) {
         finalSecrets = document.getElementById('secrets-jbs').value;
@@ -960,10 +964,10 @@
         finalSecrets = document.getElementById('secrets-ms3').value;
         finalReferral = document.getElementById('referral-ms3').value; 
         payMethod = document.getElementById('selectedPaymentMethod').value;
-        // 【修复】把票种信息抓取过来，准备发给后台
         ticketInfo = document.getElementById('selectedTicketType').value;
         if (payMethod === 'tngo') {
           refId = document.getElementById('tngo-ref').value.trim();
+          promoCodeVal = document.getElementById('promo-code').value.trim(); // 获取优惠码的值
         }
       }
 
@@ -985,7 +989,8 @@
         luckyDrink: "",
         paymentMethod: payMethod,
         referenceId: refId,
-        ticket: ticketInfo // 【修复】这里就是把票价装进包裹发给表格的代码
+        ticket: ticketInfo,
+        promoCode: promoCodeVal // 发送给后台
       };
 
       fetch(SCRIPT_URL, {
