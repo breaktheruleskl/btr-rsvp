@@ -424,11 +424,13 @@
           <div class="sub-label">Select your private session.</div>
           <div class="date-options">
             
-            <div class="date-card" data-value="31 Oct · Special Halloween Event">
-              <div class="date-main">31 Oct</div>
-              <div class="date-sub">Special Halloween Event</div>
+            <!-- 14 Nov (DIY Cake Painting) -->
+            <div class="date-card" data-value="14 Nov · DIY Cake Painting">
+              <div class="date-main">14 Nov</div>
+              <div class="date-sub">DIY Cake Painting</div>
             </div>
             
+            <!-- The Mystery Social 3.0 (预告/锁定状态) -->
             <div class="date-card disabled" data-value="The Mystery Social 3.0">
               <div class="date-main" style="font-size: 13px; font-weight: normal;">The Mystery Social 3.0</div>
               <div class="date-sub" style="font-style: italic; opacity: 0.7; font-size: 10px;">Something New is Coming.</div>
@@ -471,7 +473,7 @@
         </div>
       </div>
 
-      <!-- ================= 31 Oct 的第二页 ================= -->
+      <!-- ================= 14 Nov 的第二页 ================= -->
       <div id="page2-ms3" class="form-page">
         
         <div class="private-badge">Private Event · By Invitation Only</div>
@@ -482,45 +484,26 @@
           <textarea id="secrets-ms3" name="secrets-ms3" rows="2" placeholder="Anything we should know before the night? Allergies, dietary restrictions, can’t drink, super shy… anything goes."></textarea>
         </div>
 
-        <div class="form-group">
-          <label>你的邀请人是谁？ / Who invited you? *</label>
-          <div class="sub-label" style="font-weight: normal; opacity: 0.7; font-style: italic;">This is a private event. You must select your inviter to proceed.</div>
-          <div class="referral-options">
-            <div class="referral-card" data-value="BTR（Break The Rules）">BTR（Break The Rules）</div>
-            <div class="referral-card" data-value="Rei">Rei</div>
-            <div class="referral-card" data-value="小红书-片叶不沾身">小红书-片叶不沾身</div>
-            <div class="referral-card" data-value="Threads - why_so_said">Threads - why_so_said</div>
-          </div>
-          <input type="hidden" id="referral-ms3" name="referral-ms3">
-          <div class="error-msg" id="err-referral-ms3">嘿，请选择是谁邀请你来的。</div>
-        </div>
+        <!-- 隐藏的 referral 以防后台报错 -->
+        <input type="hidden" id="referral-ms3" name="referral-ms3" value="">
 
-        <!-- 票种选择区域 (增加了 data-price 用于计算) -->
+        <!-- 票种选择区域 -->
         <div class="form-group">
           <label>选择票种 / Select Your Ticket *</label>
           <div class="ticket-options">
             
-            <div class="ticket-card selected" data-link="https://buy.stripe.com/8x2aEX58TeDn6d0cE75Rm02" data-name="EARLY BIRD (RM 299)" data-price="299">
+            <div class="ticket-card selected" data-link="https://buy.stripe.com/00weVd30L9j37h4dIb5Rm04" data-name="SINGLE PASS (RM 159)" data-price="159">
               <div class="ticket-radio"></div>
               <div class="ticket-header">
-                <div class="ticket-title">EARLY BIRD<span class="ticket-title-sub">早鸟票 (单人)</span></div>
-                <div class="ticket-price">RM 299</div>
+                <div class="ticket-title">SINGLE PASS<span class="ticket-title-sub">单人票</span></div>
+                <div class="ticket-price">RM 159</div>
               </div>
-              <div class="ticket-desc">包含无限畅饮专属特饮及沉浸式破冰体验。</div>
-            </div>
-            
-            <div class="ticket-card" data-link="https://buy.stripe.com/8x2dR91WHcvf1WKgUn5Rm03" data-name="SQUAD OF 4 (RM 999)" data-price="999">
-              <div class="ticket-radio"></div>
-              <div class="ticket-header">
-                <div class="ticket-title">SQUAD OF 4<span class="ticket-title-sub">四人同行优惠套票</span></div>
-                <div class="ticket-price">RM 999</div>
-              </div>
-              <div class="ticket-desc">4人同行套票（立省RM197）。包含无限畅饮专属特饮及沉浸式破冰体验。</div>
+              <div class="ticket-desc">包含一杯Cocktail或者Mocktail。</div>
             </div>
 
           </div>
-          <input type="hidden" id="selectedTicketLink" value="https://buy.stripe.com/8x2aEX58TeDn6d0cE75Rm02">
-          <input type="hidden" id="selectedTicketType" value="EARLY BIRD (RM 299)">
+          <input type="hidden" id="selectedTicketLink" value="https://buy.stripe.com/00weVd30L9j37h4dIb5Rm04">
+          <input type="hidden" id="selectedTicketType" value="SINGLE PASS (RM 159)">
         </div>
 
         <!-- 支付方式选择 -->
@@ -551,7 +534,8 @@
           <!-- 动态计算价格展示区 -->
           <div class="tngo-price-box">
             <div style="font-size: 11px; opacity: 0.8; margin-bottom: 4px; letter-spacing: 1px;">AMOUNT TO PAY (应付金额)</div>
-            <div id="tngo-final-price" style="font-size: 26px; font-weight: 900; color: var(--cyan-color); text-shadow: 0 0 10px rgba(0,240,255,0.4);">RM 299</div>
+            <!-- 默认更新为 RM 159 -->
+            <div id="tngo-final-price" style="font-size: 26px; font-weight: 900; color: var(--cyan-color); text-shadow: 0 0 10px rgba(0,240,255,0.4);">RM 159</div>
             <div id="promo-msg" style="font-size: 10px; color: var(--cyan-color); margin-top: 6px; display: none; font-style: italic;">✓ 优惠码已生效</div>
           </div>
 
@@ -564,8 +548,8 @@
             <span style="color: var(--cyan-color); font-weight: bold; font-style: italic;">转账金额请务必对照上方显示的应付金额。</span>
           </div>
 
-          <!-- Promo Code 优惠码输入框 -->
-          <div style="text-align: left; margin-bottom: 16px;">
+          <!-- Promo Code 优惠码输入框 (已隐藏，供未来使用) -->
+          <div style="text-align: left; margin-bottom: 16px; display: none;">
             <label for="promo-code" style="font-size: 13px; margin-bottom: 8px;">Promo Code / 优惠码 <span class="optional-mark">Optional</span></label>
             <input type="text" id="promo-code" placeholder="输入优惠码 (自动计算折扣)">
           </div>
@@ -740,15 +724,15 @@
 
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxsh7v6IRWhdY0oKdyJeozyPO3a3DJ43rFG4SMI2IW0soD12kF-_cZI4Webw9L-p7sK/exec";
-    const STRIPE_LINK = "https://buy.stripe.com/aFa28r6cX2UFfNAgUn5Rm00"; 
+    const STRIPE_LINK = "https://buy.stripe.com/00weVd30L9j37h4dIb5Rm04"; 
 
     // ==========================================
-    // 💡 在这里设置你的优惠码和扣减金额 (RM)
+    // 💡 优惠码设置 (当前已隐藏输入框)
     // ==========================================
     const validPromoCodes = {
       "BTR50": 50,    
       "VIP100": 100,
-      "BTRHALLOWEEN8": 60 // 299 - 60 = 239
+      "BTRHALLOWEEN8": 60 
     };
 
 
@@ -822,17 +806,6 @@
       });
     });
 
-    const referralCards = document.querySelectorAll('.referral-card');
-    const selectedReferralInput = document.getElementById('referral-ms3');
-    referralCards.forEach(card => {
-      card.addEventListener('click', () => {
-        referralCards.forEach(c => c.classList.remove('selected'));
-        card.classList.add('selected');
-        selectedReferralInput.value = card.dataset.value;
-        document.getElementById('err-referral-ms3').style.display = 'none';
-      });
-    });
-
     // ====== 动态计算价格逻辑 ======
     const promoInput = document.getElementById('promo-code');
     const tngoFinalPriceEl = document.getElementById('tngo-final-price');
@@ -842,7 +815,7 @@
       if (!tngoFinalPriceEl) return;
       
       const activeTicket = document.querySelector('.ticket-card.selected');
-      let basePrice = activeTicket ? parseInt(activeTicket.dataset.price) : 299;
+      let basePrice = activeTicket ? parseInt(activeTicket.dataset.price) : 159;
       
       let code = promoInput ? promoInput.value.trim().toUpperCase() : "";
       let discount = 0;
@@ -940,7 +913,7 @@
         setTimeout(() => {
           document.getElementById('page1').classList.remove('active');
           
-          if (selectedDateInput.value.includes('31 Oct')) { 
+          if (selectedDateInput.value.includes('14 Nov')) { 
             document.getElementById('page2-ms3').classList.add('active');
           } else if (selectedDateInput.value.includes('4 Oct') || selectedDateInput.value.includes('剧本杀')) {
             document.getElementById('page2-jbs').classList.add('active');
@@ -961,18 +934,13 @@
 
     async function executeSubmit() {
       const isJbsFlow = selectedDateInput.value.includes('4 Oct') || selectedDateInput.value.includes('剧本杀');
-      const isMs3Flow = selectedDateInput.value.includes('31 Oct'); 
+      const isMs3Flow = selectedDateInput.value.includes('14 Nov'); 
 
       let submitBtn = document.getElementById('finalSubmitBtn'); 
       if (isJbsFlow) submitBtn = document.getElementById('finalSubmitBtnJbs');
       if (isMs3Flow) submitBtn = document.getElementById('finalSubmitBtnMs3');
       
       if (isMs3Flow) {
-        if (!document.getElementById('referral-ms3').value) {
-          document.getElementById('err-referral-ms3').style.display = 'block';
-          return; 
-        }
-        
         if (selectedPaymentMethod.value === 'tngo') {
           const tngoRefVal = document.getElementById('tngo-ref').value.trim();
           if (!tngoRefVal) {
@@ -1008,12 +976,13 @@
         ticketInfo = '剧本杀体验价 (RM 199)';
       } else if (isMs3Flow) {
         finalSecrets = document.getElementById('secrets-ms3').value;
-        finalReferral = document.getElementById('referral-ms3').value; 
+        // 推荐人已删除，传空值以防止后台错乱
+        finalReferral = ""; 
         payMethod = document.getElementById('selectedPaymentMethod').value;
         ticketInfo = document.getElementById('selectedTicketType').value;
         if (payMethod === 'tngo') {
           refId = document.getElementById('tngo-ref').value.trim();
-          promoCodeVal = document.getElementById('promo-code').value.trim(); 
+          promoCodeVal = document.getElementById('promo-code') ? document.getElementById('promo-code').value.trim() : ""; 
         }
       }
 
