@@ -424,7 +424,6 @@
           <div class="sub-label">Select your private session.</div>
           <div class="date-options">
             
-            <!-- 14 Nov -->
             <div class="date-card" data-value="14 Nov · DIY Cake Painting">
               <div class="date-main">14 Nov</div>
               <div class="date-sub">DIY Cake Painting</div>
@@ -483,14 +482,13 @@
           <textarea id="secrets-ms3" name="secrets-ms3" rows="2" placeholder="Anything we should know before the night? Allergies, dietary restrictions, can’t drink, super shy… anything goes."></textarea>
         </div>
 
-        <!-- 恢复以前的“怎么知道我们”输入框 -->
         <div class="form-group">
           <label for="referral-ms3">你是怎么/从谁那里知道我们的？<span class="optional-mark">Optional</span></label>
           <div class="sub-label" style="font-weight: normal;">How did you hear about us?</div>
           <input type="text" id="referral-ms3" name="referral-ms3" placeholder="Social Media or Friend’s referral（e.g. Instagram, Threads, XHS）">
         </div>
 
-        <!-- 票种选择区域 (恢复了单选样式并更新描述) -->
+        <!-- 票种选择区域 -->
         <div class="form-group">
           <label>选择票种 / Select Your Ticket *</label>
           <div class="ticket-options">
@@ -503,14 +501,24 @@
               </div>
               <div class="ticket-desc">包含蛋糕 (Cake), 工具 (Tools), and 1 Drink (Cocktail / Mocktail).</div>
             </div>
+
+            <!-- 新增：双人共享蛋糕 (RM 199) -->
+            <div class="ticket-card" data-link="https://buy.stripe.com/3cI28r6cX8eZdFs8nR5Rm06" data-name="SHARE CAKE PASS (RM 199)" data-price="199">
+              <div class="ticket-radio"></div>
+              <div class="ticket-header">
+                <div class="ticket-title">SHARE CAKE PASS<span class="ticket-title-sub">双人共享蛋糕票</span></div>
+                <div class="ticket-price">RM 199</div>
+              </div>
+              <div class="ticket-desc">包含两人共享一个蛋糕 (Share 1 Cake), 工具 (Tools), and 2 Drinks.</div>
+            </div>
             
             <div class="ticket-card" data-link="https://buy.stripe.com/dRm9AT7h1gLv58WbA35Rm05" data-name="DOUBLE PASS (RM 298)" data-price="298">
               <div class="ticket-radio"></div>
               <div class="ticket-header">
-                <div class="ticket-title">DOUBLE PASS<span class="ticket-title-sub">双人优惠价</span></div>
+                <div class="ticket-title">DOUBLE PASS<span class="ticket-title-sub">双人优惠套票</span></div>
                 <div class="ticket-price">RM 298</div>
               </div>
-              <div class="ticket-desc">包含双人份蛋糕 (Cake), 工具 (Tools), and 2 Drinks (Cocktail / Mocktail).</div>
+              <div class="ticket-desc">包含双人份蛋糕 (2 Cakes), 工具 (Tools), and 2 Drinks.</div>
             </div>
 
           </div>
@@ -559,10 +567,10 @@
             <span style="color: var(--cyan-color); font-weight: bold; font-style: italic;">转账金额请务必对照上方显示的应付金额。</span>
           </div>
 
-          <!-- Promo Code 优惠码输入框 -->
+          <!-- Promo Code 优惠码输入框 (恢复显示) -->
           <div style="text-align: left; margin-bottom: 16px;">
             <label for="promo-code" style="font-size: 13px; margin-bottom: 8px;">Promo Code / 优惠码 <span class="optional-mark">Optional</span></label>
-            <input type="text" id="promo-code" placeholder="输入优惠码 (自动计算折扣)">
+            <input type="text" id="promo-code" placeholder="输入全部小写的优惠码 (如适用)">
           </div>
           
           <div style="text-align: left;">
@@ -735,18 +743,6 @@
 
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxsh7v6IRWhdY0oKdyJeozyPO3a3DJ43rFG4SMI2IW0soD12kF-_cZI4Webw9L-p7sK/exec";
-    const STRIPE_LINK = "https://buy.stripe.com/00weVd30L9j37h4dIb5Rm04"; 
-
-    // ==========================================
-    // 💡 优惠码设置
-    // ==========================================
-    const validPromoCodes = {
-      "BTR50": 50,    
-      "VIP100": 100,
-      "BTRHALLOWEEN8": 60,
-      "THISISPROMOCODE": 10 // RM 298 - 10 = RM 288
-    };
-
 
     const musicBtn = document.getElementById('musicToggle');
     const bgMusic = document.getElementById('bgMusic');
@@ -829,13 +825,27 @@
       const activeTicket = document.querySelector('.ticket-card.selected');
       let basePrice = activeTicket ? parseInt(activeTicket.dataset.price) : 159;
       
-      let code = promoInput ? promoInput.value.trim().toUpperCase() : "";
+      // 注意：必须严格输入小写的 thisispromocode
+      let code = promoInput ? promoInput.value.trim() : "";
       let discount = 0;
       
-      if (validPromoCodes[code]) {
-        discount = validPromoCodes[code];
-        promoMsgEl.style.display = 'block';
-        promoMsgEl.textContent = `✓ 优惠码生效！已扣减 RM ${discount}`;
+      if (code !== "") {
+        if (code === "thisispromocode") {
+          if (basePrice === 298) {
+            discount = 10;
+            promoMsgEl.style.display = 'block';
+            promoMsgEl.style.color = 'var(--cyan-color)';
+            promoMsgEl.textContent = `✓ 优惠码生效！已扣减 RM ${discount}`;
+          } else {
+            promoMsgEl.style.display = 'block';
+            promoMsgEl.style.color = 'var(--error-color)';
+            promoMsgEl.textContent = `❌ 该优惠码仅限 双人优惠套票(RM 298) 使用`;
+          }
+        } else {
+          promoMsgEl.style.display = 'block';
+          promoMsgEl.style.color = 'var(--error-color)';
+          promoMsgEl.textContent = `❌ 无效的优惠码 (请确保全部小写)`;
+        }
       } else {
         promoMsgEl.style.display = 'none';
       }
@@ -860,7 +870,7 @@
         selectedTicketLink.value = card.dataset.link;
         if(selectedTicketType) selectedTicketType.value = card.dataset.name;
         
-        // 票种切换时，重新计算价格
+        // 票种切换时，重新计算价格并清除可能填错的 promo code 提示
         updateTngoPrice();
       });
     });
@@ -988,7 +998,6 @@
         ticketInfo = '剧本杀体验价 (RM 199)';
       } else if (isMs3Flow) {
         finalSecrets = document.getElementById('secrets-ms3').value;
-        // 把输入框填的文本发给后台
         finalReferral = document.getElementById('referral-ms3') ? document.getElementById('referral-ms3').value : ""; 
         payMethod = document.getElementById('selectedPaymentMethod').value;
         ticketInfo = document.getElementById('selectedTicketType').value;
@@ -998,7 +1007,7 @@
         }
       }
 
-      let checkoutUrl = STRIPE_LINK;
+      let checkoutUrl = "";
       if (isMs3Flow) {
         checkoutUrl = document.getElementById('selectedTicketLink').value;
       }
