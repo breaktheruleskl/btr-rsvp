@@ -194,40 +194,79 @@
     .error-msg { color: var(--error-color); font-size: 13px; margin-top: 8px; display: none; font-weight: normal; }
     .error-border { border-color: var(--error-color) !important; }
 
-    /* ================= 通行证样式 ================= */
-    .access-pass { 
-      border: 2px dashed rgba(223, 127, 128, 0.7); 
-      border-radius: 12px; 
-      padding: 16px 16px; 
-      margin-bottom: 24px; 
-      background: rgba(223, 127, 128, 0.06); 
-      position: relative; 
+    /* ================= 缩小版：推荐人单选样式 ================= */
+    .referral-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+    .referral-card {
+      padding: 10px 14px;
+      border: 1.5px solid rgba(223, 127, 128, 0.4);
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: normal;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: transparent;
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+    }
+    .referral-card:hover { border-color: rgba(223, 127, 128, 0.8); }
+    .referral-card.selected {
+      border-color: var(--text-color);
+      background: rgba(223, 127, 128, 0.15);
+      font-weight: bold;
+    }
+    .referral-card::before {
+      content: '';
+      display: inline-block;
+      width: 12px; height: 12px;
+      border: 1.5px solid var(--text-color);
+      border-radius: 50%;
+      margin-right: 10px;
+      transition: all 0.2s ease;
+    }
+    .referral-card.selected::before {
+      background: var(--text-color);
+      box-shadow: inset 0 0 0 2.5px var(--bg-color); 
+    }
+
+    /* ================= 票种选择样式 ================= */
+    .ticket-options { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
+    .ticket-card {
+      border: 2px dashed rgba(223, 127, 128, 0.4);
+      border-radius: 12px;
+      padding: 16px;
+      background: rgba(223, 127, 128, 0.05);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .ticket-card.selected {
+      border: 2px solid var(--text-color);
+      background: rgba(223, 127, 128, 0.15);
       -webkit-animation: neonPulseVisible 3.5s infinite ease-in-out;
       animation: neonPulseVisible 3.5s infinite ease-in-out;
     }
-    .ap-header { 
-      font-size: 14px; 
-      font-weight: 900; 
-      letter-spacing: 2px; 
-      opacity: 0.95; 
-      margin-bottom: 12px; 
-      border-bottom: 1px dashed rgba(223,127,128,0.4); 
-      padding-bottom: 8px; 
-      text-align: left;
-      text-shadow: 0 0 6px rgba(223, 127, 128, 0.4);
+    .ticket-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      border-bottom: 1px dashed rgba(223,127,128,0.4);
+      padding-bottom: 10px; margin-bottom: 10px; padding-right: 36px;
     }
-    .ap-body { display: flex; align-items: center; justify-content: center; gap: 16px; }
-    .ap-price-box { flex: 0 0 auto; text-align: center; }
-    .ap-old { font-size: 11px; opacity: 0.6; text-decoration: line-through; margin-bottom: 4px; }
-    .ap-tag { text-decoration: none; display: inline-block; background: var(--text-color); color: var(--bg-color); padding: 2px 4px; border-radius: 4px; font-size: 9px; margin-left: 4px; font-weight: 900; vertical-align: middle; }
-    .ap-new { font-size: 28px; font-weight: 900; color: var(--text-color); text-shadow: 0 0 10px rgba(223, 127, 128, 0.5); }
-    .ap-divider { width: 1px; height: 70px; border-left: 1px dashed rgba(223, 127, 128, 0.4); }
-    .ap-benefits { display: flex; flex-direction: column; gap: 8px; }
-    .benefit-item { line-height: 1.2; text-align: left; }
-    .b-main { font-size: 12px; font-weight: 900; opacity: 0.95; }
-    .b-sub { font-size: 10px; font-weight: normal; opacity: 0.6; margin-left: 14px; margin-top: 2px; }
-    .ap-footer { font-size: 10px; text-align: center; opacity: 0.5; margin-top: 16px; padding-top: 12px; border-top: 1px dashed rgba(223, 127, 128, 0.4); line-height: 1.4; }
-    .ap-footer-sub { font-size: 8px; margin-top: 3px; opacity: 0.8; }
+    .ticket-title { font-size: 14px; font-weight: 900; letter-spacing: 1px; }
+    .ticket-title-sub { font-size: 10px; font-weight:normal; opacity: 0.8; display: block; margin-top: 2px; text-transform: uppercase;}
+    .ticket-price { font-size: 22px; font-weight: 900; color: var(--text-color); text-shadow: 0 0 8px rgba(223, 127, 128, 0.4); }
+    .ticket-desc { font-size: 11px; line-height: 1.5; opacity: 0.8; font-weight: normal; }
+    .ticket-radio {
+      position: absolute; right: 16px; top: 22px;
+      width: 18px; height: 18px; border-radius: 50%;
+      border: 2px solid var(--text-color);
+      display: flex; justify-content: center; align-items: center;
+    }
+
+    .ticket-card.selected .ticket-radio::after,
+    .payment-card.selected .ticket-radio::after {
+      content: ''; width: 10px; height: 10px; border-radius: 50%;
+      background: var(--text-color); box-shadow: 0 0 5px var(--text-color);
+    }
 
     /* ================= 支付方式与 TNG 区域样式 ================= */
     .payment-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
@@ -247,18 +286,6 @@
       background: rgba(223, 127, 128, 0.15);
       box-shadow: 0 0 10px rgba(223, 127, 128, 0.2);
     }
-    
-    /* 让支付方式的圈圈能点亮 */
-    .ticket-radio {
-      width: 18px; height: 18px; border-radius: 50%;
-      border: 2px solid var(--text-color);
-      display: flex; justify-content: center; align-items: center;
-    }
-    .payment-card.selected .ticket-radio::after {
-      content: ''; width: 10px; height: 10px; border-radius: 50%;
-      background: var(--text-color); box-shadow: 0 0 5px var(--text-color);
-    }
-    
     .payment-card .ticket-radio { position: static; margin-right: 14px; }
     .payment-title { font-size: 13px; font-weight: 900; letter-spacing: 0.5px; }
     .payment-sub { font-size: 10px; font-weight: normal; opacity: 0.7; margin-top: 3px; }
@@ -397,6 +424,7 @@
           <div class="sub-label">Select your private session.</div>
           <div class="date-options">
             
+            <!-- 14 Nov -->
             <div class="date-card" data-value="14 Nov · DIY Cake Painting">
               <div class="date-main">14 Nov</div>
               <div class="date-sub">DIY Cake Painting</div>
@@ -462,30 +490,33 @@
           <input type="text" id="referral-ms3" name="referral-ms3" placeholder="Social Media or Friend’s referral（e.g. Instagram, Threads, XHS）">
         </div>
 
-        <!-- 恢复以前的 access-pass 单票样式 -->
-        <div class="access-pass">
-          <div class="ap-header">DIY CAKE PASS</div>
-          <div class="ap-body">
-            <div class="ap-price-box">
-              <div class="ap-new">RM 159</div>
-            </div>
-            <div class="ap-divider"></div>
-            <div class="ap-benefits">
-              <div class="benefit-item">
-                <div class="b-main">✦ 包含一杯 Cocktail 或 Mocktail</div>
-                <div class="b-sub">Includes 1 Cocktail or Mocktail</div>
+        <!-- 票种选择区域 (恢复了单选样式并更新描述) -->
+        <div class="form-group">
+          <label>选择票种 / Select Your Ticket *</label>
+          <div class="ticket-options">
+            
+            <div class="ticket-card selected" data-link="https://buy.stripe.com/00weVd30L9j37h4dIb5Rm04" data-name="SINGLE PASS (RM 159)" data-price="159">
+              <div class="ticket-radio"></div>
+              <div class="ticket-header">
+                <div class="ticket-title">SINGLE PASS<span class="ticket-title-sub">单人票</span></div>
+                <div class="ticket-price">RM 159</div>
               </div>
+              <div class="ticket-desc">包含蛋糕 (Cake), 工具 (Tools), and 1 Drink (Cocktail / Mocktail).</div>
             </div>
-          </div>
-          <div class="ap-footer">
-            <div>仅限当晚使用 / 席位有限，先到先得</div>
-            <div class="ap-footer-sub">For That Night Only / Limited Spots</div>
-          </div>
-        </div>
+            
+            <div class="ticket-card" data-link="https://buy.stripe.com/dRm9AT7h1gLv58WbA35Rm05" data-name="DOUBLE PASS (RM 298)" data-price="298">
+              <div class="ticket-radio"></div>
+              <div class="ticket-header">
+                <div class="ticket-title">DOUBLE PASS<span class="ticket-title-sub">双人优惠价</span></div>
+                <div class="ticket-price">RM 298</div>
+              </div>
+              <div class="ticket-desc">包含双人份蛋糕 (Cake), 工具 (Tools), and 2 Drinks (Cocktail / Mocktail).</div>
+            </div>
 
-        <!-- 隐藏传输到后台的 Stripe 链接和票种名称 -->
-        <input type="hidden" id="selectedTicketLink" value="https://buy.stripe.com/00weVd30L9j37h4dIb5Rm04">
-        <input type="hidden" id="selectedTicketType" value="SINGLE PASS (RM 159)">
+          </div>
+          <input type="hidden" id="selectedTicketLink" value="https://buy.stripe.com/00weVd30L9j37h4dIb5Rm04">
+          <input type="hidden" id="selectedTicketType" value="SINGLE PASS (RM 159)">
+        </div>
 
         <!-- 支付方式选择 -->
         <div class="form-group">
@@ -528,8 +559,8 @@
             <span style="color: var(--cyan-color); font-weight: bold; font-style: italic;">转账金额请务必对照上方显示的应付金额。</span>
           </div>
 
-          <!-- Promo Code 优惠码输入框 (先隐藏，以备后用) -->
-          <div style="text-align: left; margin-bottom: 16px; display: none;">
+          <!-- Promo Code 优惠码输入框 -->
+          <div style="text-align: left; margin-bottom: 16px;">
             <label for="promo-code" style="font-size: 13px; margin-bottom: 8px;">Promo Code / 优惠码 <span class="optional-mark">Optional</span></label>
             <input type="text" id="promo-code" placeholder="输入优惠码 (自动计算折扣)">
           </div>
@@ -707,12 +738,13 @@
     const STRIPE_LINK = "https://buy.stripe.com/00weVd30L9j37h4dIb5Rm04"; 
 
     // ==========================================
-    // 💡 优惠码设置 (当前已隐藏输入框，若开启则根据此处计算)
+    // 💡 优惠码设置
     // ==========================================
     const validPromoCodes = {
       "BTR50": 50,    
       "VIP100": 100,
-      "BTRHALLOWEEN8": 60 
+      "BTRHALLOWEEN8": 60,
+      "THISISPROMOCODE": 10 // RM 298 - 10 = RM 288
     };
 
 
@@ -794,7 +826,9 @@
     function updateTngoPrice() {
       if (!tngoFinalPriceEl) return;
       
-      let basePrice = 159; // 14 Nov 票价固定 159
+      const activeTicket = document.querySelector('.ticket-card.selected');
+      let basePrice = activeTicket ? parseInt(activeTicket.dataset.price) : 159;
+      
       let code = promoInput ? promoInput.value.trim().toUpperCase() : "";
       let discount = 0;
       
@@ -815,6 +849,21 @@
     if (promoInput) {
       promoInput.addEventListener('input', updateTngoPrice);
     }
+
+    const ticketCards = document.querySelectorAll('.ticket-card');
+    const selectedTicketLink = document.getElementById('selectedTicketLink');
+    const selectedTicketType = document.getElementById('selectedTicketType');
+    ticketCards.forEach(card => {
+      card.addEventListener('click', () => {
+        ticketCards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        selectedTicketLink.value = card.dataset.link;
+        if(selectedTicketType) selectedTicketType.value = card.dataset.name;
+        
+        // 票种切换时，重新计算价格
+        updateTngoPrice();
+      });
+    });
 
     const paymentCards = document.querySelectorAll('.payment-card');
     const selectedPaymentMethod = document.getElementById('selectedPaymentMethod');
