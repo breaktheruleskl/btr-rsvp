@@ -502,7 +502,6 @@
               <div class="ticket-desc">包含蛋糕 (Cake), 工具 (Tools), and 1 Drink (Cocktail / Mocktail).</div>
             </div>
 
-            <!-- 新增：双人共享蛋糕 (RM 199) -->
             <div class="ticket-card" data-link="https://buy.stripe.com/3cI28r6cX8eZdFs8nR5Rm06" data-name="SHARE CAKE PASS (RM 199)" data-price="199">
               <div class="ticket-radio"></div>
               <div class="ticket-header">
@@ -567,7 +566,7 @@
             <span style="color: var(--cyan-color); font-weight: bold; font-style: italic;">转账金额请务必对照上方显示的应付金额。</span>
           </div>
 
-          <!-- Promo Code 优惠码输入框 (恢复显示) -->
+          <!-- Promo Code 优惠码输入框 -->
           <div style="text-align: left; margin-bottom: 16px;">
             <label for="promo-code" style="font-size: 13px; margin-bottom: 8px;">Promo Code / 优惠码 <span class="optional-mark">Optional</span></label>
             <input type="text" id="promo-code" placeholder="输入全部小写的优惠码 (如适用)">
@@ -825,22 +824,15 @@
       const activeTicket = document.querySelector('.ticket-card.selected');
       let basePrice = activeTicket ? parseInt(activeTicket.dataset.price) : 159;
       
-      // 注意：必须严格输入小写的 thisispromocode
       let code = promoInput ? promoInput.value.trim() : "";
       let discount = 0;
       
       if (code !== "") {
         if (code === "thisispromocode") {
-          if (basePrice === 298) {
-            discount = 10;
-            promoMsgEl.style.display = 'block';
-            promoMsgEl.style.color = 'var(--cyan-color)';
-            promoMsgEl.textContent = `✓ 优惠码生效！已扣减 RM ${discount}`;
-          } else {
-            promoMsgEl.style.display = 'block';
-            promoMsgEl.style.color = 'var(--error-color)';
-            promoMsgEl.textContent = `❌ 该优惠码仅限 双人优惠套票(RM 298) 使用`;
-          }
+          discount = 10;
+          promoMsgEl.style.display = 'block';
+          promoMsgEl.style.color = 'var(--cyan-color)';
+          promoMsgEl.textContent = `✓ 优惠码生效！已扣减 RM ${discount}`;
         } else {
           promoMsgEl.style.display = 'block';
           promoMsgEl.style.color = 'var(--error-color)';
@@ -870,7 +862,7 @@
         selectedTicketLink.value = card.dataset.link;
         if(selectedTicketType) selectedTicketType.value = card.dataset.name;
         
-        // 票种切换时，重新计算价格并清除可能填错的 promo code 提示
+        // 票种切换时，重新计算价格
         updateTngoPrice();
       });
     });
