@@ -298,7 +298,8 @@
               <div class="date-sub">DIY Cake Painting</div>
             </div>
             
-            <div class="date-card" data-value="14 Feb · Before The Romance">
+            <!-- 这里已将日期更新为 14 Feb 2027 -->
+            <div class="date-card" data-value="14 Feb 2027 · Before The Romance">
               <div class="date-main">14 Feb 2027</div>
               <div class="date-sub">BTR : Before The Romance</div>
             </div>
@@ -455,7 +456,7 @@
       </div>
 
 
-      <!-- ================= 14 Feb 专属第二页：BTR (仅海选报名，无支付) ================= -->
+      <!-- ================= 14 Feb 2027 专属第二页：BTR (仅海选报名，无支付) ================= -->
       <div id="page2-btr" class="form-page">
         
         <div class="private-badge">
@@ -758,6 +759,7 @@
         
         setTimeout(() => {
           document.getElementById('page1').classList.remove('active');
+          // 判断逻辑会匹配所有包含 14 Feb 的选项
           if (selectedDateInput.value.includes('14 Feb')) {
             document.getElementById('page2-btr').classList.add('active');
           } else {
@@ -902,7 +904,7 @@
           stamp.style.boxShadow = '0 0 15px rgba(255, 204, 0, 0.3)';
           stamp.style.textShadow = '0 0 5px rgba(255, 204, 0, 0.5)';
           
-          document.querySelector('#page3 .dossier-desc').innerHTML = '转账凭证已提交。<br>我们正在核对 Reference ID，确认后专属派对暗号及坐标将在 24 小时内发送至妳的 WhatsApp。';
+          document.querySelector('#page3 .dossier-desc').innerHTML = '转账凭证已提交。<br>我们正在核对 Reference ID，确认后专属派惊暗号及坐标将在 24 小时内发送至妳的 WhatsApp。';
 
           document.getElementById('page3').classList.add('active'); 
           window.scrollTo(0, 0);
