@@ -78,7 +78,7 @@
       line-height: 1.8;
     }
 
-    /* BTR 费用说明框样式 (已更改为 Logo 颜色) */
+    /* BTR 费用说明框样式 */
     .btr-fee-notice {
       border: 1.5px dashed var(--text-color);
       border-radius: 12px;
@@ -463,16 +463,15 @@
           <span style="font-size: 11px; letter-spacing: 2px; font-weight: bold; color: var(--cyan-color);">她说她也喜欢女生 · 海选招募中</span>
         </div>
 
-        <!-- 费用声明区 (已更改为 Logo 颜色) -->
+        <!-- 费用声明区 -->
         <div class="btr-fee-notice">
           <div class="btr-fee-title">EVENT PASS : RM 99</div>
           <div class="btr-fee-desc">
             * 此阶段为内部海选与匹配，<span class="btr-fee-highlight">提交报名无需任何费用</span>。<br>
-            * 若成功入选，我们将通过 WhatsApp与妳联系，并通知后续付款以锁定席位。
+            * 若成功入选，我们将通过 WhatsApp 专线与妳联系，并通知后续付款以锁定席位。
           </div>
         </div>
 
-        <!-- 提问区 -->
         <div class="form-group">
           <label for="btr-attr-mine">你的属性？ *</label>
           <div class="sub-label">Your Role / Attribute</div>
@@ -487,11 +486,33 @@
           <div class="error-msg" id="err-btr-attr-ideal">请填写你想找的属性。</div>
         </div>
 
+        <!-- 3道新增问题 (属性下方) -->
         <div class="form-group">
-          <label for="btr-dating-act">Preferred dating activities *</label>
-          <div class="sub-label">偏好的约会活动</div>
+          <label for="btr-ig">IG账号 *</label>
+          <div class="sub-label">Instagram Handle</div>
+          <input type="text" id="btr-ig" placeholder="e.g. @breaktheruleskl">
+          <div class="error-msg" id="err-btr-ig">请填写你的IG账号。</div>
+        </div>
+
+        <div class="form-group">
+          <label for="btr-job">你目前的职业 *</label>
+          <div class="sub-label">Your Occupation</div>
+          <input type="text" id="btr-job" placeholder="e.g. Designer, Engineer...">
+          <div class="error-msg" id="err-btr-job">请填写你的职业。</div>
+        </div>
+
+        <div class="form-group">
+          <label for="btr-area">你目前居住在哪个地区？ *</label>
+          <div class="sub-label">Which area are you from?</div>
+          <input type="text" id="btr-area" placeholder="e.g. KL, PJ, Puchong...">
+          <div class="error-msg" id="err-btr-area">请填写你居住的地区。</div>
+        </div>
+
+        <div class="form-group">
+          <label for="btr-dating-act">你理想中的第一次约会是什么样的？ *</label>
+          <div class="sub-label">What's your ideal first date?</div>
           <input type="text" id="btr-dating-act" placeholder="e.g. Cafe hopping, Movie, Outdoor hiking...">
-          <div class="error-msg" id="err-btr-dating-act">请填写偏好的约会活动。</div>
+          <div class="error-msg" id="err-btr-dating-act">请填写理想的约会活动。</div>
         </div>
 
         <div class="form-group">
@@ -501,7 +522,45 @@
           <div class="error-msg" id="err-btr-age-gap">请填写可接受的年龄差距。</div>
         </div>
 
-        <!-- 单选：照片/视频意愿 -->
+        <!-- 2道新增问题 (年龄差距下方) -->
+        <div class="form-group">
+          <label for="btr-green-flag">你认为另一半最吸引你的优点是什么？ *</label>
+          <div class="sub-label">What's your biggest green flag in a partner?</div>
+          <input type="text" id="btr-green-flag" placeholder="Tell us your thoughts...">
+          <div class="error-msg" id="err-btr-green-flag">请填写此项。</div>
+        </div>
+
+        <div class="form-group">
+          <label for="btr-heartbeat">对方的什么举动或特质，会让你一瞬间心动？ *</label>
+          <div class="sub-label">What's one thing that instantly makes you attracted to someone?</div>
+          <input type="text" id="btr-heartbeat" placeholder="Tell us your thoughts...">
+          <div class="error-msg" id="err-btr-heartbeat">请填写此项。</div>
+        </div>
+
+        <!-- 单选：恋爱经历 (移除了"不方便透露") -->
+        <div class="form-group">
+          <label>你曾经有过几段恋爱经历？ *</label>
+          <div class="sub-label">Relationship History</div>
+          <div class="referral-options" id="btr-rel-options">
+            <div class="referral-card" data-value="0 段（从未谈过恋爱）">0 段（从未谈过恋爱）</div>
+            <div class="referral-card" data-value="1 段">1 段</div>
+            <div class="referral-card" data-value="2–3 段">2–3 段</div>
+            <div class="referral-card" data-value="4–5 段">4–5 段</div>
+            <div class="referral-card" data-value="6 段或以上">6 段或以上</div>
+          </div>
+          <input type="hidden" id="btr-rel-history">
+          <div class="error-msg" id="err-btr-rel">请选择你的恋爱经历。</div>
+        </div>
+
+        <!-- 1道新增问题 (恋爱经历下方) -->
+        <div class="form-group">
+          <label for="btr-future-q">如果可以问未来另一半一个问题，你最想问什么？ *</label>
+          <div class="sub-label">If you could ask your future partner one question, what would it be?</div>
+          <input type="text" id="btr-future-q" placeholder="What would you ask?">
+          <div class="error-msg" id="err-btr-future-q">请填写你的问题。</div>
+        </div>
+
+        <!-- 移动到最后的媒体意愿问题 -->
         <div class="form-group">
           <label>你是否愿意在活动期间拍摄照片或视频？ *</label>
           <div class="sub-label">Media Consent</div>
@@ -512,22 +571,6 @@
           </div>
           <input type="hidden" id="btr-media-consent">
           <div class="error-msg" id="err-btr-media">请选择你的拍摄意愿。</div>
-        </div>
-
-        <!-- 单选：恋爱经历 -->
-        <div class="form-group">
-          <label>你曾经有过几段恋爱经历？ *</label>
-          <div class="sub-label">Relationship History</div>
-          <div class="referral-options" id="btr-rel-options">
-            <div class="referral-card" data-value="0 段（从未谈过恋爱）">0 段（从未谈过恋爱）</div>
-            <div class="referral-card" data-value="1 段">1 段</div>
-            <div class="referral-card" data-value="2–3 段">2–3 段</div>
-            <div class="referral-card" data-value="4–5 段">4–5 段</div>
-            <div class="referral-card" data-value="6 段或以上">6 段或以上</div>
-            <div class="referral-card" data-value="不方便透露">不方便透露</div>
-          </div>
-          <input type="hidden" id="btr-rel-history">
-          <div class="error-msg" id="err-btr-rel">请选择你的恋爱经历。</div>
         </div>
 
         <!-- 提交前提示语 (精简) -->
@@ -729,8 +772,14 @@
       });
     });
 
-    // Remove Errors on typing
-    ['name', 'birthday', 'whatsapp', 'mbti', 'btr-attr-mine', 'btr-attr-ideal', 'btr-dating-act', 'btr-age-gap', 'tngo-ref'].forEach(id => {
+    // Remove Errors on typing for all inputs
+    const allInputIds = [
+      'name', 'birthday', 'whatsapp', 'mbti', 'tngo-ref',
+      'btr-attr-mine', 'btr-attr-ideal', 'btr-ig', 'btr-job', 
+      'btr-area', 'btr-dating-act', 'btr-age-gap', 
+      'btr-green-flag', 'btr-heartbeat', 'btr-future-q'
+    ];
+    allInputIds.forEach(id => {
       const el = document.getElementById(id);
       if(el) el.addEventListener('input', () => {
         el.classList.remove('error-border');
@@ -777,13 +826,19 @@
       const isBtrFlow = selectedDateInput.value.includes('14 Feb');
       let submitBtn = isBtrFlow ? document.getElementById('finalSubmitBtnBtr') : document.getElementById('finalSubmitBtnMs3');
       
-      let btrAttrMine = "", btrAttrIdeal = "", btrDatingAct = "", btrAgeGap = "", btrMedia = "", btrRel = "";
+      let btrAttrMine = "", btrAttrIdeal = "", btrIg = "", btrJob = "", btrArea = "", btrDatingAct = "", btrAgeGap = "", btrGreenFlag = "", btrHeartbeat = "", btrFutureQ = "", btrMedia = "", btrRel = "";
       let finalSecrets = "", finalReferral = "";
       let payMethod = 'stripe', refId = '', ticketInfo = '', promoCodeVal = '', checkoutUrl = '';
 
       if (isBtrFlow) {
         let valid = true;
-        ['btr-attr-mine', 'btr-attr-ideal', 'btr-dating-act', 'btr-age-gap'].forEach(id => {
+        const btrRequiredIds = [
+          'btr-attr-mine', 'btr-attr-ideal', 'btr-ig', 'btr-job', 
+          'btr-area', 'btr-dating-act', 'btr-age-gap', 
+          'btr-green-flag', 'btr-heartbeat', 'btr-future-q'
+        ];
+        
+        btrRequiredIds.forEach(id => {
           const el = document.getElementById(id);
           if (!el.value.trim()) {
             el.classList.add('error-border');
@@ -802,8 +857,14 @@
 
         btrAttrMine = document.getElementById('btr-attr-mine').value;
         btrAttrIdeal = document.getElementById('btr-attr-ideal').value;
+        btrIg = document.getElementById('btr-ig').value;
+        btrJob = document.getElementById('btr-job').value;
+        btrArea = document.getElementById('btr-area').value;
         btrDatingAct = document.getElementById('btr-dating-act').value;
         btrAgeGap = document.getElementById('btr-age-gap').value;
+        btrGreenFlag = document.getElementById('btr-green-flag').value;
+        btrHeartbeat = document.getElementById('btr-heartbeat').value;
+        btrFutureQ = document.getElementById('btr-future-q').value;
         
         // BTR 为海选，不进入付款系统
         payMethod = 'audition';
@@ -847,13 +908,20 @@
         referenceId: refId,
         ticket: ticketInfo,
         promoCode: promoCodeVal,
+        
         // 新增 14 Feb BTR 专属问题资料
         btrAttrMine: btrAttrMine,
         btrAttrIdeal: btrAttrIdeal,
+        btrIg: btrIg,
+        btrJob: btrJob,
+        btrArea: btrArea,
         btrDatingAct: btrDatingAct,
         btrAgeGap: btrAgeGap,
-        btrMedia: btrMedia,
-        btrRelHistory: btrRel
+        btrGreenFlag: btrGreenFlag,
+        btrHeartbeat: btrHeartbeat,
+        btrRelHistory: btrRel,
+        btrFutureQ: btrFutureQ,
+        btrMedia: btrMedia
       };
 
       fetch(SCRIPT_URL, {
@@ -863,7 +931,7 @@
         body: JSON.stringify(payload)
       }).then(() => {
         if (isBtrFlow) {
-          // BTR 海选提交成功，直接跳转第 3 页机密档案，显示“申请已接收”
+          // BTR 海选提交成功，直接跳转第 3 页机密档案
           document.getElementById('page2-btr').classList.remove('active');
           document.getElementById('mainHeader').style.display = 'none';
           if(musicBtn) musicBtn.style.display = 'none';
