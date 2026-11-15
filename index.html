@@ -78,19 +78,19 @@
       line-height: 1.8;
     }
 
-    /* BTR 费用说明框样式 */
+    /* BTR 费用说明框样式 (已更改为 Logo 颜色) */
     .btr-fee-notice {
-      border: 1.5px dashed var(--cyan-color);
+      border: 1.5px dashed var(--text-color);
       border-radius: 12px;
       padding: 16px;
-      background: rgba(0, 240, 255, 0.05);
+      background: rgba(223, 127, 128, 0.05);
       text-align: center;
       margin-bottom: 24px;
-      box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+      box-shadow: 0 0 15px rgba(223, 127, 128, 0.15);
       animation: fadeIn 0.5s ease;
     }
     .btr-fee-title {
-      font-size: 16px; font-weight: 900; color: var(--cyan-color); letter-spacing: 2px; margin-bottom: 8px; text-shadow: 0 0 8px rgba(0,240,255,0.4);
+      font-size: 16px; font-weight: 900; color: var(--text-color); letter-spacing: 2px; margin-bottom: 8px; text-shadow: 0 0 8px rgba(223, 127, 128, 0.4);
     }
     .btr-fee-desc {
       font-size: 11px; line-height: 1.6; font-weight: normal; opacity: 0.9;
@@ -221,7 +221,7 @@
       box-shadow: inset 0 0 0 2.5px var(--bg-color); 
     }
 
-    /* 票种与支付样式 (保留 14 Nov 使用) */
+    /* 票种与支付样式 */
     .ticket-options { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
     .ticket-card { border: 2px dashed rgba(223, 127, 128, 0.4); border-radius: 12px; padding: 16px; background: rgba(223, 127, 128, 0.05); cursor: pointer; position: relative; transition: all 0.3s ease; }
     .ticket-card.selected { border: 2px solid var(--text-color); background: rgba(223, 127, 128, 0.15); animation: neonPulseVisible 3.5s infinite ease-in-out; }
@@ -298,7 +298,6 @@
               <div class="date-sub">DIY Cake Painting</div>
             </div>
             
-            <!-- 这里已将日期更新为 14 Feb 2027 -->
             <div class="date-card" data-value="14 Feb 2027 · Before The Romance">
               <div class="date-main">14 Feb 2027</div>
               <div class="date-sub">BTR : Before The Romance</div>
@@ -341,7 +340,7 @@
         </div>
       </div>
 
-      <!-- ================= 14 Nov 的第二页 (带购票功能) ================= -->
+      <!-- ================= 14 Nov 的第二页 ================= -->
       <div id="page2-ms3" class="form-page">
         <div class="private-badge">Private Event · By Invitation Only</div>
         <div class="form-group">
@@ -456,7 +455,7 @@
       </div>
 
 
-      <!-- ================= 14 Feb 2027 专属第二页：BTR (仅海选报名，无支付) ================= -->
+      <!-- ================= 14 Feb 2027 专属第二页：BTR (仅海选报名) ================= -->
       <div id="page2-btr" class="form-page">
         
         <div class="private-badge">
@@ -464,7 +463,7 @@
           <span style="font-size: 11px; letter-spacing: 2px; font-weight: bold; color: var(--cyan-color);">她说她也喜欢女生 · 海选招募中</span>
         </div>
 
-        <!-- 费用声明区 (重要提示) -->
+        <!-- 费用声明区 (已更改为 Logo 颜色) -->
         <div class="btr-fee-notice">
           <div class="btr-fee-title">EVENT PASS : RM 99</div>
           <div class="btr-fee-desc">
@@ -531,14 +530,13 @@
           <div class="error-msg" id="err-btr-rel">请选择你的恋爱经历。</div>
         </div>
 
+        <!-- 提交前提示语 (精简) -->
         <div class="flow-text">
           <div class="flow-main">
-            准备好开启浪漫了吗？<br>
-            提交报名资料后，我们将在后台进行匹配与筛选。若成功入选，我们将通过 WhatsApp 与妳联系并完成后续付款 (RM 99)。
+            准备好开启浪漫了吗？
           </div>
           <div class="flow-sub">
-            Ready for the romance?<br>
-            Submit your application for the audition. We will contact you via WhatsApp to finalize your spot if selected.
+            Ready for the romance?
           </div>
         </div>
 
@@ -759,7 +757,6 @@
         
         setTimeout(() => {
           document.getElementById('page1').classList.remove('active');
-          // 判断逻辑会匹配所有包含 14 Feb 的选项
           if (selectedDateInput.value.includes('14 Feb')) {
             document.getElementById('page2-btr').classList.add('active');
           } else {
@@ -904,7 +901,7 @@
           stamp.style.boxShadow = '0 0 15px rgba(255, 204, 0, 0.3)';
           stamp.style.textShadow = '0 0 5px rgba(255, 204, 0, 0.5)';
           
-          document.querySelector('#page3 .dossier-desc').innerHTML = '转账凭证已提交。<br>我们正在核对 Reference ID，确认后专属派惊暗号及坐标将在 24 小时内发送至妳的 WhatsApp。';
+          document.querySelector('#page3 .dossier-desc').innerHTML = '转账凭证已提交。<br>我们正在核对 Reference ID，确认后专属派对暗号及坐标将在 24 小时内发送至妳的 WhatsApp。';
 
           document.getElementById('page3').classList.add('active'); 
           window.scrollTo(0, 0);
