@@ -174,7 +174,7 @@
     .date-card.disabled:active { transform: none; }
     
     .date-main { font-size: 16px; font-weight: 900; line-height: 1.1; }
-    .date-sub { font-size: 11px; margin-top: 2px; opacity: 0.85; font-weight: normal; }
+    .date-sub { font-size: 11px; margin-top: 2px; opacity: 0.85; font-weight: normal; line-height: 1.3; }
 
     .btn-group { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 20px; padding-bottom: 40px; }
     .btn-group-right { justify-content: flex-end; }
@@ -293,11 +293,13 @@
           <div class="sub-label">Select your private session.</div>
           <div class="date-options">
             
-            <div class="date-card" data-value="14 Nov · DIY Cake Painting">
-              <div class="date-main">14 Nov</div>
-              <div class="date-sub">DIY Cake Painting</div>
+            <!-- 20 Dec 置灰不可点击 -->
+            <div class="date-card disabled" data-value="20 Dec · Cozy Christmas Pajama Party">
+              <div class="date-main">20 Dec</div>
+              <div class="date-sub">Cozy Christmas<br>Pajama Party</div>
             </div>
             
+            <!-- 14 Feb 可以点击 -->
             <div class="date-card" data-value="14 Feb 2027 · Before The Romance">
               <div class="date-main">14 Feb 2027</div>
               <div class="date-sub">BTR : Before The Romance</div>
@@ -486,10 +488,9 @@
           <div class="error-msg" id="err-btr-attr-ideal">请填写你想找的属性。</div>
         </div>
 
-        <!-- 3道新增问题 (属性下方) -->
         <div class="form-group">
           <label for="btr-ig">IG账号 *</label>
-          <div class="sub-label">Your Instagram Username</div>
+          <div class="sub-label">Instagram Handle</div>
           <input type="text" id="btr-ig" placeholder="e.g. @breaktheruleskl">
           <div class="error-msg" id="err-btr-ig">请填写你的IG账号。</div>
         </div>
@@ -522,12 +523,18 @@
           <div class="error-msg" id="err-btr-age-gap">请填写可接受的年龄差距。</div>
         </div>
 
-        <!-- 2道新增问题 (年龄差距下方) -->
         <div class="form-group">
           <label for="btr-green-flag">你认为另一半最吸引你的优点是什么？ *</label>
           <div class="sub-label">What's your biggest green flag in a partner?</div>
           <input type="text" id="btr-green-flag" placeholder="Tell us your thoughts...">
           <div class="error-msg" id="err-btr-green-flag">请填写此项。</div>
+        </div>
+
+        <div class="form-group">
+          <label for="btr-red-flag">你认为一段感情中最不能容忍的 Red Flag 是什么？ *</label>
+          <div class="sub-label">What's one red flag you could never tolerate in a relationship?</div>
+          <input type="text" id="btr-red-flag" placeholder="Tell us your thoughts...">
+          <div class="error-msg" id="err-btr-red-flag">请填写此项。</div>
         </div>
 
         <div class="form-group">
@@ -537,7 +544,6 @@
           <div class="error-msg" id="err-btr-heartbeat">请填写此项。</div>
         </div>
 
-        <!-- 单选：恋爱经历 (移除了"不方便透露") -->
         <div class="form-group">
           <label>你曾经有过几段恋爱经历？ *</label>
           <div class="sub-label">Relationship History</div>
@@ -552,7 +558,6 @@
           <div class="error-msg" id="err-btr-rel">请选择你的恋爱经历。</div>
         </div>
 
-        <!-- 1道新增问题 (恋爱经历下方) -->
         <div class="form-group">
           <label for="btr-future-q">如果可以问未来另一半一个问题，你最想问什么？ *</label>
           <div class="sub-label">If you could ask your future partner one question, what would it be?</div>
@@ -560,7 +565,6 @@
           <div class="error-msg" id="err-btr-future-q">请填写你的问题。</div>
         </div>
 
-        <!-- 移动到最后的媒体意愿问题 -->
         <div class="form-group">
           <label>你是否愿意在活动期间拍摄照片或视频？ *</label>
           <div class="sub-label">Media Consent</div>
@@ -573,7 +577,6 @@
           <div class="error-msg" id="err-btr-media">请选择你的拍摄意愿。</div>
         </div>
 
-        <!-- 提交前提示语 (精简) -->
         <div class="flow-text">
           <div class="flow-main">
             准备好开启浪漫了吗？
@@ -777,7 +780,7 @@
       'name', 'birthday', 'whatsapp', 'mbti', 'tngo-ref',
       'btr-attr-mine', 'btr-attr-ideal', 'btr-ig', 'btr-job', 
       'btr-area', 'btr-dating-act', 'btr-age-gap', 
-      'btr-green-flag', 'btr-heartbeat', 'btr-future-q'
+      'btr-green-flag', 'btr-red-flag', 'btr-heartbeat', 'btr-future-q'
     ];
     allInputIds.forEach(id => {
       const el = document.getElementById(id);
@@ -809,7 +812,8 @@
           if (selectedDateInput.value.includes('14 Feb')) {
             document.getElementById('page2-btr').classList.add('active');
           } else {
-            document.getElementById('page2-ms3').classList.add('active');
+            // 目前只有 14 Feb 可选，如果有其他开放场次会走到这里
+            document.getElementById('page1').classList.add('active');
           }
           btn.textContent = originalText;
           window.scrollTo(0, 0); 
@@ -824,18 +828,15 @@
 
     async function executeSubmit() {
       const isBtrFlow = selectedDateInput.value.includes('14 Feb');
-      let submitBtn = isBtrFlow ? document.getElementById('finalSubmitBtnBtr') : document.getElementById('finalSubmitBtnMs3');
       
-      let btrAttrMine = "", btrAttrIdeal = "", btrIg = "", btrJob = "", btrArea = "", btrDatingAct = "", btrAgeGap = "", btrGreenFlag = "", btrHeartbeat = "", btrFutureQ = "", btrMedia = "", btrRel = "";
-      let finalSecrets = "", finalReferral = "";
-      let payMethod = 'stripe', refId = '', ticketInfo = '', promoCodeVal = '', checkoutUrl = '';
-
       if (isBtrFlow) {
+        const submitBtn = document.getElementById('finalSubmitBtnBtr');
         let valid = true;
+        
         const btrRequiredIds = [
           'btr-attr-mine', 'btr-attr-ideal', 'btr-ig', 'btr-job', 
           'btr-area', 'btr-dating-act', 'btr-age-gap', 
-          'btr-green-flag', 'btr-heartbeat', 'btr-future-q'
+          'btr-green-flag', 'btr-red-flag', 'btr-heartbeat', 'btr-future-q'
         ];
         
         btrRequiredIds.forEach(id => {
@@ -847,91 +848,55 @@
           }
         });
         
-        btrMedia = document.getElementById('btr-media-consent').value;
-        btrRel = document.getElementById('btr-rel-history').value;
+        const btrMedia = document.getElementById('btr-media-consent').value;
+        const btrRel = document.getElementById('btr-rel-history').value;
         
         if (!btrMedia) { document.getElementById('err-btr-media').style.display = 'block'; valid = false; }
         if (!btrRel) { document.getElementById('err-btr-rel').style.display = 'block'; valid = false; }
         
         if (!valid) return;
 
-        btrAttrMine = document.getElementById('btr-attr-mine').value;
-        btrAttrIdeal = document.getElementById('btr-attr-ideal').value;
-        btrIg = document.getElementById('btr-ig').value;
-        btrJob = document.getElementById('btr-job').value;
-        btrArea = document.getElementById('btr-area').value;
-        btrDatingAct = document.getElementById('btr-dating-act').value;
-        btrAgeGap = document.getElementById('btr-age-gap').value;
-        btrGreenFlag = document.getElementById('btr-green-flag').value;
-        btrHeartbeat = document.getElementById('btr-heartbeat').value;
-        btrFutureQ = document.getElementById('btr-future-q').value;
+        submitBtn.disabled = true;
+        submitBtn.textContent = '锁定中，正在处理...';
         
-        // BTR 为海选，不进入付款系统
-        payMethod = 'audition';
-        ticketInfo = '海选报名 (无需现在付款 - RM 99)';
+        const userName = document.getElementById('name').value;
+        localStorage.setItem('rsvp_name', userName);
+        localStorage.setItem('rsvp_flow', 'btr');
 
-      } else {
-        // 14 Nov 逻辑
-        finalSecrets = document.getElementById('secrets-ms3').value;
-        finalReferral = document.getElementById('referral-ms3') ? document.getElementById('referral-ms3').value : ""; 
-        payMethod = document.getElementById('selectedPaymentMethod').value;
-        ticketInfo = document.getElementById('selectedTicketType').value;
-        checkoutUrl = document.getElementById('selectedTicketLink').value;
+        const payload = {
+          date: selectedDateInput.value,
+          name: userName,
+          birthday: document.getElementById('birthday').value,
+          whatsapp: document.getElementById('whatsapp').value,
+          mbti: document.getElementById('mbti').value, 
+          referral: "",
+          secrets: "",
+          paymentMethod: 'audition',
+          referenceId: "",
+          ticket: '海选报名 (无需现在付款 - RM 99)',
+          promoCode: "",
+          
+          btrAttrMine: document.getElementById('btr-attr-mine').value,
+          btrAttrIdeal: document.getElementById('btr-attr-ideal').value,
+          btrIg: document.getElementById('btr-ig').value,
+          btrJob: document.getElementById('btr-job').value,
+          btrArea: document.getElementById('btr-area').value,
+          btrDatingAct: document.getElementById('btr-dating-act').value,
+          btrAgeGap: document.getElementById('btr-age-gap').value,
+          btrGreenFlag: document.getElementById('btr-green-flag').value,
+          btrRedFlag: document.getElementById('btr-red-flag').value,
+          btrHeartbeat: document.getElementById('btr-heartbeat').value,
+          btrRelHistory: btrRel,
+          btrFutureQ: document.getElementById('btr-future-q').value,
+          btrMedia: btrMedia
+        };
 
-        if (payMethod === 'tngo') {
-          refId = document.getElementById('tngo-ref').value.trim();
-          if (!refId) {
-            document.getElementById('tngo-ref').classList.add('error-border');
-            document.getElementById('err-tngo-ref').style.display = 'block';
-            return;
-          }
-          promoCodeVal = document.getElementById('promo-code') ? document.getElementById('promo-code').value.trim() : ""; 
-        }
-      }
-
-      submitBtn.disabled = true;
-      submitBtn.textContent = '锁定中，正在处理...';
-      
-      const userName = document.getElementById('name').value;
-      localStorage.setItem('rsvp_name', userName);
-      localStorage.setItem('rsvp_flow', isBtrFlow ? 'btr' : 'normal');
-
-      const payload = {
-        date: selectedDateInput.value,
-        name: userName,
-        birthday: document.getElementById('birthday').value,
-        whatsapp: document.getElementById('whatsapp').value,
-        mbti: document.getElementById('mbti').value, 
-        referral: finalReferral,
-        secrets: finalSecrets,
-        paymentMethod: payMethod,
-        referenceId: refId,
-        ticket: ticketInfo,
-        promoCode: promoCodeVal,
-        
-        // 新增 14 Feb BTR 专属问题资料
-        btrAttrMine: btrAttrMine,
-        btrAttrIdeal: btrAttrIdeal,
-        btrIg: btrIg,
-        btrJob: btrJob,
-        btrArea: btrArea,
-        btrDatingAct: btrDatingAct,
-        btrAgeGap: btrAgeGap,
-        btrGreenFlag: btrGreenFlag,
-        btrHeartbeat: btrHeartbeat,
-        btrRelHistory: btrRel,
-        btrFutureQ: btrFutureQ,
-        btrMedia: btrMedia
-      };
-
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors', 
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      }).then(() => {
-        if (isBtrFlow) {
-          // BTR 海选提交成功，直接跳转第 3 页机密档案
+        fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors', 
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).then(() => {
           document.getElementById('page2-btr').classList.remove('active');
           document.getElementById('mainHeader').style.display = 'none';
           if(musicBtn) musicBtn.style.display = 'none';
@@ -950,42 +915,11 @@
 
           document.getElementById('page3').classList.add('active'); 
           window.scrollTo(0, 0);
-
-        } else if (payMethod === 'tngo') {
-          // 14 Nov TNG 转账提交逻辑
-          document.getElementById('page2-ms3').classList.remove('active');
-          document.getElementById('mainHeader').style.display = 'none';
-          if(musicBtn) musicBtn.style.display = 'none';
-
-          document.getElementById('dossierName').textContent = userName;
-          const statuses = ["社交电量 10%，急需逃离", "极度缺酒", "规则过敏", "严重无聊症", "周末失控预警"];
-          const randomIndex = (Date.now() + Math.floor(Math.random() * 100)) % statuses.length;
-          document.getElementById('dossierStatus').textContent = statuses[randomIndex];
-
-          const stamp = document.querySelector('#page3 .dossier-stamp');
-          stamp.innerHTML = 'PAYMENT VERIFYING<br><span style="font-size: 12px; font-weight: normal; letter-spacing: 2px;">等待人工核对转账</span>';
-          stamp.style.color = '#ffcc00'; 
-          stamp.style.borderColor = '#ffcc00';
-          stamp.style.boxShadow = '0 0 15px rgba(255, 204, 0, 0.3)';
-          stamp.style.textShadow = '0 0 5px rgba(255, 204, 0, 0.5)';
-          
-          document.querySelector('#page3 .dossier-desc').innerHTML = '转账凭证已提交。<br>我们正在核对 Reference ID，确认后专属派对暗号及坐标将在 24 小时内发送至妳的 WhatsApp。';
-
-          document.getElementById('page3').classList.add('active'); 
-          window.scrollTo(0, 0);
-
-        } else {
-          // Stripe 跳转
-          window.location.href = checkoutUrl;
-        }
-      }).catch(err => {
-        console.log('Sync error:', err);
-        if (isBtrFlow || payMethod === 'tngo') {
-           window.location.reload(); 
-        } else {
-           window.location.href = checkoutUrl;
-        }
-      });
+        }).catch(err => {
+          console.log('Sync error:', err);
+          window.location.reload(); 
+        });
+      }
     }
   </script>
 </body>
