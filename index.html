@@ -90,10 +90,13 @@
       animation: fadeIn 0.5s ease;
     }
     .btr-fee-title {
-      font-size: 16px; font-weight: 900; color: var(--text-color); letter-spacing: 2px; margin-bottom: 8px; text-shadow: 0 0 8px rgba(223, 127, 128, 0.4);
+      font-size: 13px; font-weight: 900; color: var(--text-color); letter-spacing: 2px; margin-bottom: 12px; text-shadow: 0 0 8px rgba(223, 127, 128, 0.4); text-align: center;
     }
     .btr-fee-desc {
-      font-size: 11px; line-height: 1.6; font-weight: normal; opacity: 0.9;
+      font-size: 10px; line-height: 1.6; font-weight: normal; opacity: 0.85; text-align: left; padding: 0 4px;
+    }
+    .btr-fee-desc p {
+      margin: 0 0 6px 0; padding-left: 12px; text-indent: -12px; 
     }
     .btr-fee-highlight {
       color: #fff; font-weight: bold; text-shadow: 0 0 5px rgba(255,255,255,0.4);
@@ -251,21 +254,6 @@
     button.submit-btn-solid, a.submit-btn-solid { background: var(--text-color); color: var(--bg-color); border: none; padding: 18px 32px; border-radius: 30px; width: 100%; font-size: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: opacity 0.2s; box-shadow: 0 0 20px rgba(223, 127, 128, 0.5); animation: breathingGlow 3s infinite ease-in-out; display: inline-block; box-sizing: border-box; text-align: center; text-decoration: none; }
     button.submit-btn-solid:active, a.submit-btn-solid:active { opacity: 0.8; }
     button.submit-btn-solid:disabled { opacity: 0.5; animation: none; cursor: not-allowed; }
-
-    /* 机密档案 / 小票样式 */
-    .dossier-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 75vh; animation: ticketPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
-    @keyframes ticketPop { 0% { transform: scale(0.9) translateY(30px); opacity: 0; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
-    .dossier-logo { width: 140px; margin-bottom: -20px; filter: drop-shadow(0 0 15px rgba(223, 127, 128, 0.5)); position: relative; z-index: 2; }
-    .dossier-title { font-size: 26px; font-weight: 900; letter-spacing: 2px; margin-bottom: 32px; text-align: center; text-shadow: 0 0 10px var(--text-color); position: relative; z-index: 1; }
-    .dossier-card { width: 100%; max-width: 320px; box-sizing: border-box; border: 2px dashed rgba(223, 127, 128, 0.6); padding: 24px 16px; position: relative; background: rgba(0, 0, 0, 0.25); box-shadow: 0 0 25px rgba(223, 127, 128, 0.15); font-family: 'Courier New', Courier, monospace; overflow: hidden; }
-    .dossier-header { font-size: 15px; font-weight: 900; text-align: center; margin-bottom: 20px; border-bottom: 1px solid rgba(223,127,128,0.4); padding-bottom: 12px; letter-spacing: 1px; }
-    .dossier-row { margin-bottom: 16px; font-size: 14px; line-height: 1.5; }
-    .dossier-label { opacity: 0.6; font-size: 11px; text-transform: uppercase; margin-bottom: 4px; display: block; }
-    .dossier-value { font-weight: 900; font-size: 16px; color: #FFF; text-shadow: 0 0 8px var(--text-color); word-break: break-all; }
-    .dossier-stamp { margin-top: 30px; text-align: center; font-size: 16px; font-weight: 900; color: var(--error-color); border: 3px solid var(--error-color); padding: 8px 4px; transform: rotate(-4deg); letter-spacing: 1px; text-shadow: 0 0 5px rgba(255,77,77,0.5); box-shadow: 0 0 15px rgba(255,77,77,0.2); box-sizing: border-box; transition: all 0.5s ease; }
-    .dossier-desc { font-size: 11px; line-height: 1.6; opacity: 0.65; text-align: center; margin-top: 32px; padding: 0 10px; font-weight: normal; transition: all 0.5s ease; }
-    .dossier-social { font-size: 11px; font-weight: bold; text-align: center; margin-top: 30px; color: var(--text-color); opacity: 0.95; line-height: 1.6; text-shadow: 0 0 8px rgba(223, 127, 128, 0.4); }
-    .dossier-social-en { font-size: 10px; font-weight: normal; font-style: italic; opacity: 0.8; margin-top: 3px; }
   </style>
 </head>
 <body>
@@ -469,11 +457,11 @@
         <div class="btr-fee-notice">
           <div class="btr-fee-title">EVENT PASS : RM 99</div>
           <div class="btr-fee-desc">
-            * 此阶段为内部海选与匹配，<span class="btr-fee-highlight">提交报名无需任何费用</span>。<br>
-            * 请如实填写以下所有问题，并确保所提供的资料真实、准确及完整。所有回答均会作为评估及配对的参考依据，并可能影响您的入选资格。
-            * 若成功入选，我们将通过 WhatsApp与妳联系，并通知后续付款以锁定席位。
-            * 提交报名不代表保证入选，最终入选结果将以主办方审核及通知为准。
-            * 请确保所填写的 WhatsApp 联系号码正确且保持畅通，以免错过重要通知。
+            <p>* 此阶段为内部海选与匹配，<span class="btr-fee-highlight">提交报名无需任何费用</span>。</p>
+            <p>* 请如实填写以下所有问题，并确保所提供的资料真实、准确及完整。所有回答均会作为评估及配对的参考依据，并可能影响您的入选资格。</p>
+            <p>* 若成功入选，我们将通过 WhatsApp 与妳联系，并通知后续付款以锁定席位。</p>
+            <p>* 提交报名不代表保证入选，最终入选结果将以主办方审核及通知为准。</p>
+            <p>* 请确保所填写的 WhatsApp 联系号码正确且保持畅通，以免错过重要通知。</p>
           </div>
         </div>
 
@@ -534,9 +522,9 @@
         </div>
 
         <div class="form-group">
-          <label for="btr-red-flag">你认为一段感情中最不能容忍的 Red Flag 是什么？ *</label>
+          <label for="btr-red-flag">你认为一段感情中最不能容忍的雷点是什么？ *</label>
           <div class="sub-label">What's one red flag you could never tolerate in a relationship?</div>
-          <input type="text" id="btr-red-flag" placeholder="Tell us your thoughts...">
+          <input type="text" id="btr-red-flag" placeholder="e.g. Emotionally unstable or Giving the silent treatment during conflicts...">
           <div class="error-msg" id="err-btr-red-flag">请填写此项。</div>
         </div>
 
@@ -596,36 +584,15 @@
         <button type="button" id="finalSubmitBtnBtr" class="submit-btn-solid" onclick="executeSubmit()">SUBMIT APPLICATION (提交海选报名)</button>
       </div>
 
-      <!-- ================= 第三页：机密档案 (结算页面) ================= -->
+      <!-- ================= 第三页：极简提交成功提示 ================= -->
       <div id="page3" class="form-page">
-        <div class="dossier-wrapper">
-          <img src="logo.png" alt="Logo" class="dossier-logo">
-          <div class="dossier-title">SIGNAL RECEIVED</div>
-          <div class="dossier-card">
-            <div class="dossier-header">NEW RULE-BREAKER DETECTED</div>
-            <div class="dossier-row">
-              <span class="dossier-label">代号 (CODE NAME)</span>
-              <span class="dossier-value" id="dossierName">NAME</span>
-            </div>
-            <div class="dossier-row">
-              <span class="dossier-label">[ 状态诊断 ]</span>
-              <span class="dossier-value" id="dossierStatus">STATUS</span>
-            </div>
-            <div class="dossier-row">
-              <span class="dossier-label">[ 破解指令 ]</span>
-              <span class="dossier-value">启动隐秘协议</span>
-            </div>
-            <div class="dossier-stamp">
-              AWAITING PAYMENT<br>
-              <span style="font-size: 12px; font-weight: normal; letter-spacing: 2px;">等待付款确认</span>
-            </div>
+        <div style="text-align: center; padding-top: 80px;">
+          <img src="logo.png" alt="Logo" style="width: 140px; margin-bottom: 30px; filter: drop-shadow(0 0 15px rgba(223, 127, 128, 0.5));">
+          <div style="font-size: 22px; font-weight: 900; letter-spacing: 2px; color: var(--cyan-color); margin-bottom: 20px; text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);">
+            SIGNAL RECEIVED
           </div>
-          
-          <div class="dossier-desc">加载中...</div>
-
-          <div class="dossier-social">
-            📸 截图分享至 IG Story 并 @breaktheruleskl<br>或许能获得优先通过特权。
-            <div class="dossier-social-en">Screenshot, share it to your IG Story & tag @breaktheruleskl<br>You might just get priority access.</div>
+          <div id="successDesc" style="font-size: 13px; line-height: 1.8; opacity: 0.85; font-weight: normal; padding: 0 20px;">
+            加载中...
           </div>
         </div>
       </div>
@@ -657,24 +624,14 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
+      // Stripe付款成功回调
       if (urlParams.get('status') === 'paid') {
-        const savedName = localStorage.getItem('rsvp_name') || 'SECRET AGENT';
-        
         document.getElementById('page1').classList.remove('active');
         document.getElementById('mainHeader').style.display = 'none';
         if(musicBtn) musicBtn.style.display = 'none';
 
-        document.getElementById('dossierName').textContent = savedName;
-        const statuses = ["社交电量 10%，急需逃离", "极度缺酒", "规则过敏", "严重无聊症", "周末失控预警"];
-        const randomIndex = (Date.now() + Math.floor(Math.random() * 100)) % statuses.length;
-        document.getElementById('dossierStatus').textContent = statuses[randomIndex];
-        const stamp = document.querySelector('#page3 .dossier-stamp');
-        stamp.innerHTML = 'PAYMENT CONFIRMED<br><span style="font-size: 12px; font-weight: normal; letter-spacing: 2px;">支付成功，权限已解锁</span>';
-        stamp.style.color = '#00f0ff'; 
-        stamp.style.borderColor = '#00f0ff';
-        stamp.style.boxShadow = '0 0 15px rgba(0, 240, 255, 0.3)';
-        stamp.style.textShadow = '0 0 5px rgba(0, 240, 255, 0.5)';
-        document.querySelector('#page3 .dossier-desc').innerHTML = '支付已确认。<br>专属派对暗号及坐标将在 24 小时内发送至妳的 WhatsApp。';
+        // 直接显示极简成功文案
+        document.getElementById('successDesc').innerHTML = '支付已确认。<br>专属派对暗号及坐标将在 24 小时内发送至妳的 WhatsApp。';
         document.getElementById('page3').classList.add('active'); 
       }
     });
@@ -815,7 +772,6 @@
           if (selectedDateInput.value.includes('14 Feb')) {
             document.getElementById('page2-btr').classList.add('active');
           } else {
-            // 目前只有 14 Feb 可选，如果有其他开放场次会走到这里
             document.getElementById('page1').classList.add('active');
           }
           btn.textContent = originalText;
@@ -900,22 +856,13 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         }).then(() => {
+          // 提交成功，隐藏当前页面和头部
           document.getElementById('page2-btr').classList.remove('active');
           document.getElementById('mainHeader').style.display = 'none';
           if(musicBtn) musicBtn.style.display = 'none';
 
-          document.getElementById('dossierName').textContent = userName;
-          document.getElementById('dossierStatus').textContent = "匹配雷达扫描中";
-
-          const stamp = document.querySelector('#page3 .dossier-stamp');
-          stamp.innerHTML = 'APPLICATION RECEIVED<br><span style="font-size: 12px; font-weight: normal; letter-spacing: 2px;">海选报名已接收</span>';
-          stamp.style.color = '#00f0ff'; 
-          stamp.style.borderColor = '#00f0ff';
-          stamp.style.boxShadow = '0 0 15px rgba(0, 240, 255, 0.3)';
-          stamp.style.textShadow = '0 0 5px rgba(0, 240, 255, 0.5)';
-          
-          document.querySelector('#page3 .dossier-desc').innerHTML = '妳的报名资料我们已成功接收。<br>如果我们匹配到合适的人选，将在近期通过 WhatsApp 与妳联系，届时再完成 RM 99 的付款即可。';
-
+          // 直接显示极简成功文案
+          document.getElementById('successDesc').innerHTML = '妳的报名资料我们已成功接收。<br>如果我们匹配到合适的人选，将在近期通过 WhatsApp 与妳联系，届时再完成 RM 99 的付款即可。';
           document.getElementById('page3').classList.add('active'); 
           window.scrollTo(0, 0);
         }).catch(err => {
